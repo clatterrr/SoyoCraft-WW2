@@ -1,8 +1,8 @@
 package com.example.examplemod.entity;
 
 import com.example.examplemod.ExampleMod;
+import com.example.examplemod.entity.custom.MagicProjectileEntity;
 import com.example.examplemod.entity.custom.SmokerEntity;
-import com.example.examplemod.entity.custom.BombEntity;
 import com.example.examplemod.entity.custom.SoliderEntity;
 import com.example.examplemod.entity.custom.TankEntity;
 import net.minecraft.resources.ResourceLocation;
@@ -37,13 +37,13 @@ public class ModEntityTypes {
                             .sized(0.4f, 1.5f)
                             .build(new ResourceLocation(ExampleMod.MODID, "solider").toString()));
 
-    public static final RegistryObject<EntityType<BombEntity>> BOMB =
-            ENTITY_TYPES.register("bomb",
-                    () -> EntityType.Builder.<BombEntity>of(BombEntity::new, MobCategory.MISC)
+    public static final RegistryObject<EntityType<MagicProjectileEntity>> MAGIC_PROJECTILE =
+            ENTITY_TYPES.register("magic_projectile",
+                    () -> EntityType.Builder.<MagicProjectileEntity>of(MagicProjectileEntity::new, MobCategory.MISC)
                             .sized(0.5f, 0.5f)
                             .clientTrackingRange(4)
                             .updateInterval(20)
-                            .build("bomb"));
+                            .build("magic_projectile"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);

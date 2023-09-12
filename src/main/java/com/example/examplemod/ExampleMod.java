@@ -1,6 +1,7 @@
 package com.example.examplemod;
 
 import com.example.examplemod.entity.ModEntityTypes;
+import com.example.examplemod.entity.client.MagicProjectileRenderer;
 import com.example.examplemod.entity.client.SmokerRenderer;
 import com.example.examplemod.entity.client.SoliderRenderer;
 import com.example.examplemod.entity.client.TankRenderer;
@@ -99,6 +100,7 @@ public class ExampleMod
             //EntityRenderers.register(ModEntityTypes.BOMB.get(), BombRenderer::new);
 
             EntityRenderers.register(ModEntityTypes.SOLIDER.get(), SoliderRenderer::new);
+            EntityRenderers.register(ModEntityTypes.MAGIC_PROJECTILE.get(), MagicProjectileRenderer::new);
         }
     }
 }

@@ -1,8 +1,5 @@
 package com.example.examplemod.item.custom;
 
-import com.example.examplemod.entity.custom.BombEntity;
-import com.example.examplemod.entity.custom.TongueEntity;
-import com.example.examplemod.entity.custom.ZhaEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -56,8 +53,8 @@ public class TongueItem extends Item {
             //BombEntity tk = new BombEntity(world, context.getPlayer());
             //tk.shootFromRotation(context.getPlayer(), context.getPlayer().getXRot(), context.getPlayer().getYRot(), 0.0F, 1.5F, 0.25F);
             //TongueEntity ton = new TongueEntity(world,  vector3d.x + (double)direction.getStepX() * 0.15D, vector3d.y + (double)direction.getStepY() * 0.15D, vector3d.z + (double)direction.getStepZ() * 0.15D, itemstack);
-            ZhaEntity zha = new ZhaEntity(world,  vector3d.x + (double)direction.getStepX() * 0.15D, vector3d.y + (double)direction.getStepY() * 0.15D, vector3d.z + (double)direction.getStepZ() * 0.15D, itemstack);
-            world.addFreshEntity(zha);
+            //ZhaEntity zha = new ZhaEntity(world,  vector3d.x + (double)direction.getStepX() * 0.15D, vector3d.y + (double)direction.getStepY() * 0.15D, vector3d.z + (double)direction.getStepZ() * 0.15D, itemstack);
+            //world.addFreshEntity(zha);
             if(!context.getPlayer().isCreative()){
                 itemstack.shrink(1);
             }

@@ -7,8 +7,11 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
@@ -20,17 +23,17 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.network.NetworkHooks;
 
-public class BombEntity extends Projectile {
+public class MagicProjectileEntity extends Projectile {
     private static final EntityDataAccessor<Boolean> HIT =
-            SynchedEntityData.defineId(BombEntity.class, EntityDataSerializers.BOOLEAN);
+            SynchedEntityData.defineId(MagicProjectileEntity.class, EntityDataSerializers.BOOLEAN);
     private int counter = 0;
 
-    public BombEntity(EntityType<? extends Projectile> pEntityType, Level pLevel) {
+    public MagicProjectileEntity(EntityType<? extends Projectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
-    public BombEntity(Level pLevel, Player player) {
-        super(ModEntityTypes.BOMB.get(), pLevel);
+    public MagicProjectileEntity(Level pLevel, Player player) {
+        super(ModEntityTypes.MAGIC_PROJECTILE.get(), pLevel);
         setOwner(player);
         BlockPos blockpos = player.blockPosition();
         double d0 = (double)blockpos.getX() + 0.5D;
@@ -68,12 +71,12 @@ public class BombEntity extends Projectile {
 
         /*
         for(int i = 1; i < 5; ++i) {
-            this.level().addParticle(ModParticles.ALEXANDRITE_PARTICLES.get(), d0-(d5*2), d1-(d6*2), d2-(d7*2),
+            this.getLevel().addParticle(ModParticles.ALEXANDRITE_PARTICLES.get(), d0-(d5*2), d1-(d6*2), d2-(d7*2),
                     -d5, -d6 - 0.1D, -d7);
         }
         */
 
-        if (this.level.getBlockStates(this.getBoundingBox()).noneMatch(BlockBehaviour.BlockStateBase::isAir)) {
+        if (this.getLevel().getBlockStates(this.getBoundingBox()).noneMatch(BlockBehaviour.BlockStateBase::isAir)) {
             this.discard();
         } else if (this.isInWaterOrBubble()) {
             this.discard();
@@ -89,17 +92,19 @@ public class BombEntity extends Projectile {
         Entity hitEntity = hitResult.getEntity();
         Entity owner = this.getOwner();
 
-        if(hitEntity == owner && this.level.isClientSide()) {
+        if(hitEntity == owner && this.getLevel().isClientSide()) {
             return;
         }
-/*
-        this.level.playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.METAL_DETECTOR_FOUND_ORE.get(), SoundSource.NEUTRAL,
+
+        /*
+        this.level().playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.METAL_DETECTOR_FOUND_ORE.get(), SoundSource.NEUTRAL,
                 2F, 1F);
+        */
 
         LivingEntity livingentity = owner instanceof LivingEntity ? (LivingEntity)owner : null;
         float damage = 2f;
-
-        boolean hurt = hitEntity.hurt(this..mobProjectile(this, livingentity), damage);
+        /*
+        boolean hurt = hitEntity.hurt(this.damageSources().mobProjectile(this, livingentity), damage);
         if (hurt) {
             if(hitEntity instanceof LivingEntity livingHitEntity) {
                 livingHitEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 1), owner);
@@ -120,7 +125,7 @@ public class BombEntity extends Projectile {
         }
         */
 
-        if(this.level.isClientSide()) {
+        if(this.getLevel().isClientSide()) {
             return;
         }
 
