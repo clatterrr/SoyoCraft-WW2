@@ -2,6 +2,7 @@ package com.example.examplemod.item.custom;
 
 import com.example.examplemod.entity.custom.MagicProjectileEntity;
 import com.example.examplemod.entity.custom.ZhaEntity;
+import net.minecraft.network.chat.Component;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -28,7 +29,10 @@ public class ZhaItem extends Item {
         if(!pLevel.isClientSide()) {
             MagicProjectileEntity magicProjectile = new MagicProjectileEntity(pLevel, pPlayer);
             magicProjectile.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, 1.5F, 0.25F);
+
             pLevel.addFreshEntity(magicProjectile);
+
+            pPlayer.sendSystemMessage(Component.literal(" x rot" + pPlayer.getXRot() + " y rot " + pPlayer.getYRot()));
         }
 
         pPlayer.awardStat(Stats.ITEM_USED.get(this));
