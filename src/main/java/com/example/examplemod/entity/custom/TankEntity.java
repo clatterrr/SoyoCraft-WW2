@@ -115,6 +115,7 @@ public class TankEntity extends Monster implements IAnimatable {
                 }
             }
         }
+        super.tick();
     }
 
     public class TankMoveToGoal extends Goal {
