@@ -1,10 +1,7 @@
 package com.example.examplemod;
 
 import com.example.examplemod.entity.ModEntityTypes;
-import com.example.examplemod.entity.client.MagicProjectileRenderer;
-import com.example.examplemod.entity.client.SmokerRenderer;
-import com.example.examplemod.entity.client.SoliderRenderer;
-import com.example.examplemod.entity.client.TankRenderer;
+import com.example.examplemod.entity.client.*;
 import com.example.examplemod.item.ModItems;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
@@ -101,6 +98,7 @@ public class ExampleMod
 
             EntityRenderers.register(ModEntityTypes.SOLIDER.get(), SoliderRenderer::new);
             EntityRenderers.register(ModEntityTypes.MAGIC_PROJECTILE.get(), MagicProjectileRenderer::new);
+            EntityRenderers.register(ModEntityTypes.CREEPER_PROJECTILE.get(), CreeperProjectileRenderer::new);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.examplemod.item.custom;
 
+import com.example.examplemod.entity.custom.CreeperProjectileEntity;
 import com.example.examplemod.entity.custom.MagicProjectileEntity;
 import com.example.examplemod.entity.custom.ZhaEntity;
 import net.minecraft.network.chat.Component;
@@ -24,10 +25,10 @@ public class ZhaItem extends Item {
         pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), ModSounds.METAL_DETECTOR_FOUND_ORE.get(), SoundSource.NEUTRAL,
                 1.5F, 1F);
         */
-        pPlayer.getCooldowns().addCooldown(this, 40);
+        pPlayer.getCooldowns().addCooldown(this, 10);
 
         if(!pLevel.isClientSide()) {
-            MagicProjectileEntity magicProjectile = new MagicProjectileEntity(pLevel, pPlayer);
+            CreeperProjectileEntity magicProjectile = new CreeperProjectileEntity(pLevel, pPlayer);
             magicProjectile.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, 1.5F, 0.25F);
 
             pLevel.addFreshEntity(magicProjectile);

@@ -1,5 +1,6 @@
 package com.example.examplemod.entity.custom;
 
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
@@ -36,13 +37,13 @@ public class TankEntity extends Monster implements IAnimatable {
     private AnimationFactory factory = new AnimationFactory(this);
 
     public TankEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
-
         super(pEntityType, pLevel);
+        this.setRot(0, 0);
     }
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 20.0D)
+                .add(Attributes.MAX_HEALTH, 1.0D)
                 .add(Attributes.ATTACK_DAMAGE, 3.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.15f).build();
@@ -50,8 +51,9 @@ public class TankEntity extends Monster implements IAnimatable {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new TankMoveToGoal());
+        //this.goalSelector.addGoal(1, new LookAtGoal());
+
+        this.goalSelector.addGoal(1, new TankShootGoal());
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2D, false));
         this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
@@ -60,6 +62,8 @@ public class TankEntity extends Monster implements IAnimatable {
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, false));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
         this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Creeper.class, true));
+
+
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
@@ -107,28 +111,49 @@ public class TankEntity extends Monster implements IAnimatable {
 
     public void tick() {
         if(!this.getLevel().isClientSide()){
+            if (!this.getLevel().players().isEmpty()) {
+               // this.yBodyRot = 0;
+            }
+
+            /*
             float f = this.rotA;
             if (!this.getLevel().players().isEmpty()) {
                 BlockPos bp = this.getOnPos();
                 //this.getLevel().players().get(0).sendSystemMessage(Component.literal(" tt " + f + " tank tick " + bp));
                 for(int i = -3; i <= 3; i++ ){
-                    this.getLevel().setBlockAndUpdate(new BlockPos(bp.getX() + 1, bp.getY(), bp.getZ() + i), Blocks.DIRT.defaultBlockState());
-                    this.getLevel().setBlockAndUpdate(new BlockPos(bp.getX() - 2, bp.getY(), bp.getZ() + i), Blocks.DIRT.defaultBlockState());
+            //        this.getLevel().setBlockAndUpdate(new BlockPos(bp.getX() + 1, bp.getY(), bp.getZ() + i), Blocks.DIRT.defaultBlockState());
+           //         this.getLevel().setBlockAndUpdate(new BlockPos(bp.getX() - 2, bp.getY(), bp.getZ() + i), Blocks.DIRT.defaultBlockState());
                 }
             }
+
+            BlockPos bp = this.getOnPos();
+            double offset = 6D;
+
+            double offsetX = - Math.sin(this.yBodyRot * 3.14D / 360.0D) * offset;
+            double offsetZ = Math.cos(this.yBodyRot  * 3.14D / 360.0D) * offset;
+            BlockPos newPos = new BlockPos(bp.getX() + offsetX, bp.getY() + 1, bp.getZ() + offsetZ);
+
+            this.getLevel().setBlockAndUpdate(newPos, Blocks.DIRT.defaultBlockState());
+            if (!this.getLevel().players().isEmpty()) {
+                this.getLevel().players().get(0).sendSystemMessage(Component.literal(" tank pos " + bp + " yrot = " + this.getYRot() * 3.14D / 360.0D + " sin " + Math.sin(this.getYRot() * 3.14D / 360.0D) + " cos = " +  Math.cos(this.getYRot() * 3.14D / 360.0D)));
+                this.getLevel().players().get(0).sendSystemMessage(Component.literal(" offsetx = " + offsetX + " offsetz = " + offsetZ + " new pos " + newPos));
+
+            }
+            */
         }
         super.tick();
+
     }
 
-    public class TankMoveToGoal extends Goal {
+    public class TankShootGoal extends Goal {
         private final TankEntity tank;
-        public TankMoveToGoal(){
+        public TankShootGoal(){
             tank = TankEntity.this;
         }
 
         @Override
         public boolean canUse() {
-            return tank.getTarget() != null;
+            return true;
         }
 
         public void tick(){
@@ -137,11 +162,49 @@ public class TankEntity extends Monster implements IAnimatable {
             if (target != null && target.isAlive()) {
                 tank.getNavigation().moveTo(target, 3f);
             }
-            */
+
             Level pLevel = this.tank.getLevel();
-            MagicProjectileEntity magicProjectile = new MagicProjectileEntity(pLevel, this.tank);
-            magicProjectile.shootFromRotation(this.tank, this.tank.getXRot(), this.tank.getYRot(), 0.0F, 1.5F, 0.25F);
+            MagicProjectileEntity magicProjectile = new MagicProjectileEntity(pLevel, this.tank, this.tank.yBodyRot);
+            magicProjectile.shootFromRotation(this.tank, 0, this.tank.yBodyRot, 0.0F, 1.5F, 0.25F);
+            pLevel.addFreshEntity(magicProjectile); */
+
+            Level pLevel = this.tank.getLevel();
+            CreeperProjectileEntity magicProjectile = new CreeperProjectileEntity(pLevel, this.tank, this.tank.yBodyRot);
+            magicProjectile.shootFromRotation(this.tank, 0, this.tank.yBodyRot, 0.0F, 1.5F, 0.25F);
             pLevel.addFreshEntity(magicProjectile);
+        }
+    }
+
+    public class LookAtGoal extends Goal {
+        private final TankEntity tank;
+        public LookAtGoal(){
+            tank = TankEntity.this;
+        }
+
+        @Override
+        public boolean canUse() {
+            return true;
+        }
+
+        public void tick(){
+            /*
+            this.tank.yBodyRot = 45;
+            Level pLevel = this.tank.getLevel();
+            MagicProjectileEntity magicProjectile = new MagicProjectileEntity(pLevel, this.tank, this.tank.yBodyRot);
+            magicProjectile.shootFromRotation(this.tank, 0, this.tank.yBodyRot, 0.0F, 1.5F, 0.25F);
+            pLevel.addFreshEntity(magicProjectile);
+
+            BlockPos bp = this.tank.getOnPos();
+            double offset = 6D;
+
+            double offsetX = - Math.sin(this.tank.yBodyRot * 3.14D / 360.0D) * offset;
+            double offsetZ = Math.cos(this.tank.yBodyRot  * 3.14D / 360.0D) * offset;
+            BlockPos newPos = new BlockPos(bp.getX() + offsetX, bp.getY() + 1, bp.getZ() + offsetZ);
+            if(this.tank.getLevel().isClientSide()){
+                this.tank.getLevel().setBlockAndUpdate(newPos, Blocks.DIRT.defaultBlockState());
+            }
+            */
+
         }
     }
 

@@ -1,10 +1,7 @@
 package com.example.examplemod.entity;
 
 import com.example.examplemod.ExampleMod;
-import com.example.examplemod.entity.custom.MagicProjectileEntity;
-import com.example.examplemod.entity.custom.SmokerEntity;
-import com.example.examplemod.entity.custom.SoliderEntity;
-import com.example.examplemod.entity.custom.TankEntity;
+import com.example.examplemod.entity.custom.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -44,6 +41,14 @@ public class ModEntityTypes {
                             .clientTrackingRange(4)
                             .updateInterval(20)
                             .build("magic_projectile"));
+
+    public static final RegistryObject<EntityType<CreeperProjectileEntity>> CREEPER_PROJECTILE =
+            ENTITY_TYPES.register("creeper_projectile",
+                    () -> EntityType.Builder.<CreeperProjectileEntity>of(CreeperProjectileEntity::new, MobCategory.MISC)
+                            .sized(0.5f, 0.5f)
+                            .clientTrackingRange(4)
+                            .updateInterval(20)
+                            .build("creeper_projectile"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);

@@ -42,13 +42,14 @@ public class MagicProjectileEntity extends Projectile {
         this.moveTo(d0, d1, d2, this.getYRot(), this.getXRot());
     }
 
-    public MagicProjectileEntity(Level pLevel, Entity entity) {
+    public MagicProjectileEntity(Level pLevel, Entity entity, double yRot) {
         super(ModEntityTypes.MAGIC_PROJECTILE.get(), pLevel);
         setOwner(entity);
-        double bomb_offset = 3.0D;
-        double d0 = entity.position().x + Math.cos(entity.getYRot() * 1.57D / 180D ) * bomb_offset;
-        double d1 = entity.position().y + 1.75D;
-        double d2 = entity.position().z + Math.sin(entity.getYRot() * 1.57D / 180D ) * bomb_offset;
+        double yR = yRot * (float)Math.PI / 180F;
+        double bomb_offset = 6.0D;
+        double d0 = entity.position().x - Math.sin(yR) * bomb_offset;
+        double d1 = entity.position().y + 1.4D;
+        double d2 = entity.position().z + Math.cos(yR) * bomb_offset;
         this.moveTo(d0, d1, d2, this.getYRot(), this.getXRot());
     }
 
