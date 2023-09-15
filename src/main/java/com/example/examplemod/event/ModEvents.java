@@ -3,6 +3,7 @@ package com.example.examplemod.event;
 import com.example.examplemod.ExampleMod;
 import com.example.examplemod.entity.ModEntityTypes;
 import com.example.examplemod.entity.ModModelLayers;
+import com.example.examplemod.entity.client.BulletProjectileModel;
 import com.example.examplemod.entity.client.CreeperProjectileModel;
 import com.example.examplemod.entity.client.MagicProjectileModel;
 import com.example.examplemod.entity.custom.SmokerEntity;
@@ -28,6 +29,7 @@ public class ModEvents {
         public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
             event.registerLayerDefinition(ModModelLayers.MAGIC_PROJECTILE_LAYER, MagicProjectileModel::createBodyLayer);
             event.registerLayerDefinition(ModModelLayers.CREEPER_PROJECTILE_LAYER, CreeperProjectileModel::createBodyLayer);
+            event.registerLayerDefinition(ModModelLayers.BULLET_PROJECTILE_LAYER, BulletProjectileModel::createBodyLayer);
         }
     }
 }

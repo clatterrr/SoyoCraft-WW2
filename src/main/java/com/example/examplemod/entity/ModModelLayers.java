@@ -12,4 +12,6 @@ public class ModModelLayers {
         public static final ModelLayerLocation CREEPER_PROJECTILE_LAYER = new ModelLayerLocation(
                 new ResourceLocation(ExampleMod.MODID, "creeper_projectile_layer"), "creeper_projectile_layer");
 
+        public static final ModelLayerLocation BULLET_PROJECTILE_LAYER = new ModelLayerLocation(
+                new ResourceLocation(ExampleMod.MODID, "bullet_projectile_layer"), "bullet_projectile_layer");
 }

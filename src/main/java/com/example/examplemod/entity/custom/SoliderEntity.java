@@ -1,14 +1,12 @@
 package com.example.examplemod.entity.custom;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntitySelector;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -22,6 +20,7 @@ import net.minecraft.world.entity.projectile.Snowball;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -49,10 +48,10 @@ public class SoliderEntity extends Monster implements IAnimatable {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new SoliderShootGoal(this, 1.2D, false));
+        this.goalSelector.addGoal(1, new SoliderShootGoal(this, 0.2D, false));
         //this.goalSelector.addGoal(1, new FloatGoal(this));
-        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2D, false));
-        this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        //this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2D, false));
+       // this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, 1.0D));
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
 
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, SoliderEntity.class, true));
@@ -199,7 +198,9 @@ public class SoliderEntity extends Monster implements IAnimatable {
         public void tick() {
             LivingEntity livingentity = this.mob.getTarget();
             if (livingentity != null) {
+
                 this.mob.getLookControl().setLookAt(livingentity, 30.0F, 30.0F);
+
                 double d0 = this.mob.distanceToSqr(livingentity.getX(), livingentity.getY(), livingentity.getZ());
                 this.ticksUntilNextPathRecalculation = Math.max(this.ticksUntilNextPathRecalculation - 1, 0);
                 if ((this.followingTargetEvenIfNotSeen || this.mob.getSensing().hasLineOfSight(livingentity)) && this.ticksUntilNextPathRecalculation <= 0 && (this.pathedTargetX == 0.0D && this.pathedTargetY == 0.0D && this.pathedTargetZ == 0.0D || livingentity.distanceToSqr(this.pathedTargetX, this.pathedTargetY, this.pathedTargetZ) >= 1.0D || this.mob.getRandom().nextFloat() < 0.05F)) {
@@ -233,25 +234,30 @@ public class SoliderEntity extends Monster implements IAnimatable {
                 }
 
                 this.ticksUntilNextAttack = Math.max(this.ticksUntilNextAttack - 1, 0);
-                Snowball snowball = new Snowball(this.mob.getLevel(), this.mob);
-                snowball.shootFromRotation(this.mob, 0, this.mob.yBodyRot, 0.0F, 1.5F, 0.25F);
-                this.mob.getLevel().addFreshEntity(snowball);
-            }
-        }
+                BulletProjectileEntity snowball = new BulletProjectileEntity(this.mob.getLevel(), this.mob);
 
-        protected void checkAndPerformAttack(LivingEntity p_25557_, double p_25558_) {
-            double d0 = this.getAttackReachSqr(p_25557_);
-            if (p_25558_ <= d0 && this.ticksUntilNextAttack <= 0) {
-                this.resetAttackCooldown();
-                this.mob.swing(InteractionHand.MAIN_HAND);
-
-                Snowball snowball = new Snowball(this.mob.getLevel(), this.mob);
-                snowball.shootFromRotation(this.mob, 0, this.mob.yBodyRot, 0.0F, 1.5F, 0.25F);
+                double offsetx = livingentity.position().x - this.mob.position().x;
+                double offsety = livingentity.position().z - this.mob.position().z;
+                double rot = Math.atan2(-offsetx, offsety) * 180F / Math.PI;
+                snowball.shootFromRotation((Entity) this.mob, (float) 0, (float) rot, 0.0F, 1.5F, 0.25F);
                 this.mob.getLevel().addFreshEntity(snowball);
 
-                //this.mob.doHurtTarget(p_25557_);
+                if (!this.mob.getLevel().players().isEmpty()) {
+                    /*
+                    this.mob.getLevel().players().get(0).sendSystemMessage(Component.literal("my pos = " + this.mob.position() + " you pos = " + livingentity.position()));
+                    this.mob.getLevel().players().get(0).sendSystemMessage(Component.literal(" offsetx = " + offsetx + " offsetz = " + offsety + " rot " + rot));
+                    this.mob.getLevel().players().get(0).sendSystemMessage(Component.literal(" result0 = " + Math.atan2(offsety, offsetx) * 180F / Math.PI));
+                    this.mob.getLevel().players().get(0).sendSystemMessage(Component.literal(" result1 = " + Math.atan2(offsety, -offsetx) * 180F / Math.PI));
+                    this.mob.getLevel().players().get(0).sendSystemMessage(Component.literal(" result2 = " + Math.atan2(-offsety, offsetx) * 180F / Math.PI));
+                    this.mob.getLevel().players().get(0).sendSystemMessage(Component.literal(" result3 = " + Math.atan2(-offsety, -offsetx) * 180F / Math.PI));
+                    this.mob.getLevel().players().get(0).sendSystemMessage(Component.literal(" result4 = " + Math.atan2(offsetx, offsety) * 180F / Math.PI));
+                    this.mob.getLevel().players().get(0).sendSystemMessage(Component.literal(" result5 = " + Math.atan2(offsetx, -offsety) * 180F / Math.PI));
+                    this.mob.getLevel().players().get(0).sendSystemMessage(Component.literal(" result6 = " + Math.atan2(-offsetx, offsety) * 180F / Math.PI));
+                    this.mob.getLevel().players().get(0).sendSystemMessage(Component.literal(" result7 = " + Math.atan2(-offsetx, -offsety) * 180F / Math.PI));
+                    */
+                }
+               // this.mob.getNavigation().stop();
             }
-
         }
 
         protected void resetAttackCooldown() {

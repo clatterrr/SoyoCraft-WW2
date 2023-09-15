@@ -99,6 +99,7 @@ public class ExampleMod
             EntityRenderers.register(ModEntityTypes.SOLIDER.get(), SoliderRenderer::new);
             EntityRenderers.register(ModEntityTypes.MAGIC_PROJECTILE.get(), MagicProjectileRenderer::new);
             EntityRenderers.register(ModEntityTypes.CREEPER_PROJECTILE.get(), CreeperProjectileRenderer::new);
+            EntityRenderers.register(ModEntityTypes.BULLET_PROJECTILE.get(), BulletProjectileRenderer::new);
         }
     }
 }

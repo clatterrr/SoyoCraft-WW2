@@ -50,6 +50,14 @@ public class ModEntityTypes {
                             .updateInterval(20)
                             .build("creeper_projectile"));
 
+    public static final RegistryObject<EntityType<BulletProjectileEntity>> BULLET_PROJECTILE =
+            ENTITY_TYPES.register("bullet_projectile",
+                    () -> EntityType.Builder.<BulletProjectileEntity>of(BulletProjectileEntity::new, MobCategory.MISC)
+                            .sized(0.5f, 0.5f)
+                            .clientTrackingRange(4)
+                            .updateInterval(20)
+                            .build("bullet_projectile"));
+
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);
     }
