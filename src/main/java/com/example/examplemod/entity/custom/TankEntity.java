@@ -1,29 +1,20 @@
 package com.example.examplemod.entity.custom;
 
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
+import net.minecraft.core.Vec3i;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.TargetGoal;
-import net.minecraft.world.entity.animal.IronGolem;
-import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.npc.AbstractVillager;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.TorchBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -31,7 +22,6 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
-import com.example.examplemod.entity.custom.MagicProjectileEntity;
 
 public class TankEntity extends Monster implements IAnimatable {
     private AnimationFactory factory = new AnimationFactory(this);
@@ -51,9 +41,11 @@ public class TankEntity extends Monster implements IAnimatable {
 
     @Override
     protected void registerGoals() {
-        //this.goalSelector.addGoal(1, new LookAtGoal());
+        this.goalSelector.addGoal(1, new TankDestroyGoal());
+        //this.goalSelector.addGoal(1, new TankShootGoal());
+        // this.goalSelector.addGoal(2, new MoveOnGoal());
 
-        this.goalSelector.addGoal(1, new TankShootGoal());
+        /*
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2D, false));
         this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
@@ -62,6 +54,8 @@ public class TankEntity extends Monster implements IAnimatable {
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, false));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
         this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Creeper.class, true));
+        */
+
 
 
     }
@@ -140,8 +134,9 @@ public class TankEntity extends Monster implements IAnimatable {
 
             }
             */
+
         }
-        super.tick();
+         super.tick();
 
     }
 
@@ -167,17 +162,21 @@ public class TankEntity extends Monster implements IAnimatable {
             MagicProjectileEntity magicProjectile = new MagicProjectileEntity(pLevel, this.tank, this.tank.yBodyRot);
             magicProjectile.shootFromRotation(this.tank, 0, this.tank.yBodyRot, 0.0F, 1.5F, 0.25F);
             pLevel.addFreshEntity(magicProjectile); */
-
+   // this.tank.yBodyRot = 0;
+    /*
             Level pLevel = this.tank.getLevel();
-            CreeperProjectileEntity magicProjectile = new CreeperProjectileEntity(pLevel, this.tank, this.tank.yBodyRot);
+            MagicProjectileEntity magicProjectile = new MagicProjectileEntity(pLevel, this.tank, this.tank.yBodyRot);
             magicProjectile.shootFromRotation(this.tank, 0, this.tank.yBodyRot, 0.0F, 1.5F, 0.25F);
             pLevel.addFreshEntity(magicProjectile);
+            */
         }
+
+
     }
 
-    public class LookAtGoal extends Goal {
+    public class MoveOnGoal extends Goal {
         private final TankEntity tank;
-        public LookAtGoal(){
+        public MoveOnGoal(){
             tank = TankEntity.this;
         }
 
@@ -187,6 +186,11 @@ public class TankEntity extends Monster implements IAnimatable {
         }
 
         public void tick(){
+            if(this.tank.yBodyRot == 0){
+                //this.tank.setDeltaMovement(new Vec3(0.1F, 0F,0F));
+            }
+            //
+            //this.tank.getNavigation().moveTo(this.tank.getX() + 0.1F, this.tank.getY(), this.tank.getZ(), 1.0F);
             /*
             this.tank.yBodyRot = 45;
             Level pLevel = this.tank.getLevel();
@@ -206,6 +210,113 @@ public class TankEntity extends Monster implements IAnimatable {
             */
 
         }
+    }
+
+    public class TankDestroyGoal extends Goal {
+        private final TankEntity tank;
+        public TankDestroyGoal(){
+            tank = TankEntity.this;
+        }
+
+        @Override
+        public boolean canUse() {
+            return true;
+        }
+
+        public boolean BlockBlock(Level level, BlockPos centerPos, Block type){
+            for(int i = -1;i <= 1;i ++){
+                for(int j = -1;j <= 1;j ++){
+                    BlockPos newPos = new BlockPos(centerPos.getX() + i, centerPos.getY(), centerPos.getZ() + j);
+                        Block bp = level.getBlockState(newPos).getBlock();
+                        if(bp == type){
+                            return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public void DestroyBlock(Level level, BlockPos centerPos){
+            for(int i = -2;i <= 2;i ++){
+                for(int j = -2;j <= 2;j ++){
+                    for(int k = 0; k <= 3;k++){
+                        BlockPos newPos = new BlockPos(centerPos.getX() + i, centerPos.getY() + k, centerPos.getZ() + j);
+                        level.destroyBlock(newPos, false);
+                    }
+
+                }
+            }
+        }
+
+        public void tick(){
+            /*
+            final LivingEntity target = tank.getTarget();
+            if (target != null && target.isAlive()) {
+                tank.getNavigation().moveTo(target, 3f);
+            }
+
+            Level pLevel = this.tank.getLevel();
+            MagicProjectileEntity magicProjectile = new MagicProjectileEntity(pLevel, this.tank, this.tank.yBodyRot);
+            magicProjectile.shootFromRotation(this.tank, 0, this.tank.yBodyRot, 0.0F, 1.5F, 0.25F);
+            pLevel.addFreshEntity(magicProjectile); */
+            // this.tank.yBodyRot = 0;
+    /*
+            Level pLevel = this.tank.getLevel();
+            MagicProjectileEntity magicProjectile = new MagicProjectileEntity(pLevel, this.tank, this.tank.yBodyRot);
+            magicProjectile.shootFromRotation(this.tank, 0, this.tank.yBodyRot, 0.0F, 1.5F, 0.25F);
+            pLevel.addFreshEntity(magicProjectile);
+            */
+            this.tank.yBodyRot = 45;
+            this.tank.setYRot(45);
+
+            double offset = 4;
+            double offsetX = - Math.sin(this.tank.yBodyRot * (float)(Math.PI / 180.0D)) * offset;
+            double offsetZ = Math.cos(this.tank.yBodyRot  * (float)(Math.PI / 180.0D)) * offset;
+            BlockPos newPos = new BlockPos(this.tank.getX() + offsetX, this.tank.getY() , this.tank.getZ() + offsetZ);
+
+            if(BlockBlock(this.tank.getLevel(), newPos, Blocks.IRON_BLOCK)){
+                // blocked
+            }else{
+                DestroyBlock(this.tank.getLevel(), newPos);
+
+
+                this.tank.setDeltaMovement(-0.1F, 0F, 0.1F);
+            }
+            /*
+            Block bp = this.tank.getLevel().getBlockState(newPos).getBlock();
+            // destroy block
+            if(bp == Blocks.DIRT){
+                this.tank.getLevel().destroyBlock(newPos, false);
+            }else if (bp == Blocks.IRON_BLOCK){
+
+            }else{
+
+            }
+            */
+
+            //this.tank.getLevel().setBlockAndUpdate(newPos, Blocks.DIRT.defaultBlockState());
+
+            /*
+            double yR = this.tank.yBodyRot * (float)Math.PI / 180F;
+            double bomb_offset = 6.0D;
+            double d0 = this.tank.position().x - Math.sin(yR) * bomb_offset;
+            double d1 = this.tank.position().y + 1.5D;
+            double d2 = this.tank.position().z + Math.cos(yR) * bomb_offset;
+            BlockPos center_pos = new BlockPos(d0, d1, d2);
+            BlockPos left_pos = new BlockPos(d0, d1, d2);
+            BlockPos right_pos = new BlockPos(d0, d1, d2);
+            BlockPos upper_pos = new BlockPos(d0, d1, d2);
+            BlockPos lower_pos = new BlockPos(d0, d1, d2);
+            this.tank.getLevel().destroyBlock(center_pos, false);
+            if (!this.tank.getLevel().players().isEmpty()) {
+                this.tank.getLevel().players().get(0).sendSystemMessage(Component.literal(" tankx = " + this.tank.getX() + " tanky = " + this.tank.getY() + " tankz " + this.tank.getZ()));
+                this.tank.getLevel().players().get(0).sendSystemMessage(Component.literal(" center pos = " +center_pos));
+            }
+            */
+
+        }
+
+
     }
 
 }

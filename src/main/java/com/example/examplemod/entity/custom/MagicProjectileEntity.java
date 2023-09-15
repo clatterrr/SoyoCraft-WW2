@@ -2,6 +2,7 @@ package com.example.examplemod.entity.custom;
 
 import com.example.examplemod.entity.ModEntityTypes;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -16,7 +17,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -69,7 +75,11 @@ public class MagicProjectileEntity extends Projectile {
         Vec3 vec3 = this.getDeltaMovement();
         HitResult hitresult = ProjectileUtil.getHitResult(this, this::canHitEntity);
         if (hitresult.getType() != HitResult.Type.MISS && !ForgeEventFactory.onProjectileImpact(this, hitresult))
+        {
+
+
             this.onHit(hitresult);
+        }
 
         double d0 = this.getX() + vec3.x;
         double d1 = this.getY() + vec3.y;
@@ -141,13 +151,38 @@ public class MagicProjectileEntity extends Projectile {
         }
 
         if(hitResult.getType() == HitResult.Type.ENTITY && hitResult instanceof EntityHitResult entityHitResult) {
+
+            if (this.getLevel().players().size() > 0){
+                Player player = this.getLevel().players().get(0);
+                if (player != null){
+                   // player.sendSystemMessage(Component.literal(" hit not enitity"));
+                }
+            }
+
             Entity hit = entityHitResult.getEntity();
             Entity owner = this.getOwner();
             if(owner != hit) {
                 this.entityData.set(HIT, true);
                 counter = this.tickCount + 5;
             }
-        } else {
+        } else if (hitResult.getType() == HitResult.Type.BLOCK && hitResult instanceof BlockHitResult blockHitResult) {
+
+
+
+            Block bp =  this.getLevel().getBlockState(blockHitResult.getBlockPos()).getBlock();
+            if(bp == Blocks.DIRT){
+                if (this.getLevel().players().size() > 0){
+                    Player player = this.getLevel().players().get(0);
+                    if (player != null){
+                        //player.sendSystemMessage(Component.literal(" hit block"));
+                    }
+                }
+                this.getLevel().explode(this, this.getX(), this.getY(), this.getZ(), 2.5F, Explosion.BlockInteraction.DESTROY);
+            }
+            this.entityData.set(HIT, true);
+            counter = this.tickCount + 5;
+        }
+        else {
             this.entityData.set(HIT, true);
             counter = this.tickCount + 5;
         }
