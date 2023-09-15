@@ -68,7 +68,7 @@ public class TankEntity extends Monster implements IAnimatable {
         }
         */
 
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.tank.idle", true));
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.tank.attack", true));
         return PlayState.CONTINUE;
     }
 

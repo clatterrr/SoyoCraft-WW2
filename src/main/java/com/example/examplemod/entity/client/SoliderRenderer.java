@@ -22,7 +22,7 @@ public class SoliderRenderer extends GeoEntityRenderer<SoliderEntity> {
 
     @Override
     public ResourceLocation getTextureLocation(SoliderEntity instance) {
-        return new ResourceLocation(ExampleMod.MODID, "textures/entity/solider.png");
+        return new ResourceLocation(ExampleMod.MODID, "textures/entity/solider_ak47.png");
     }
 
     @Override

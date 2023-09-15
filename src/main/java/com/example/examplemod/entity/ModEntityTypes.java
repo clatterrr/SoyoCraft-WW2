@@ -29,10 +29,10 @@ public class ModEntityTypes {
                             .build(new ResourceLocation(ExampleMod.MODID, "tank").toString()));
 
     public static final RegistryObject<EntityType<SoliderEntity>> SOLIDER =
-            ENTITY_TYPES.register("solider",
+            ENTITY_TYPES.register("solider_ak47",
                     () -> EntityType.Builder.of(SoliderEntity::new, MobCategory.MONSTER)
                             .sized(0.4f, 1.5f)
-                            .build(new ResourceLocation(ExampleMod.MODID, "solider").toString()));
+                            .build(new ResourceLocation(ExampleMod.MODID, "solider_ak47").toString()));
 
     public static final RegistryObject<EntityType<MagicProjectileEntity>> MAGIC_PROJECTILE =
             ENTITY_TYPES.register("magic_projectile",

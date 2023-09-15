@@ -6,7 +6,7 @@
 				"identifier": "geometry.unknown",
 				"texture_width": 64,
 				"texture_height": 64,
-				"visible_bounds_width": 2,
+				"visible_bounds_width": 4,
 				"visible_bounds_height": 3.5,
 				"visible_bounds_offset": [0, 1.25, 0]
 			},
@@ -40,15 +40,14 @@
 					"pivot": [5, 22, 0],
 					"mirror": true,
 					"cubes": [
-						{"origin": [4, 12, -2], "size": [4, 12, 4], "uv": [40, 16]}
+						{"origin": [4, 12, -2], "size": [4, 12, 4], "pivot": [6, 22, 0], "rotation": [-44.68491, 18.15489, 17.48614], "uv": [40, 16]}
 					]
 				},
 				{
 					"name": "right_arm",
 					"pivot": [-5, 22, 0],
 					"cubes": [
-						{"origin": [-8, 12, -2], "size": [4, 12, 4], "uv": [40, 16]},
-						{"origin": [-8, 12, -6], "size": [4, 12, 4], "uv": [40, 16]}
+						{"origin": [-8, 12, -2], "size": [4, 12, 4], "pivot": [0, 22, 0], "rotation": [-65.43798, -22.9824, -10.11783], "uv": [40, 16]}
 					]
 				},
 				{
@@ -64,6 +63,21 @@
 					"pivot": [-1.9, 12, 0],
 					"cubes": [
 						{"origin": [-4, 0, -2], "size": [4, 12, 4], "uv": [0, 16]}
+					]
+				},
+				{
+					"name": "gun",
+					"pivot": [6, 0, 3],
+					"cubes": [
+						{"origin": [-2, 22, -18], "size": [2, 2, 13], "uv": [34, 47]},
+						{"origin": [-2, 20, -13], "size": [2, 2, 5], "uv": [14, 48]},
+						{"origin": [-2, 24, -13], "size": [2, 1, 1], "uv": [33, 35]},
+						{"origin": [-2, 24, -18], "size": [2, 1, 1], "uv": [33, 35]},
+						{"origin": [-2, 20, -13], "size": [2, 2, 4], "pivot": [6, 18, -10], "rotation": [55, 0, 0], "uv": [34, 35]},
+						{"origin": [-2, 15, -11], "size": [2, 2, 3], "pivot": [6, 18, -10], "rotation": [115, 0, 0], "uv": [43, 36]},
+						{"origin": [-2, 23, -23], "size": [1, 1, 6], "uv": [6, 51]},
+						{"origin": [-2, 20, -6], "size": [2, 4, 2], "uv": [56, 36]},
+						{"origin": [-2, 19, -5], "size": [2, 5, 2], "uv": [53, 35]}
 					]
 				}
 			]

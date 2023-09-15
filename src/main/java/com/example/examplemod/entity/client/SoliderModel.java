@@ -10,17 +10,17 @@ public class SoliderModel extends AnimatedGeoModel<SoliderEntity> {
 
     @Override
     public ResourceLocation getModelResource(SoliderEntity animatable) {
-        return new ResourceLocation(ExampleMod.MODID, "geo/solider.geo.json");
+        return new ResourceLocation(ExampleMod.MODID, "geo/solider_ak47.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(SoliderEntity animatable) {
-        return new ResourceLocation(ExampleMod.MODID, "textures/entity/solider.png");
+        return new ResourceLocation(ExampleMod.MODID, "textures/entity/solider_ak47.png");
     }
 
     @Override
     public ResourceLocation getAnimationResource(SoliderEntity  animatable) {
-       return new ResourceLocation(ExampleMod.MODID, "animations/solider.animation.json");
+       return new ResourceLocation(ExampleMod.MODID, "animations/solider_ak47.animation.json");
 
     }
 
