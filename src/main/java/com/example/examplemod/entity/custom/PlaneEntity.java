@@ -1,25 +1,21 @@
 package com.example.examplemod.entity.custom;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Vec3i;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializer;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.core.Rotations;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -28,21 +24,13 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class TankEntity extends Monster implements IAnimatable {
- //   private static final EntityDataAccessor<Boolean> ATTACKING = SynchedEntityData.defineId(TankEntity.class, EntityDataSerializers);
-
+public class PlaneEntity extends Monster implements IAnimatable {
     private AnimationFactory factory = new AnimationFactory(this);
 
-    public final AnimationState idleAnimationState = new AnimationState();
-    public int idleAnimationTimeout = 0;
+    private int runtime = 0;
+    private int bombCoolDown = 0;
 
-    public final AnimationState attackAnimationState = new AnimationState();
-
-    public int attackAniamtionTimeout = 0;
-
-    private int shoot_counter = 0;
-
-    public TankEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
+    public PlaneEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.setRot(0, 0);
     }
@@ -57,8 +45,8 @@ public class TankEntity extends Monster implements IAnimatable {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new TankShootGoal());
-        this.goalSelector.addGoal(2, new TankDestroyGoal());
+        this.goalSelector.addGoal(1, new PlanePlayGoal());
+        //this.goalSelector.addGoal(1, new TankDestroyGoal());
         //this.goalSelector.addGoal(1, new TankShootGoal());
         // this.goalSelector.addGoal(2, new MoveOnGoal());
 
@@ -91,17 +79,8 @@ public class TankEntity extends Monster implements IAnimatable {
 
     @Override
     public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController(this, "controller",
+        data.addAnimationController(new AnimationController(this, "tank_controller",
                 0, this::predicate));
-        /*
-        data.addAnimationController(new AnimationController(this, "attackController",
-                0, this::attackPredicate));
-        */
-    }
-
-    private PlayState attackPredicate(AnimationEvent animationEvent) {
-        animationEvent.getController().setAnimation(new AnimationBuilder().addAnimation("animation.tank.idle", true));
-        return PlayState.CONTINUE;
     }
 
     @Override
@@ -135,40 +114,17 @@ public class TankEntity extends Monster implements IAnimatable {
                // this.yBodyRot = 0;
             }
 
-            /*
-            float f = this.rotA;
-            if (!this.getLevel().players().isEmpty()) {
-                BlockPos bp = this.getOnPos();
-                //this.getLevel().players().get(0).sendSystemMessage(Component.literal(" tt " + f + " tank tick " + bp));
-                for(int i = -3; i <= 3; i++ ){
-            //        this.getLevel().setBlockAndUpdate(new BlockPos(bp.getX() + 1, bp.getY(), bp.getZ() + i), Blocks.DIRT.defaultBlockState());
-           //         this.getLevel().setBlockAndUpdate(new BlockPos(bp.getX() - 2, bp.getY(), bp.getZ() + i), Blocks.DIRT.defaultBlockState());
-                }
-            }
-
-            BlockPos bp = this.getOnPos();
-            double offset = 6D;
-
-            double offsetX = - Math.sin(this.yBodyRot * 3.14D / 360.0D) * offset;
-            double offsetZ = Math.cos(this.yBodyRot  * 3.14D / 360.0D) * offset;
-            BlockPos newPos = new BlockPos(bp.getX() + offsetX, bp.getY() + 1, bp.getZ() + offsetZ);
-
-            this.getLevel().setBlockAndUpdate(newPos, Blocks.DIRT.defaultBlockState());
-            if (!this.getLevel().players().isEmpty()) {
-                this.getLevel().players().get(0).sendSystemMessage(Component.literal(" tank pos " + bp + " yrot = " + this.getYRot() * 3.14D / 360.0D + " sin " + Math.sin(this.getYRot() * 3.14D / 360.0D) + " cos = " +  Math.cos(this.getYRot() * 3.14D / 360.0D)));
-                this.getLevel().players().get(0).sendSystemMessage(Component.literal(" offsetx = " + offsetX + " offsetz = " + offsetZ + " new pos " + newPos));
-
-            }
-            */
 
         }
+        this.runtime += 1;
          super.tick();
 
     }
-    public class TankShootGoal extends Goal {
-        private final TankEntity tank;
-        public TankShootGoal(){
-            tank = TankEntity.this;
+
+    public class PlanePlayGoal extends Goal {
+        private final PlaneEntity plane;
+        public PlanePlayGoal(){
+            plane = PlaneEntity.this;
         }
 
         @Override
@@ -177,21 +133,79 @@ public class TankEntity extends Monster implements IAnimatable {
         }
 
         public void tick(){
-            this.tank.shoot_counter += 1;
-            if(this.tank.shoot_counter > 7) {
-                TankBombEntity tankBomb = new TankBombEntity(this.tank.getLevel(), this.tank);
-                tankBomb.shootFromRotation(this.tank, 0, this.tank.yBodyRot, 0.0F, 1.5F, 0.25F);
-                this.tank.getLevel().addFreshEntity(tankBomb);
-                this.tank.shoot_counter = 0;
+            this.plane.yBodyRot = 0;
+            this.plane.setYRot(0);
+            if (!this.plane.getLevel().players().isEmpty()) {
+               // this.plane.getLevel().players().get(0).sendSystemMessage(Component.literal(" runtime = " + this.runtime));
             }
+            if(this.plane.runtime < 10){
+                this.plane.yBodyRot = 0;
+                this.plane.setYRot(0);
+
+            }else if (this.plane.runtime < 20){
+                this.plane.setDeltaMovement(0, 0, 0.5D);
+            }else if (this.plane.runtime < 40){
+                this.plane.setDeltaMovement(0, 0.5D, 0.5D);
+            }else{
+                this.plane.bombCoolDown += 1;
+                if(this.plane.bombCoolDown > 5){
+                    this.plane.setDeltaMovement(0, 0, 0.5D);
+                    PlaneBombEntity bomb = new PlaneBombEntity(this.plane.getLevel(), this.plane);
+                    bomb.shootFromRotation(this.plane, 0, this.plane.yBodyRot, 0.0F, 1.5F, 0.25F);
+                    this.plane.getLevel().addFreshEntity(bomb);
+                    this.plane.bombCoolDown = 0;
+                }
+
+            }
+
+            this.plane.setNoGravity(true);
+        }
+
+
+    }
+
+    public class MoveOnGoal extends Goal {
+        private final PlaneEntity tank;
+        public MoveOnGoal(){
+            tank = PlaneEntity.this;
+        }
+
+        @Override
+        public boolean canUse() {
+            return true;
+        }
+
+        public void tick(){
+            if(this.tank.yBodyRot == 0){
+                //this.tank.setDeltaMovement(new Vec3(0.1F, 0F,0F));
+            }
+            //
+            //this.tank.getNavigation().moveTo(this.tank.getX() + 0.1F, this.tank.getY(), this.tank.getZ(), 1.0F);
+            /*
+            this.tank.yBodyRot = 45;
+            Level pLevel = this.tank.getLevel();
+            MagicProjectileEntity magicProjectile = new MagicProjectileEntity(pLevel, this.tank, this.tank.yBodyRot);
+            magicProjectile.shootFromRotation(this.tank, 0, this.tank.yBodyRot, 0.0F, 1.5F, 0.25F);
+            pLevel.addFreshEntity(magicProjectile);
+
+            BlockPos bp = this.tank.getOnPos();
+            double offset = 6D;
+
+            double offsetX = - Math.sin(this.tank.yBodyRot * 3.14D / 360.0D) * offset;
+            double offsetZ = Math.cos(this.tank.yBodyRot  * 3.14D / 360.0D) * offset;
+            BlockPos newPos = new BlockPos(bp.getX() + offsetX, bp.getY() + 1, bp.getZ() + offsetZ);
+            if(this.tank.getLevel().isClientSide()){
+                this.tank.getLevel().setBlockAndUpdate(newPos, Blocks.DIRT.defaultBlockState());
+            }
+            */
 
         }
     }
 
     public class TankDestroyGoal extends Goal {
-        private final TankEntity tank;
+        private final PlaneEntity tank;
         public TankDestroyGoal(){
-            tank = TankEntity.this;
+            tank = PlaneEntity.this;
         }
 
         @Override
@@ -242,19 +256,21 @@ public class TankEntity extends Monster implements IAnimatable {
             magicProjectile.shootFromRotation(this.tank, 0, this.tank.yBodyRot, 0.0F, 1.5F, 0.25F);
             pLevel.addFreshEntity(magicProjectile);
             */
-            this.tank.yBodyRot = 0;
-            this.tank.setYRot(0);
-            BlockPos tankpos = this.tank.getOnPos();
+            this.tank.yBodyRot = 45;
+            this.tank.setYRot(45);
+
             double offset = 4;
             double offsetX = - Math.sin(this.tank.yBodyRot * (float)(Math.PI / 180.0D)) * offset;
             double offsetZ = Math.cos(this.tank.yBodyRot  * (float)(Math.PI / 180.0D)) * offset;
-            BlockPos newPos = new BlockPos(tankpos.getX() + offsetX, tankpos.getY() + 1 , tankpos.getZ() + offsetZ);
+            BlockPos newPos = new BlockPos(this.tank.getX() + offsetX, this.tank.getY() , this.tank.getZ() + offsetZ);
 
             if(BlockBlock(this.tank.getLevel(), newPos, Blocks.IRON_BLOCK)){
                 // blocked
             }else{
                 DestroyBlock(this.tank.getLevel(), newPos);
-                //this.tank.setDeltaMovement(0F, 0F, 0.5F);
+
+
+                this.tank.setDeltaMovement(-0.1F, 0F, 0.1F);
             }
             /*
             Block bp = this.tank.getLevel().getBlockState(newPos).getBlock();

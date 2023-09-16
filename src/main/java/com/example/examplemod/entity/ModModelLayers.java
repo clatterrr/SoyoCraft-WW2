@@ -14,4 +14,10 @@ public class ModModelLayers {
 
         public static final ModelLayerLocation BULLET_PROJECTILE_LAYER = new ModelLayerLocation(
                 new ResourceLocation(ExampleMod.MODID, "bullet_projectile_layer"), "bullet_projectile_layer");
+
+        public static final ModelLayerLocation PLANE_BOMB_LAYER = new ModelLayerLocation(
+                new ResourceLocation(ExampleMod.MODID, "plane_bomb_layer"), "plane_bomb_layer");
+
+        public static final ModelLayerLocation TANK_BOMB_LAYER = new ModelLayerLocation(
+                new ResourceLocation(ExampleMod.MODID, "tank_bomb_layer"), "tank_bomb_layer");
 }

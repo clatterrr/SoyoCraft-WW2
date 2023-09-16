@@ -1,5 +1,6 @@
 package com.example.examplemod;
 
+import com.example.examplemod.block.ModBlocks;
 import com.example.examplemod.entity.ModEntityTypes;
 import com.example.examplemod.entity.client.*;
 import com.example.examplemod.item.ModItems;
@@ -54,6 +55,7 @@ public class ExampleMod
         modEventBus.addListener(this::commonSetup);
 
         ModItems.register(modEventBus);
+        ModBlocks.register(modEventBus);
         ModEntityTypes.register(modEventBus);
 
         // Register the Deferred Register to the mod event bus so blocks get registered
@@ -93,13 +95,17 @@ public class ExampleMod
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
 
             EntityRenderers.register(ModEntityTypes.SMOKER.get(), SmokerRenderer::new);
+            EntityRenderers.register(ModEntityTypes.CHOMPER.get(), ChomperRenderer::new);
             EntityRenderers.register(ModEntityTypes.TANK.get(), TankRenderer::new);
+            EntityRenderers.register(ModEntityTypes.PLANE.get(), PlaneRenderer::new);
             //EntityRenderers.register(ModEntityTypes.BOMB.get(), BombRenderer::new);
 
             EntityRenderers.register(ModEntityTypes.SOLIDER.get(), SoliderRenderer::new);
             EntityRenderers.register(ModEntityTypes.MAGIC_PROJECTILE.get(), MagicProjectileRenderer::new);
             EntityRenderers.register(ModEntityTypes.CREEPER_PROJECTILE.get(), CreeperProjectileRenderer::new);
             EntityRenderers.register(ModEntityTypes.BULLET_PROJECTILE.get(), BulletProjectileRenderer::new);
+            EntityRenderers.register(ModEntityTypes.PLANE_BOMB.get(), PlaneBombRenderer::new);
+            EntityRenderers.register(ModEntityTypes.TANK_BOMB.get(), TankBombRenderer::new);
         }
     }
 }

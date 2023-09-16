@@ -13,13 +13,19 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ExampleMod.MODID);
-
+    public static final RegistryObject<Item> CHOMPER_SPAWN_EGG = ITEMS.register("chomper_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.CHOMPER, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
     public static final RegistryObject<Item> SMOKER_SPAWN_EGG = ITEMS.register("smiler_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntityTypes.SMOKER, 0x22b341, 0x19732e,
                  new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
 
     public static final RegistryObject<Item> TANK_SPAWN_EGG = ITEMS.register("tank_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntityTypes.TANK, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+    public static final RegistryObject<Item> PLANE_SPAWN_EGG = ITEMS.register("plane_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.PLANE, 0x22b341, 0x19732e,
                     new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
 
     public static final RegistryObject<Item> SOLIDER_SPAWN_EGG = ITEMS.register("solider_spawn_egg",

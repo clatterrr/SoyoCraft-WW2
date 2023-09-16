@@ -70,7 +70,7 @@ public class SoliderEntity extends Monster implements IAnimatable {
         }
         */
 
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.solider_ak47.idle", true));
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.solider_ak47.sit", true));
         return PlayState.CONTINUE;
     }
 

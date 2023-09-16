@@ -14,7 +14,11 @@ public class ModEntityTypes {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
             DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, ExampleMod.MODID);
 
-
+        public static final RegistryObject<EntityType<ChomperEntity>> CHOMPER =
+            ENTITY_TYPES.register("chomper",
+                    () -> EntityType.Builder.of(ChomperEntity::new, MobCategory.MONSTER)
+                            .sized(0.4f, 1.5f)
+                            .build(new ResourceLocation(ExampleMod.MODID, "chomper").toString()));
 
     public static final RegistryObject<EntityType<SmokerEntity>> SMOKER =
             ENTITY_TYPES.register("smiler",
@@ -27,6 +31,12 @@ public class ModEntityTypes {
                     () -> EntityType.Builder.of(TankEntity::new, MobCategory.MONSTER)
                             .sized(0.4f, 1.5f)
                             .build(new ResourceLocation(ExampleMod.MODID, "tank").toString()));
+
+    public static final RegistryObject<EntityType<PlaneEntity>> PLANE =
+            ENTITY_TYPES.register("plane",
+                    () -> EntityType.Builder.of(PlaneEntity::new, MobCategory.MONSTER)
+                            .sized(0.4f, 1.5f)
+                            .build(new ResourceLocation(ExampleMod.MODID, "plane").toString()));
 
     public static final RegistryObject<EntityType<SoliderEntity>> SOLIDER =
             ENTITY_TYPES.register("solider_ak47",
@@ -57,6 +67,22 @@ public class ModEntityTypes {
                             .clientTrackingRange(4)
                             .updateInterval(20)
                             .build("bullet_projectile"));
+
+    public static final RegistryObject<EntityType<PlaneBombEntity>> PLANE_BOMB =
+            ENTITY_TYPES.register("plane_bomb",
+                    () -> EntityType.Builder.<PlaneBombEntity>of(PlaneBombEntity::new, MobCategory.MISC)
+                            .sized(0.5f, 0.5f)
+                            .clientTrackingRange(4)
+                            .updateInterval(20)
+                            .build("plane_bomb"));
+
+    public static final RegistryObject<EntityType<TankBombEntity>> TANK_BOMB =
+            ENTITY_TYPES.register("tank_bomb",
+                    () -> EntityType.Builder.<TankBombEntity>of(TankBombEntity::new, MobCategory.MISC)
+                            .sized(0.5f, 0.5f)
+                            .clientTrackingRange(4)
+                            .updateInterval(20)
+                            .build("tank_bomb"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);
