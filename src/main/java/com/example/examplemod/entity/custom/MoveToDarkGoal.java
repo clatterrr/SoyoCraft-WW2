@@ -42,13 +42,7 @@ public class MoveToDarkGoal extends Goal {
         int s = 5;
         Player player = this.mob.getLevel().getNearestPlayer(this.mob.getX(), this.mob.getY(), this.mob.getZ(), 4.0D, false);
 
-        for (TongueEntity t : this.mob.getLevel().getEntitiesOfClass(TongueEntity.class, new AABB(this.mob.blockPosition()).inflate(4.0D))){
-            this.mob.getNavigation().moveTo(t, 1.0f);
 
-            if(player != null){
-               // player.sendSystemMessage(Component.literal("hey " + t.position()));
-            }
-        }
 
         /*
         BlockPos p = this.mob.getOnPos();

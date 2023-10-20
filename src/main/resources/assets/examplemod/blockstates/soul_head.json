@@ -1,0 +1,19 @@
+{
+	"variants": {
+		"facing=north" : {
+			"model" : "examplemod:block/soul_head"
+		},
+		"facing=south" : {
+			"model" : "examplemod:block/soul_head",
+			"y" : 180
+		},
+		"facing=south" : {
+			"model" : "examplemod:block/soul_head",
+			"y" : 270
+		},
+		"facing=south" : {
+			"model": "examplemod:block/soul_head",
+			"y": 90
+		}
+	}
+}

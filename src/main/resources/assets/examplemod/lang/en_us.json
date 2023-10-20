@@ -1,5 +1,24 @@
 {
   "item.examplemod.tongue" : "Tongue",
-  "item.examplemod.zha" : "Zha",
-  "block.exmaplemod.web" : "Web"
+  "item.examplemod.sun" : "Sun",
+  "item.examplemod.zombie_hand" : "Zombie Hand",
+  "item.examplemod.bucket" : "Bucket",
+  "item.examplemod.pea_crop" : "Pea Crop",
+  "item.examplemod.cactus_spawn_egg" : "Cactus Spawn Egg",
+  "item.examplemod.sun_flower_spawn_egg" : "Sun Flower Spawn Egg",
+  "item.examplemod.pea_shooter_spawn_egg" : "Pea Shooter Spawn Egg",
+  "item.examplemod.cherry_bomb_spawn_egg" : "Cherry Bomb Spawn Egg",
+  "item.examplemod.wall_nut_spawn_egg" : "Wall Nut Spawn Egg",
+  "item.examplemod.snow_pea_spawn_egg" : "Snow Pea Spawn Egg",
+  "item.examplemod.potato_mine_spawn_egg" : "Potato Mine Spawn Egg",
+  "item.examplemod.repeater_spawn_egg" : "Repeater Spawn Egg",
+  "item.examplemod.chomper_spawn_egg" : "Chomper Spawn Egg",
+  "item.examplemod.normal_zombie_spawn_egg" : "Normal Zombie Spawn Egg",
+  "item.examplemod.flag_zombie_spawn_egg" : "Flag Zombie Spawn Egg",
+  "item.examplemod.cone_head_zombie_spawn_egg" : "Cone Head Zombie Spawn Egg",
+  "item.examplemod.bucket_head_zombie_spawn_egg" : "Bucket Head Zombie Spawn Egg",
+  "item.examplemod.pole_vaulting_zombie_spawn_egg" : "Pole Vaulting Zombie Spawn Egg",
+  "block.exmaplemod.web" : "Web",
+  "block.exmaplemod.vine" : "Vine",
+  "block.exmaplemod.soul_head" : "Soul Head"
 }

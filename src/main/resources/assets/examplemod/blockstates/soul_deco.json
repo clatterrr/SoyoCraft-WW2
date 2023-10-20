@@ -1,0 +1,19 @@
+{
+	"variants": {
+		"facing=north" : {
+			"model" : "examplemod:block/soul_deco"
+		},
+		"facing=south" : {
+			"model" : "examplemod:block/soul_deco",
+			"y" : 180
+		},
+		"facing=south" : {
+			"model" : "examplemod:block/soul_deco",
+			"y" : 270
+		},
+		"facing=south" : {
+			"model": "examplemod:block/soul_deco",
+			"y": 90
+		}
+	}
+}

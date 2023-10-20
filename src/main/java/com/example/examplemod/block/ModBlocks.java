@@ -1,6 +1,8 @@
 package com.example.examplemod.block;
 
 import com.example.examplemod.ExampleMod;
+import com.example.examplemod.block.custom.SoulHeadBlock;
+import com.example.examplemod.block.custom.VineBlock;
 import com.example.examplemod.block.custom.WebBlock;
 import com.example.examplemod.item.ModItems;
 import net.minecraft.world.item.BlockItem;
@@ -23,6 +25,18 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> WEB = registerBlock("web",
             () -> new WebBlock(BlockBehaviour.Properties.of(Material.METAL)
+                    .strength(6f).requiresCorrectToolForDrops().noOcclusion()), CreativeModeTab.TAB_FOOD);
+
+    public static final RegistryObject<Block> VINE = registerBlock("vine",
+            () -> new VineBlock(BlockBehaviour.Properties.of(Material.METAL)
+                    .strength(6f).requiresCorrectToolForDrops().noOcclusion()), CreativeModeTab.TAB_FOOD);
+
+    public static final RegistryObject<Block> SOUL_HEAD = registerBlock("soul_head",
+            () -> new SoulHeadBlock(BlockBehaviour.Properties.of(Material.METAL)
+                    .strength(6f).requiresCorrectToolForDrops().noOcclusion()), CreativeModeTab.TAB_FOOD);
+
+    public static final RegistryObject<Block> SOUL_DECO = registerBlock("soul_deco",
+            () -> new SoulHeadBlock(BlockBehaviour.Properties.of(Material.METAL)
                     .strength(6f).requiresCorrectToolForDrops().noOcclusion()), CreativeModeTab.TAB_FOOD);
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block, CreativeModeTab tab) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);

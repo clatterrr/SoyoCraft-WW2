@@ -2,12 +2,14 @@ package com.example.examplemod.entity.custom;
 
 import com.example.examplemod.entity.ModEntityTypes;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -43,19 +45,18 @@ public class MagicProjectileEntity extends Projectile {
         setOwner(player);
         BlockPos blockpos = player.blockPosition();
         double d0 = (double)blockpos.getX() + 0.5D;
-        double d1 = (double)blockpos.getY() + 1.75D;
+        double d1 = (double)blockpos.getY();
         double d2 = (double)blockpos.getZ() + 0.5D;
         this.moveTo(d0, d1, d2, this.getYRot(), this.getXRot());
     }
 
-    public MagicProjectileEntity(Level pLevel, Entity entity, double yRot) {
+    public MagicProjectileEntity(Level pLevel, Entity player) {
         super(ModEntityTypes.MAGIC_PROJECTILE.get(), pLevel);
-        setOwner(entity);
-        double yR = yRot * (float)Math.PI / 180F;
-        double bomb_offset = 6.0D;
-        double d0 = entity.position().x - Math.sin(yR) * bomb_offset;
-        double d1 = entity.position().y + 1.4D;
-        double d2 = entity.position().z + Math.cos(yR) * bomb_offset;
+        setOwner(player);
+        BlockPos blockpos = player.blockPosition();
+        double d0 = (double)blockpos.getX() + 0.5D;
+        double d1 = (double)blockpos.getY();
+        double d2 = (double)blockpos.getZ() + 0.5D;
         this.moveTo(d0, d1, d2, this.getYRot(), this.getXRot());
     }
 
@@ -75,11 +76,7 @@ public class MagicProjectileEntity extends Projectile {
         Vec3 vec3 = this.getDeltaMovement();
         HitResult hitresult = ProjectileUtil.getHitResult(this, this::canHitEntity);
         if (hitresult.getType() != HitResult.Type.MISS && !ForgeEventFactory.onProjectileImpact(this, hitresult))
-        {
-
-
             this.onHit(hitresult);
-        }
 
         double d0 = this.getX() + vec3.x;
         double d1 = this.getY() + vec3.y;
@@ -90,14 +87,8 @@ public class MagicProjectileEntity extends Projectile {
         double d6 = vec3.y;
         double d7 = vec3.z;
 
-        /*
-        for(int i = 1; i < 5; ++i) {
-            this.getLevel().addParticle(ModParticles.ALEXANDRITE_PARTICLES.get(), d0-(d5*2), d1-(d6*2), d2-(d7*2),
-                    -d5, -d6 - 0.1D, -d7);
-        }
-        */
 
-        if (this.getLevel().getBlockStates(this.getBoundingBox()).noneMatch(BlockBehaviour.BlockStateBase::isAir)) {
+        if (this.level.getBlockStates(this.getBoundingBox()).noneMatch(BlockBehaviour.BlockStateBase::isAir)) {
             this.discard();
         } else if (this.isInWaterOrBubble()) {
             this.discard();
@@ -113,14 +104,10 @@ public class MagicProjectileEntity extends Projectile {
         Entity hitEntity = hitResult.getEntity();
         Entity owner = this.getOwner();
 
-        if(hitEntity == owner && this.getLevel().isClientSide()) {
+        if(hitEntity == owner && this.level.isClientSide()) {
             return;
         }
 
-        /*
-        this.level().playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.METAL_DETECTOR_FOUND_ORE.get(), SoundSource.NEUTRAL,
-                2F, 1F);
-        */
 
         LivingEntity livingentity = owner instanceof LivingEntity ? (LivingEntity)owner : null;
         float damage = 2f;
@@ -137,52 +124,20 @@ public class MagicProjectileEntity extends Projectile {
     @Override
     protected void onHit(HitResult hitResult) {
         super.onHit(hitResult);
-        /*
-        for(int x = 0; x < 18; ++x) {
-            for(int y = 0; y < 18; ++y) {
-                this.level().addParticle(ModParticles.ALEXANDRITE_PARTICLES.get(), this.getX(), this.getY(), this.getZ(),
-                        Math.cos(x*20) * 0.15d, Math.cos(y*20) * 0.15d, Math.sin(x*20) * 0.15d);
-            }
-        }
-        */
 
-        if(this.getLevel().isClientSide()) {
+        if(this.level.isClientSide()) {
             return;
         }
 
         if(hitResult.getType() == HitResult.Type.ENTITY && hitResult instanceof EntityHitResult entityHitResult) {
-
-            if (this.getLevel().players().size() > 0){
-                Player player = this.getLevel().players().get(0);
-                if (player != null){
-                   // player.sendSystemMessage(Component.literal(" hit not enitity"));
-                }
-            }
-
             Entity hit = entityHitResult.getEntity();
             Entity owner = this.getOwner();
             if(owner != hit) {
                 this.entityData.set(HIT, true);
+                hit.hurt(DamageSource.CACTUS, 5);
                 counter = this.tickCount + 5;
             }
-        } else if (hitResult.getType() == HitResult.Type.BLOCK && hitResult instanceof BlockHitResult blockHitResult) {
-
-
-
-            Block bp =  this.getLevel().getBlockState(blockHitResult.getBlockPos()).getBlock();
-            if(bp == Blocks.DIRT){
-                if (this.getLevel().players().size() > 0){
-                    Player player = this.getLevel().players().get(0);
-                    if (player != null){
-                        //player.sendSystemMessage(Component.literal(" hit block"));
-                    }
-                }
-                this.getLevel().explode(this, this.getX(), this.getY(), this.getZ(), 2.5F, Explosion.BlockInteraction.DESTROY);
-            }
-            this.entityData.set(HIT, true);
-            counter = this.tickCount + 5;
-        }
-        else {
+        } else {
             this.entityData.set(HIT, true);
             counter = this.tickCount + 5;
         }

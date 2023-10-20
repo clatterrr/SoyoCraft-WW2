@@ -94,18 +94,30 @@ public class ExampleMod
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
 
-            EntityRenderers.register(ModEntityTypes.SMOKER.get(), SmokerRenderer::new);
-            EntityRenderers.register(ModEntityTypes.CHOMPER.get(), ChomperRenderer::new);
-            EntityRenderers.register(ModEntityTypes.TANK.get(), TankRenderer::new);
-            EntityRenderers.register(ModEntityTypes.PLANE.get(), PlaneRenderer::new);
-            //EntityRenderers.register(ModEntityTypes.BOMB.get(), BombRenderer::new);
 
-            EntityRenderers.register(ModEntityTypes.SOLIDER.get(), SoliderRenderer::new);
+            EntityRenderers.register(ModEntityTypes.CACTUS.get(), CactusRenderer::new);
+            EntityRenderers.register(ModEntityTypes.SUN_FLOWER.get(), SunFlowerRenderer::new);
+            EntityRenderers.register(ModEntityTypes.PEA_SHOOTER.get(), PeaShooterRenderer::new);
+            EntityRenderers.register(ModEntityTypes.CHERRY_BOMB.get(), CherryBombRenderer::new);
+            EntityRenderers.register(ModEntityTypes.WALL_NUT.get(), WallNutRenderer::new);
+            EntityRenderers.register(ModEntityTypes.SNOW_PEA.get(), SnowPeaRenderer::new);
+            EntityRenderers.register(ModEntityTypes.REPEATER.get(), RepeaterRenderer::new);
+            EntityRenderers.register(ModEntityTypes.CHOMPER.get(), ChomperRenderer::new);
+            EntityRenderers.register(ModEntityTypes.POTATO_MINE.get(), PotatoMineRenderer::new);
+            EntityRenderers.register(ModEntityTypes.NORMAL_ZOMBIE.get(), NormalZombieRenderer::new);
+            EntityRenderers.register(ModEntityTypes.CONE_HEAD_ZOMBIE.get(), ConeHeadZombieRenderer::new);
+            EntityRenderers.register(ModEntityTypes.BUCKET_HEAD_ZOMBIE.get(), BucketHeadZombieRenderer::new);
+            EntityRenderers.register(ModEntityTypes.POLE_VAULTING_ZOMBIE.get(), PoleVaultingZombieRenderer::new);
+            EntityRenderers.register(ModEntityTypes.FLAG_ZOMBIE.get(), FlagZombieRenderer::new);
             EntityRenderers.register(ModEntityTypes.MAGIC_PROJECTILE.get(), MagicProjectileRenderer::new);
-            EntityRenderers.register(ModEntityTypes.CREEPER_PROJECTILE.get(), CreeperProjectileRenderer::new);
             EntityRenderers.register(ModEntityTypes.BULLET_PROJECTILE.get(), BulletProjectileRenderer::new);
-            EntityRenderers.register(ModEntityTypes.PLANE_BOMB.get(), PlaneBombRenderer::new);
-            EntityRenderers.register(ModEntityTypes.TANK_BOMB.get(), TankBombRenderer::new);
+            EntityRenderers.register(ModEntityTypes.PEA_PROJECTILE.get(), PeaProjectileRenderer::new);
+            EntityRenderers.register(ModEntityTypes.ICE_PEA_PROJECTILE.get(), IcePeaProjectileRenderer::new);
+            EntityRenderers.register(ModEntityTypes.SUN.get(), SunRenderer::new);
+            EntityRenderers.register(ModEntityTypes.Cone.get(), ConeRenderer::new);
+            EntityRenderers.register(ModEntityTypes.ZOMBIE_HAND.get(), ZombieHandRenderer::new);
+            EntityRenderers.register(ModEntityTypes.BUCKET.get(), BucketRenderer::new);
+            EntityRenderers.register(ModEntityTypes.PEA_CROP.get(), PeaCropRenderer::new);
         }
     }
 }

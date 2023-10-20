@@ -1,6 +1,5 @@
 package com.example.examplemod.item.custom;
 
-import com.example.examplemod.entity.custom.ZhaEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;

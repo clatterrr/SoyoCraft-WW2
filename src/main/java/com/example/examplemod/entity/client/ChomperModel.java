@@ -6,18 +6,22 @@ import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 
 public class ChomperModel extends AnimatedGeoModel<ChomperEntity> {
+
     @Override
-    public ResourceLocation getModelResource(ChomperEntity object) {
+    public ResourceLocation getModelResource(ChomperEntity animatable) {
         return new ResourceLocation(ExampleMod.MODID, "geo/chomper.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureResource(ChomperEntity object) {
-        return new ResourceLocation(ExampleMod.MODID, "textures/entity/chomper_texture.png");
+    public ResourceLocation getTextureResource(ChomperEntity animatable) {
+        return new ResourceLocation(ExampleMod.MODID, "textures/entity/chomper.png");
     }
 
     @Override
-    public ResourceLocation getAnimationResource(ChomperEntity animatable) {
-        return new ResourceLocation(ExampleMod.MODID, "animations/chomper.animation.json");
+    public ResourceLocation getAnimationResource(ChomperEntity  animatable) {
+       return new ResourceLocation(ExampleMod.MODID, "animations/chomper.animation.json");
+
     }
+
+
 }

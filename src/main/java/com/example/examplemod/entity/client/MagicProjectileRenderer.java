@@ -2,6 +2,7 @@ package com.example.examplemod.entity.client;
 
 import com.example.examplemod.ExampleMod;
 import com.example.examplemod.entity.ModModelLayers;
+import com.example.examplemod.entity.custom.IcePeaProjectileEntity;
 import com.example.examplemod.entity.custom.MagicProjectileEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -29,7 +30,7 @@ public class MagicProjectileRenderer extends EntityRenderer<MagicProjectileEntit
         //pPoseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(pPartialTick, entity.xRotO, entity.getXRot()) + 90.0F));
         VertexConsumer vertexconsumer = ItemRenderer.getFoilBufferDirect(pBuffer, this.model.renderType(this.getTextureLocation(entity)), false, false);
 
-        this.model.renderToBuffer(pPoseStack, vertexconsumer, pPackedLight, OverlayTexture.NO_OVERLAY, 1f, 0f, 0f, 1f);
+        this.model.renderToBuffer(pPoseStack, vertexconsumer, pPackedLight, OverlayTexture.NO_OVERLAY, 0f, 1f, 0f, 1f);
         pPoseStack.popPose();
         super.render(entity, pEntityYaw, pPartialTick, pPoseStack, pBuffer, pPackedLight);
     }
