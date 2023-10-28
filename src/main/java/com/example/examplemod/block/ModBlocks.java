@@ -3,7 +3,7 @@ package com.example.examplemod.block;
 import com.example.examplemod.ExampleMod;
 import com.example.examplemod.block.custom.SoulHeadBlock;
 import com.example.examplemod.block.custom.VineBlock;
-import com.example.examplemod.block.custom.WebBlock;
+import com.example.examplemod.block.custom.IceSpikeBlock;
 import com.example.examplemod.item.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -23,8 +23,8 @@ public class ModBlocks {
             DeferredRegister.create(ForgeRegistries.BLOCKS, ExampleMod.MODID);
 
 
-    public static final RegistryObject<Block> WEB = registerBlock("web",
-            () -> new WebBlock(BlockBehaviour.Properties.of(Material.METAL)
+    public static final RegistryObject<Block> ICE_SPIKE = registerBlock("ice_spike",
+            () -> new IceSpikeBlock(BlockBehaviour.Properties.of(Material.METAL)
                     .strength(6f).requiresCorrectToolForDrops().noOcclusion()), CreativeModeTab.TAB_FOOD);
 
     public static final RegistryObject<Block> VINE = registerBlock("vine",

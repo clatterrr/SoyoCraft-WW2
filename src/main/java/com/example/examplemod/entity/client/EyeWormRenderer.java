@@ -1,7 +1,8 @@
 package com.example.examplemod.entity.client;
 
 import com.example.examplemod.ExampleMod;
-import com.example.examplemod.entity.custom.NormalZombieEntity;
+import com.example.examplemod.entity.custom.EyeWormEntity;
+import com.example.examplemod.entity.custom.GrassGiantEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -12,20 +13,20 @@ import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 import javax.annotation.Nullable;
 
-public class NormalZombieRenderer extends GeoEntityRenderer<NormalZombieEntity> {
+public class EyeWormRenderer extends GeoEntityRenderer<EyeWormEntity> {
 
-    public NormalZombieRenderer(EntityRendererProvider.Context renderManager) {
-        super(renderManager, new NormalZombieModel());
+    public EyeWormRenderer(EntityRendererProvider.Context renderManager) {
+        super(renderManager, new EyeWormModel());
         this.shadowRadius = 0.3f;
     }
 
     @Override
-    public ResourceLocation getTextureLocation(NormalZombieEntity instance) {
-        return new ResourceLocation(ExampleMod.MODID, "textures/entity/normal_zombie.png");
+    public ResourceLocation getTextureLocation(EyeWormEntity instance) {
+        return new ResourceLocation(ExampleMod.MODID, "textures/entity/eye_worm.png");
     }
 
     @Override
-    public RenderType getRenderType(NormalZombieEntity animatable, float partialTicks, PoseStack stack,
+    public RenderType getRenderType(EyeWormEntity animatable, float partialTicks, PoseStack stack,
                                     @Nullable MultiBufferSource renderTypeBuffer,
                                     @Nullable VertexConsumer vertexBuilder, int packedLightIn,
                                     ResourceLocation textureLocation) {

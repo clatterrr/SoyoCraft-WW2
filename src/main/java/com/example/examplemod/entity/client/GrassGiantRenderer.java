@@ -1,6 +1,7 @@
 package com.example.examplemod.entity.client;
 
 import com.example.examplemod.ExampleMod;
+import com.example.examplemod.entity.custom.GrassGiantEntity;
 import com.example.examplemod.entity.custom.NormalZombieEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -12,20 +13,20 @@ import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 import javax.annotation.Nullable;
 
-public class NormalZombieRenderer extends GeoEntityRenderer<NormalZombieEntity> {
+public class GrassGiantRenderer extends GeoEntityRenderer<GrassGiantEntity> {
 
-    public NormalZombieRenderer(EntityRendererProvider.Context renderManager) {
-        super(renderManager, new NormalZombieModel());
+    public GrassGiantRenderer(EntityRendererProvider.Context renderManager) {
+        super(renderManager, new GrassGiantModel());
         this.shadowRadius = 0.3f;
     }
 
     @Override
-    public ResourceLocation getTextureLocation(NormalZombieEntity instance) {
-        return new ResourceLocation(ExampleMod.MODID, "textures/entity/normal_zombie.png");
+    public ResourceLocation getTextureLocation(GrassGiantEntity instance) {
+        return new ResourceLocation(ExampleMod.MODID, "textures/entity/grass_giant.png");
     }
 
     @Override
-    public RenderType getRenderType(NormalZombieEntity animatable, float partialTicks, PoseStack stack,
+    public RenderType getRenderType(GrassGiantEntity animatable, float partialTicks, PoseStack stack,
                                     @Nullable MultiBufferSource renderTypeBuffer,
                                     @Nullable VertexConsumer vertexBuilder, int packedLightIn,
                                     ResourceLocation textureLocation) {

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north" : {
+      "model" : "examplemod:block/ice_spike"
+    },
+    "facing=south" : {
+      "model" : "examplemod:block/ice_spike",
+      "y" : 180
+    },
+    "facing=south" : {
+      "model" : "examplemod:block/ice_spike",
+      "y" : 270
+    },
+    "facing=south" : {
+      "model": "examplemod:block/ice_spike",
+      "y": 90
+    }
+  }
+}

@@ -1,8 +1,10 @@
 package com.example.examplemod.entity.custom;
 
 import com.example.examplemod.item.ModItems;
+import com.mojang.math.Vector3d;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
@@ -12,15 +14,28 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.monster.Husk;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.WitherSkeleton;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.ThrownPotion;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.SplashPotionItem;
+import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -31,16 +46,16 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import java.util.List;
 
-public class NormalZombieEntity extends Monster implements IAnimatable {
+public class GrassGiantEntity extends Monster implements IAnimatable {
     private AnimationFactory factory = new AnimationFactory(this);
 
-    public NormalZombieEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
+    public GrassGiantEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 15.0D)
+                .add(Attributes.MAX_HEALTH, 100.0D)
                 .add(Attributes.ATTACK_DAMAGE, 3.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.15f).build();
@@ -50,22 +65,23 @@ public class NormalZombieEntity extends Monster implements IAnimatable {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new SummonGoal());
-        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.2D, false));
-        //this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Villager.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.2D, false));
+        this.goalSelector.addGoal(2, new ThrowGoal());
+        this.goalSelector.addGoal(2, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
+
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, WitherSkeleton.class, true));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Husk.class, true));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, EyeWormEntity.class, true));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, SnowArmEntity.class, true));
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        if(this.getHealth() > 10){
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.attack", true));
-        }else{
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.attack2", true));
+if(event.isMoving()) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.grass_giant.attack", true));
+        }else {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.grass_giant.attack", true));
         }
-
-
         return PlayState.CONTINUE;
     }
 
@@ -109,61 +125,46 @@ public class NormalZombieEntity extends Monster implements IAnimatable {
 
     public void tick(){
         super.tick();
-        if(this.getHealth() < 10 && this.drop_hand == false){
-            this.drop_hand = true;
-            this.spawnAtLocation(ModItems.ZOMBIE_HAND.get());
-        }
-        if(this.hit_by_snow == true){
-            final double d0 = this.random.nextGaussian() * 0.2D;
-            final double d1 = this.random.nextGaussian() * 0.2D;
-            final double d2 = this.random.nextGaussian() * 0.2D;
-            this.getLevel().addParticle(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), d0, d1, d2);
-        }
     }
 
-    public class SummonGoal extends Goal {
-        private final NormalZombieEntity cactus;
+    public class ThrowGoal extends Goal {
+        private final GrassGiantEntity me;
 
-        public SummonGoal() {
-            cactus = NormalZombieEntity.this;
-            cactuspos = cactus.getOnPos();
+        public ThrowGoal() {
+            this.me = GrassGiantEntity.this;
         }
 
         private int cool_down = 0;
-        private BlockPos cactuspos;
 
         @Override
         public boolean canUse() {
 
-            BlockPos thepos = this.cactus.getOnPos();
-
-            int search_radius = 3;
-            for (int i = -search_radius; i <= search_radius; i++) {
-                for (int j = -search_radius; j <= search_radius; j++) {
-                    for (int k = 0; k <= 2; k++) {
-                        BlockPos newpos = new BlockPos(thepos.getX() + i, thepos.getY() + k, thepos.getZ() + j);
-                        Block bp = this.cactus.getLevel().getBlockState(newpos).getBlock();
-                        if (bp == Blocks.CACTUS) {
-                            this.cactuspos = newpos;
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
+            return this.me.getTarget() != null;
         }
 
         public void tick() {
+
             this.cool_down += 1;
-            if (this.cactuspos != this.cactus.getOnPos()) {
-                if (this.cool_down > 5) {
-                    this.cactus.getLevel().destroyBlock(this.cactuspos, false);
-                    NormalZombieEntity c = new NormalZombieEntity((EntityType<? extends Monster>) this.cactus.getType(), this.cactus.getLevel());
-                    c.setPos(this.cactuspos.getX(), this.cactuspos.getY(), this.cactuspos.getZ());
-                    this.cactus.getLevel().addFreshEntity(c);
+
+            if (this.cool_down > 40) {
+                if (this.me.getLevel().players().size() > 0) {
+                    Player p = this.me.getLevel().players().get(0);
+                    //p.sendSystemMessage(Component.literal("throw potion"));
                 }
+
+
+                GrassProjectileEntity ga = new GrassProjectileEntity(this.me.level, this.me);
+                ga.shootFromRotation(this.me, this.me.getXRot(), this.me.yBodyRot, 0.0F, 1.5F, 0.25F);
+                this.me.getLevel().addFreshEntity(ga);
+                this.me.getTarget().hurt(DamageSource.MAGIC, 10F);
+                this.cool_down = 0;
+
+
+
+
             }
         }
     }
+
 
 }
