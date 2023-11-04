@@ -2,9 +2,14 @@
 
   "item.examplemod.zombie_hand" : "Zombie Hand",
   "item.examplemod.normal_zombie_spawn_egg" : "Normal Zombie Spawn Egg",
-  "item.examplemod.grass_giant_spawn_egg" : "Grass Giant",
-  "item.examplemod.eye_worm_spawn_egg" : "Eye Worm",
-  "item.examplemod.snow_arm_spawn_egg" : "Snow Arm",
+  "item.examplemod.bacteria_spawn_egg" : "Bacteria",
+  "item.examplemod.party_goers_spawn_egg" : "Party Goers",
+  "item.examplemod.balloon_spawn_egg" : "Balloon",
+  "item.examplemod.smiles_spawn_egg" : "Smiles",
+  "item.examplemod.hound_spawn_egg" : "Hound ",
+  "item.examplemod.cow_skin_stealer_spawn_egg" : "Cow Skin Stealer",
+  "item.examplemod.villager_skin_stealer_spawn_egg" : "Villager Skin Stealer",
+  "item.examplemod.creeper_skin_stealer_spawn_egg" : "Creeper Skin Stealer",
   "block.exmaplemod.ice_spike" : "Ice Spike",
   "block.exmaplemod.vine" : "Vine",
   "block.exmaplemod.soul_head" : "Soul Head"

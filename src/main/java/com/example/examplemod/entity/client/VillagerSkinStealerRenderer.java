@@ -1,8 +1,8 @@
 package com.example.examplemod.entity.client;
 
 import com.example.examplemod.ExampleMod;
-import com.example.examplemod.entity.custom.GrassGiantEntity;
-import com.example.examplemod.entity.custom.NormalZombieEntity;
+import com.example.examplemod.entity.custom.SmilesEntity;
+import com.example.examplemod.entity.custom.VillagerSkinStealerEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -13,20 +13,20 @@ import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 import javax.annotation.Nullable;
 
-public class GrassGiantRenderer extends GeoEntityRenderer<GrassGiantEntity> {
+public class VillagerSkinStealerRenderer extends GeoEntityRenderer<VillagerSkinStealerEntity> {
 
-    public GrassGiantRenderer(EntityRendererProvider.Context renderManager) {
-        super(renderManager, new GrassGiantModel());
+    public VillagerSkinStealerRenderer(EntityRendererProvider.Context renderManager) {
+        super(renderManager, new VillagerSkinStealerModel());
         this.shadowRadius = 0.3f;
     }
 
     @Override
-    public ResourceLocation getTextureLocation(GrassGiantEntity instance) {
-        return new ResourceLocation(ExampleMod.MODID, "textures/entity/grass_giant.png");
+    public ResourceLocation getTextureLocation(VillagerSkinStealerEntity instance) {
+        return new ResourceLocation(ExampleMod.MODID, "textures/entity/villager_skin_stealer.png");
     }
 
     @Override
-    public RenderType getRenderType(GrassGiantEntity animatable, float partialTicks, PoseStack stack,
+    public RenderType getRenderType(VillagerSkinStealerEntity animatable, float partialTicks, PoseStack stack,
                                     @Nullable MultiBufferSource renderTypeBuffer,
                                     @Nullable VertexConsumer vertexBuilder, int packedLightIn,
                                     ResourceLocation textureLocation) {

@@ -94,9 +94,14 @@ public class ExampleMod
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
 
-            EntityRenderers.register(ModEntityTypes.GRASS_GIANT.get(), GrassGiantRenderer::new);
-            EntityRenderers.register(ModEntityTypes.EYE_WORM.get(), EyeWormRenderer::new);
-            EntityRenderers.register(ModEntityTypes.SNOW_ARM.get(), SnowArmRenderer::new);
+            EntityRenderers.register(ModEntityTypes.BACTERIA.get(), BacteriaRenderer::new);
+            EntityRenderers.register(ModEntityTypes.PARTY_GOERS.get(), PartyGoersRenderer::new);
+            EntityRenderers.register(ModEntityTypes.BALLOON.get(), BalloonRenderer::new);
+            EntityRenderers.register(ModEntityTypes.SMILES.get(), SmilesRenderer::new);
+            EntityRenderers.register(ModEntityTypes.COW_SKIN_STEALER.get(), CowSkinStealerRenderer::new);
+            EntityRenderers.register(ModEntityTypes.VILLAGER_SKIN_STEALER.get(), VillagerSkinStealerRenderer::new);
+            EntityRenderers.register(ModEntityTypes.CREEPER_SKIN_STEALER.get(), CreeperSkinStealerRenderer::new);
+            EntityRenderers.register(ModEntityTypes.HOUND.get(), HoundRenderer::new);
             EntityRenderers.register(ModEntityTypes.NORMAL_ZOMBIE.get(), NormalZombieRenderer::new);
             EntityRenderers.register(ModEntityTypes.MAGIC_PROJECTILE.get(), MagicProjectileRenderer::new);
             EntityRenderers.register(ModEntityTypes.GRASS_PROJECTILE.get(), GrassProjectileRenderer::new);

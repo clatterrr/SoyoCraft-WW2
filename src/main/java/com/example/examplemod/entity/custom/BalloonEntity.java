@@ -1,10 +1,6 @@
 package com.example.examplemod.entity.custom;
 
-import com.example.examplemod.item.ModItems;
-import com.mojang.math.Vector3d;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
@@ -16,26 +12,13 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.monster.Husk;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.WitherSkeleton;
-import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.entity.projectile.ThrownPotion;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.SplashPotionItem;
-import net.minecraft.world.item.alchemy.Potion;
-import net.minecraft.world.item.alchemy.PotionUtils;
-import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -44,12 +27,10 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-import java.util.List;
-
-public class GrassGiantEntity extends Monster implements IAnimatable {
+public class BalloonEntity extends Monster implements IAnimatable {
     private AnimationFactory factory = new AnimationFactory(this);
 
-    public GrassGiantEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
+    public BalloonEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
@@ -66,22 +47,15 @@ public class GrassGiantEntity extends Monster implements IAnimatable {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.2D, false));
-        this.goalSelector.addGoal(2, new ThrowGoal());
         this.goalSelector.addGoal(2, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
 
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, WitherSkeleton.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Husk.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, EyeWormEntity.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, SnowArmEntity.class, true));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Pig.class, true));
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-if(event.isMoving()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.grass_giant.attack", true));
-        }else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.grass_giant.attack", true));
-        }
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.balloon.idle", true));
         return PlayState.CONTINUE;
     }
 
@@ -128,10 +102,10 @@ if(event.isMoving()) {
     }
 
     public class ThrowGoal extends Goal {
-        private final GrassGiantEntity me;
+        private final BalloonEntity me;
 
         public ThrowGoal() {
-            this.me = GrassGiantEntity.this;
+            this.me = BalloonEntity.this;
         }
 
         private int cool_down = 0;
@@ -149,6 +123,7 @@ if(event.isMoving()) {
             if (this.cool_down > 40) {
                 if (this.me.getLevel().players().size() > 0) {
                     Player p = this.me.getLevel().players().get(0);
+                    
                     //p.sendSystemMessage(Component.literal("throw potion"));
                 }
 

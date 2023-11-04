@@ -21,23 +21,52 @@ public class ModEntityTypes {
                             .sized(0.4f, 1.5f)
                             .build(new ResourceLocation(ExampleMod.MODID, "normal_zombie").toString()));
 
-    public static final RegistryObject<EntityType<GrassGiantEntity>> GRASS_GIANT =
-            ENTITY_TYPES.register("grass_giant",
-                    () -> EntityType.Builder.of(GrassGiantEntity::new, MobCategory.MONSTER)
+    public static final RegistryObject<EntityType<BacteriaEntity>> BACTERIA =
+            ENTITY_TYPES.register("bacteria",
+                    () -> EntityType.Builder.of(BacteriaEntity::new, MobCategory.MONSTER)
                             .sized(0.4f, 1.5f)
-                            .build(new ResourceLocation(ExampleMod.MODID, "grass_giant").toString()));
+                            .build(new ResourceLocation(ExampleMod.MODID, "bacteria").toString()));
 
-    public static final RegistryObject<EntityType<SnowArmEntity>> SNOW_ARM =
-            ENTITY_TYPES.register("snow_arm",
-                    () -> EntityType.Builder.of(SnowArmEntity::new, MobCategory.MONSTER)
+    public static final RegistryObject<EntityType<BalloonEntity>> BALLOON =
+            ENTITY_TYPES.register("balloon",
+                    () -> EntityType.Builder.of(BalloonEntity::new, MobCategory.MONSTER)
                             .sized(0.4f, 1.5f)
-                            .build(new ResourceLocation(ExampleMod.MODID, "snow_arm").toString()));
+                            .build(new ResourceLocation(ExampleMod.MODID, "balloon").toString()));
+    public static final RegistryObject<EntityType<PartyGoersEntity>> PARTY_GOERS =
+            ENTITY_TYPES.register("party_goers",
+                    () -> EntityType.Builder.of(PartyGoersEntity::new, MobCategory.MONSTER)
+                            .sized(0.4f, 1.5f)
+                            .build(new ResourceLocation(ExampleMod.MODID, "party_goers").toString()));
 
-    public static final RegistryObject<EntityType<EyeWormEntity>> EYE_WORM =
-            ENTITY_TYPES.register("eye_worm",
-                    () -> EntityType.Builder.of(EyeWormEntity::new, MobCategory.MONSTER)
+    public static final RegistryObject<EntityType<SmilesEntity>> SMILES =
+            ENTITY_TYPES.register("smiles",
+                    () -> EntityType.Builder.of(SmilesEntity::new, MobCategory.MONSTER)
                             .sized(0.4f, 1.5f)
-                            .build(new ResourceLocation(ExampleMod.MODID, "eye_worm").toString()));
+                            .build(new ResourceLocation(ExampleMod.MODID, "smiles").toString()));
+    public static final RegistryObject<EntityType<HoundEntity>> HOUND =
+            ENTITY_TYPES.register("hound",
+                    () -> EntityType.Builder.of(HoundEntity::new, MobCategory.MONSTER)
+                            .sized(0.4f, 1.5f)
+                            .build(new ResourceLocation(ExampleMod.MODID, "hound").toString()));
+
+    public static final RegistryObject<EntityType<CowSkinStealerEntity>> COW_SKIN_STEALER =
+            ENTITY_TYPES.register("cow_skin_stealer",
+                    () -> EntityType.Builder.of(CowSkinStealerEntity::new, MobCategory.MONSTER)
+                            .sized(0.4f, 1.5f)
+                            .build(new ResourceLocation(ExampleMod.MODID, "cow_skin_stealer").toString()));
+
+    public static final RegistryObject<EntityType<VillagerSkinStealerEntity>> VILLAGER_SKIN_STEALER =
+            ENTITY_TYPES.register("villager_skin_stealer",
+                    () -> EntityType.Builder.of(VillagerSkinStealerEntity::new, MobCategory.MONSTER)
+                            .sized(0.4f, 1.5f)
+                            .build(new ResourceLocation(ExampleMod.MODID, "villager_skin_stealer").toString()));
+
+    public static final RegistryObject<EntityType<CreeperSkinStealerEntity>> CREEPER_SKIN_STEALER =
+            ENTITY_TYPES.register("creeper_skin_stealer",
+                    () -> EntityType.Builder.of(CreeperSkinStealerEntity::new, MobCategory.MONSTER)
+                            .sized(0.4f, 1.5f)
+                            .build(new ResourceLocation(ExampleMod.MODID, "creeper_skin_stealer").toString()));
+
 
     public static final RegistryObject<EntityType<MagicProjectileEntity>> MAGIC_PROJECTILE =
             ENTITY_TYPES.register("magic_projectile",

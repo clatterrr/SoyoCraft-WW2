@@ -18,9 +18,14 @@ public class ModEvents {
         public static void entityAttributeEvent(EntityAttributeCreationEvent event) {
 
             event.put(ModEntityTypes.NORMAL_ZOMBIE.get(), NormalZombieEntity.setAttributes());
-            event.put(ModEntityTypes.EYE_WORM.get(), EyeWormEntity.setAttributes());
-            event.put(ModEntityTypes.SNOW_ARM.get(), SnowArmEntity.setAttributes());
-            event.put(ModEntityTypes.GRASS_GIANT.get(), GrassGiantEntity.setAttributes());
+            event.put(ModEntityTypes.BACTERIA.get(), BacteriaEntity.setAttributes());
+            event.put(ModEntityTypes.PARTY_GOERS.get(), PartyGoersEntity.setAttributes());
+            event.put(ModEntityTypes.BALLOON.get(), BalloonEntity.setAttributes());
+            event.put(ModEntityTypes.SMILES.get(), SmilesEntity.setAttributes());
+            event.put(ModEntityTypes.COW_SKIN_STEALER.get(), CowSkinStealerEntity.setAttributes());
+            event.put(ModEntityTypes.VILLAGER_SKIN_STEALER.get(), VillagerSkinStealerEntity.setAttributes());
+            event.put(ModEntityTypes.CREEPER_SKIN_STEALER.get(), CreeperSkinStealerEntity.setAttributes());
+            event.put(ModEntityTypes.HOUND.get(), HoundEntity.setAttributes());
         }
 
         @SubscribeEvent
