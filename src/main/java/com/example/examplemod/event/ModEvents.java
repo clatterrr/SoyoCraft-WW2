@@ -18,21 +18,26 @@ public class ModEvents {
         public static void entityAttributeEvent(EntityAttributeCreationEvent event) {
 
             event.put(ModEntityTypes.NORMAL_ZOMBIE.get(), NormalZombieEntity.setAttributes());
-            event.put(ModEntityTypes.BACTERIA.get(), BacteriaEntity.setAttributes());
-            event.put(ModEntityTypes.PARTY_GOERS.get(), PartyGoersEntity.setAttributes());
-            event.put(ModEntityTypes.BALLOON.get(), BalloonEntity.setAttributes());
-            event.put(ModEntityTypes.SMILES.get(), SmilesEntity.setAttributes());
-            event.put(ModEntityTypes.COW_SKIN_STEALER.get(), CowSkinStealerEntity.setAttributes());
-            event.put(ModEntityTypes.VILLAGER_SKIN_STEALER.get(), VillagerSkinStealerEntity.setAttributes());
-            event.put(ModEntityTypes.CREEPER_SKIN_STEALER.get(), CreeperSkinStealerEntity.setAttributes());
-            event.put(ModEntityTypes.HOUND.get(), HoundEntity.setAttributes());
+            event.put(ModEntityTypes.NEWSPAPER_ZOMBIE.get(), NewspaperZombieEntity.setAttributes());
+            event.put(ModEntityTypes.SCREEN_DOOR_ZOMBIE.get(), ScreenDoorZombieEntity.setAttributes());
+            event.put(ModEntityTypes.FOOTBALL_ZOMBIE.get(), FootballZombieEntity.setAttributes());
+            event.put(ModEntityTypes.DANCING_ZOMBIE.get(), DancingZombieEntity.setAttributes());
+            event.put(ModEntityTypes.BACKUP_ZOMBIE.get(), BackupZombieEntity.setAttributes());
+            event.put(ModEntityTypes.PUFF_SHROOM.get(), PuffShroomEntity.setAttributes());
+            event.put(ModEntityTypes.SUN_SHROOM.get(), SunShroomEntity.setAttributes());
+            event.put(ModEntityTypes.FUME_SHROOM.get(), FumeShroomEntity.setAttributes());
+            event.put(ModEntityTypes.GRAVE_BUSTER.get(), GraveBusterEntity.setAttributes());
+            event.put(ModEntityTypes.HYPNO_SHROOM.get(), HypnoShroomEntity.setAttributes());
+            event.put(ModEntityTypes.SCAREDY_SHROOM.get(), ScaredyShroomEntity.setAttributes());
+            event.put(ModEntityTypes.ICE_SHROOM.get(), IceShroomEntity.setAttributes());
+            event.put(ModEntityTypes.DOOM_SHROOM.get(), DoomShroomEntity.setAttributes());
         }
 
         @SubscribeEvent
         public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
             event.registerLayerDefinition(ModModelLayers.ZOMBIE_HAND_LAYER, ZombieHandModel::createBodyLayer);
-            event.registerLayerDefinition(ModModelLayers.MAGIC_PROJECTILE_LAYER, MagicProjectileModel::createBodyLayer);
-            event.registerLayerDefinition(ModModelLayers.GRASS_PROJECTILE_LAYER, GrassProjectileModel::createBodyLayer);
+            //event.registerLayerDefinition(ModModelLayers.MAGIC_PROJECTILE_LAYER, MagicProjectileModel::createBodyLayer);
+           // event.registerLayerDefinition(ModModelLayers.GRASS_PROJECTILE_LAYER, GrassProjectileModel::createBodyLayer);
         }
     }
 }
