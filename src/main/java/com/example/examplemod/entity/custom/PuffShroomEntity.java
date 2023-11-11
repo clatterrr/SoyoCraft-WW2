@@ -56,13 +56,7 @@ public class PuffShroomEntity extends ThePlantEntity implements IAnimatable {
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        if(this.getHealth() > 10){
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.attack", true));
-        }else{
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.attack2", true));
-        }
-
-
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.puff_shroom.idle", true));
         return PlayState.CONTINUE;
     }
 

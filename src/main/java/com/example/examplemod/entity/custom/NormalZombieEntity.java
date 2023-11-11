@@ -3,6 +3,9 @@ package com.example.examplemod.entity.custom;
 import com.example.examplemod.item.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
@@ -31,7 +34,10 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import java.util.List;
 
-public class NormalZombieEntity extends Monster implements IAnimatable {
+public class NormalZombieEntity extends TheZombieEntity implements IAnimatable {
+
+    private static final EntityDataAccessor<Boolean> ATTACKING =
+            SynchedEntityData.defineId(NormalZombieEntity.class, EntityDataSerializers.BOOLEAN);
     private AnimationFactory factory = new AnimationFactory(this);
 
     public NormalZombieEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
@@ -59,10 +65,10 @@ public class NormalZombieEntity extends Monster implements IAnimatable {
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        if(this.getHealth() > 10){
+        if(this.isAttacking() == true){
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.attack", true));
         }else{
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.attack2", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk", true));
         }
 
 
@@ -109,6 +115,12 @@ public class NormalZombieEntity extends Monster implements IAnimatable {
 
     public void tick(){
         super.tick();
+        if(this.getHealth() > 10){
+            this.setAttacking(true);
+        }else {
+            this.setAttacking(false);
+        }
+        /*
         if(this.getHealth() < 10 && this.drop_hand == false){
             this.drop_hand = true;
             this.spawnAtLocation(ModItems.ZOMBIE_HAND.get());
@@ -119,6 +131,21 @@ public class NormalZombieEntity extends Monster implements IAnimatable {
             final double d2 = this.random.nextGaussian() * 0.2D;
             this.getLevel().addParticle(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), d0, d1, d2);
         }
+        */
+    }
+
+    public void setAttacking(boolean attacking) {
+        this.entityData.set(ATTACKING, attacking);
+    }
+
+    public boolean isAttacking() {
+        return this.entityData.get(ATTACKING);
+    }
+
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(ATTACKING, false);
     }
 
     public class SummonGoal extends Goal {
