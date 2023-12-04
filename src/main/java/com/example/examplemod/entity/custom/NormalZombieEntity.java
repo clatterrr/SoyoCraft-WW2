@@ -3,6 +3,7 @@ package com.example.examplemod.entity.custom;
 import com.example.examplemod.item.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -38,38 +39,77 @@ public class NormalZombieEntity extends TheZombieEntity implements IAnimatable {
 
     private static final EntityDataAccessor<Boolean> ATTACKING =
             SynchedEntityData.defineId(NormalZombieEntity.class, EntityDataSerializers.BOOLEAN);
+
+    private static final EntityDataAccessor<Integer> STYLE =
+            SynchedEntityData.defineId(NormalZombieEntity.class, EntityDataSerializers.INT);
     private AnimationFactory factory = new AnimationFactory(this);
 
     public NormalZombieEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+        double r = pLevel.random.nextGaussian();
+        if(r < 0.4){
+            this.setStyle(0);
+        }else if(r < 0.6){
+            this.setStyle(1);
+        }else {
+            this.setStyle(2);
+        }
     }
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 15.0D)
+                .add(Attributes.MAX_HEALTH, 40)
                 .add(Attributes.ATTACK_DAMAGE, 3.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
-                .add(Attributes.MOVEMENT_SPEED, 0.15f).build();
+                .add(Attributes.FLYING_SPEED, 0.1f)
+                .add(Attributes.MOVEMENT_SPEED, 0.1f).build();
     }
 
     private boolean drop_hand = false;
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new SummonGoal());
-        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.2D, false));
-        //this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Villager.class, true));
+        //this.goalSelector.addGoal(1, new SummonGoal());
+
+         this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.2D, false));
+        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, ThePlantEntity.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        if(this.isAttacking() == true){
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.attack", true));
-        }else{
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk", true));
+
+
+        if(this.getHealth() > 20){
+            if(this.isAttacking() == true){
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.attack", true));
+            }else{
+                if(this.Style() == 0){
+                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk", true));
+                }else if(this.Style() == 1){
+                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk2", true));
+                }else {
+                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk3", true));
+                }
+
+            }
+        }else {
+            if(this.isAttacking()){
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.attack2", true));
+            }else{
+                if(this.Style() == 0){
+                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk1_1", true));
+                }else if(this.Style() == 1){
+                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk2_1", true));
+                }else {
+                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk3_1", true));
+                }
+
+            }
         }
+
 
 
         return PlayState.CONTINUE;
@@ -81,12 +121,7 @@ public class NormalZombieEntity extends TheZombieEntity implements IAnimatable {
                 0, this::predicate));
     }
 
-    private boolean hit_by_snow = false;
 
-    public void hit_snow(){
-        this.setSpeed(0.7F);
-        this.hit_by_snow = true;
-    }
 
     @Override
     public AnimationFactory getFactory() {
@@ -113,25 +148,17 @@ public class NormalZombieEntity extends TheZombieEntity implements IAnimatable {
         return 0.2F;
     }
 
-    public void tick(){
+    public void tick() {
+
+        if (this.getTarget() != null) {
+            double dx = this.getX() - this.getTarget().getX();
+            double dz = this.getZ() - this.getTarget().getZ();
+
+            if ((dx * dx + dz * dz) < 4.0) {
+                this.setAttacking(true);
+            }
+        }
         super.tick();
-        if(this.getHealth() > 10){
-            this.setAttacking(true);
-        }else {
-            this.setAttacking(false);
-        }
-        /*
-        if(this.getHealth() < 10 && this.drop_hand == false){
-            this.drop_hand = true;
-            this.spawnAtLocation(ModItems.ZOMBIE_HAND.get());
-        }
-        if(this.hit_by_snow == true){
-            final double d0 = this.random.nextGaussian() * 0.2D;
-            final double d1 = this.random.nextGaussian() * 0.2D;
-            final double d2 = this.random.nextGaussian() * 0.2D;
-            this.getLevel().addParticle(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), d0, d1, d2);
-        }
-        */
     }
 
     public void setAttacking(boolean attacking) {
@@ -142,55 +169,19 @@ public class NormalZombieEntity extends TheZombieEntity implements IAnimatable {
         return this.entityData.get(ATTACKING);
     }
 
+    public void setStyle(int style) {
+        this.entityData.set(STYLE, style);
+    }
+
+    public int Style() {
+        return this.entityData.get(STYLE);
+    }
+
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(ATTACKING, false);
-    }
-
-    public class SummonGoal extends Goal {
-        private final NormalZombieEntity cactus;
-
-        public SummonGoal() {
-            cactus = NormalZombieEntity.this;
-            cactuspos = cactus.getOnPos();
-        }
-
-        private int cool_down = 0;
-        private BlockPos cactuspos;
-
-        @Override
-        public boolean canUse() {
-
-            BlockPos thepos = this.cactus.getOnPos();
-
-            int search_radius = 3;
-            for (int i = -search_radius; i <= search_radius; i++) {
-                for (int j = -search_radius; j <= search_radius; j++) {
-                    for (int k = 0; k <= 2; k++) {
-                        BlockPos newpos = new BlockPos(thepos.getX() + i, thepos.getY() + k, thepos.getZ() + j);
-                        Block bp = this.cactus.getLevel().getBlockState(newpos).getBlock();
-                        if (bp == Blocks.CACTUS) {
-                            this.cactuspos = newpos;
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
-        }
-
-        public void tick() {
-            this.cool_down += 1;
-            if (this.cactuspos != this.cactus.getOnPos()) {
-                if (this.cool_down > 5) {
-                    this.cactus.getLevel().destroyBlock(this.cactuspos, false);
-                    NormalZombieEntity c = new NormalZombieEntity((EntityType<? extends Monster>) this.cactus.getType(), this.cactus.getLevel());
-                    c.setPos(this.cactuspos.getX(), this.cactuspos.getY(), this.cactuspos.getZ());
-                    this.cactus.getLevel().addFreshEntity(c);
-                }
-            }
-        }
+        this.entityData.define(STYLE, 0);
     }
 
 }

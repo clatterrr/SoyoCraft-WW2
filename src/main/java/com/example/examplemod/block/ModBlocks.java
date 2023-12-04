@@ -1,9 +1,7 @@
 package com.example.examplemod.block;
 
 import com.example.examplemod.ExampleMod;
-import com.example.examplemod.block.custom.SoulHeadBlock;
-import com.example.examplemod.block.custom.VineBlock;
-import com.example.examplemod.block.custom.IceSpikeBlock;
+import com.example.examplemod.block.custom.*;
 import com.example.examplemod.item.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -34,7 +32,28 @@ public class ModBlocks {
     public static final RegistryObject<Block> SOUL_HEAD = registerBlock("soul_head",
             () -> new SoulHeadBlock(BlockBehaviour.Properties.of(Material.METAL)
                     .strength(6f).requiresCorrectToolForDrops().noOcclusion()), CreativeModeTab.TAB_FOOD);
+    public static final RegistryObject<Block> POOL_BRICK_1 = registerBlock("pool_brick_1",
+            () -> new PoolBrick1Block(BlockBehaviour.Properties.of(Material.METAL)
+                    .strength(6f).requiresCorrectToolForDrops().noOcclusion()), CreativeModeTab.TAB_FOOD);
 
+    public static final RegistryObject<Block> POOL_BRICK_2 = registerBlock("pool_brick_2",
+            () -> new PoolBrick2Block(BlockBehaviour.Properties.of(Material.METAL)
+                    .strength(6f).requiresCorrectToolForDrops().noOcclusion()), CreativeModeTab.TAB_FOOD);
+    public static final RegistryObject<Block> POOL_BRICK_3 = registerBlock("pool_brick_3",
+            () -> new PoolBrick3Block(BlockBehaviour.Properties.of(Material.METAL)
+                    .strength(6f).requiresCorrectToolForDrops().noOcclusion()), CreativeModeTab.TAB_FOOD);
+
+    public static final RegistryObject<Block> POOL_BRICK_4 = registerBlock("pool_brick_4",
+            () -> new PoolBrick4Block(BlockBehaviour.Properties.of(Material.METAL)
+                    .strength(6f).requiresCorrectToolForDrops().noOcclusion()), CreativeModeTab.TAB_FOOD);
+
+    public static final RegistryObject<Block> DUCK = registerBlock("duck",
+            () -> new DuckBlock(BlockBehaviour.Properties.of(Material.METAL)
+                    .strength(6f).requiresCorrectToolForDrops().noOcclusion()), CreativeModeTab.TAB_FOOD);
+
+    public static final RegistryObject<Block> LILY_PAD_BLOCK = registerBlock("lily_pad_block",
+            () -> new LilyPadBlock(BlockBehaviour.Properties.of(Material.METAL)
+                    .strength(6f).requiresCorrectToolForDrops().noOcclusion()), CreativeModeTab.TAB_FOOD);
     public static final RegistryObject<Block> SOUL_DECO = registerBlock("soul_deco",
             () -> new SoulHeadBlock(BlockBehaviour.Properties.of(Material.METAL)
                     .strength(6f).requiresCorrectToolForDrops().noOcclusion()), CreativeModeTab.TAB_FOOD);

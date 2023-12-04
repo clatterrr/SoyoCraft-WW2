@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north" : {
+      "model" : "examplemod:block/pool_brick_2"
+    },
+    "facing=south" : {
+      "model" : "examplemod:block/pool_brick_2",
+      "y" : 180
+    },
+    "facing=south" : {
+      "model" : "examplemod:block/pool_brick_2",
+      "y" : 270
+    },
+    "facing=south" : {
+      "model": "examplemod:block/pool_brick_2",
+      "y": 90
+    }
+  }
+}

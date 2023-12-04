@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north" : {
+      "model" : "examplemod:block/lily_pad_block"
+    },
+    "facing=south" : {
+      "model" : "examplemod:block/lily_pad_block",
+      "y" : 180
+    },
+    "facing=south" : {
+      "model" : "examplemod:block/lily_pad_block",
+      "y" : 270
+    },
+    "facing=south" : {
+      "model": "examplemod:block/lily_pad_block",
+      "y": 90
+    }
+  }
+}

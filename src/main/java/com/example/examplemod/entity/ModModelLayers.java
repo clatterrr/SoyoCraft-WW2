@@ -9,6 +9,11 @@ public class ModModelLayers {
         public static final ModelLayerLocation MAGIC_PROJECTILE_LAYER = new ModelLayerLocation(
                 new ResourceLocation(ExampleMod.MODID, "magic_projectile_layer"), "magic_projectile_layer");
 
+        public static final ModelLayerLocation SPORES_PROJECTILE_LAYER = new ModelLayerLocation(
+                new ResourceLocation(ExampleMod.MODID, "spores_projectile_layer"), "spores_projectile_layer");
+
+        public static final ModelLayerLocation HURT_PROJECTILE_LAYER = new ModelLayerLocation(
+                new ResourceLocation(ExampleMod.MODID, "hurt_projectile_layer"), "hurt_projectile_layer");
         public static final ModelLayerLocation GRASS_PROJECTILE_LAYER = new ModelLayerLocation(
                 new ResourceLocation(ExampleMod.MODID, "grass_projectile_layer"), "grass_projectile_layer");
 

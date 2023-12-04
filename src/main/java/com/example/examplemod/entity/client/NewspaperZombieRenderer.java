@@ -19,7 +19,7 @@ public class NewspaperZombieRenderer extends GeoEntityRenderer<NewspaperZombieEn
 
     @Override
     public ResourceLocation getTextureLocation(NewspaperZombieEntity p_114482_) {
-        return new ResourceLocation(ExampleMod.MODID, "textures/entity/news_paper.png");
+        return new ResourceLocation(ExampleMod.MODID, "textures/entity/newspaper_zombie.png");
     }
 
     @Override

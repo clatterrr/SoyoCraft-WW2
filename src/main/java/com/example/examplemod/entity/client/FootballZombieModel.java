@@ -1,25 +1,25 @@
 package com.example.examplemod.entity.client;
 
 import com.example.examplemod.ExampleMod;
-import com.example.examplemod.entity.custom.FootballZombieEntity;
+import com.example.examplemod.entity.custom.NormalZombieEntity;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 
-public class FootballZombieModel extends AnimatedGeoModel<FootballZombieEntity> {
+public class FootballZombieModel extends AnimatedGeoModel<NormalZombieEntity> {
 
     @Override
-    public ResourceLocation getModelResource(FootballZombieEntity animatable) {
-        return new ResourceLocation(ExampleMod.MODID, "geo/football_zombie.geo.json");
+    public ResourceLocation getModelResource(NormalZombieEntity animatable) {
+        return new ResourceLocation(ExampleMod.MODID, "geo/normal_zombie.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureResource(FootballZombieEntity animatable) {
-        return new ResourceLocation(ExampleMod.MODID, "textures/entity/football_zombie.png");
+    public ResourceLocation getTextureResource(NormalZombieEntity animatable) {
+        return new ResourceLocation(ExampleMod.MODID, "textures/entity/normal_zombie.png");
     }
 
     @Override
-    public ResourceLocation getAnimationResource(FootballZombieEntity animatable) {
-       return new ResourceLocation(ExampleMod.MODID, "animations/football_zombie.animation.json");
+    public ResourceLocation getAnimationResource(NormalZombieEntity  animatable) {
+       return new ResourceLocation(ExampleMod.MODID, "animations/normal_zombie.animation.json");
 
     }
 

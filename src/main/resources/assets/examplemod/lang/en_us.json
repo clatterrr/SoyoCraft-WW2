@@ -1,7 +1,43 @@
 {
 
-  "item.examplemod.zombie_hand" : "Zombie Hand",
+  "item.examplemod.lily_pad_spawn_egg" : "Lily Pad",
+  "item.examplemod.lily_pad" : "Lily Pad Item",
+  "item.examplemod.lily_pad_pea_shooter" : "Lily Pad Pea Shooter Item",
+  "item.examplemod.pea_shooter_spawn_egg" : "Pea Shooter Item",
+  "item.examplemod.puff_shroom_sleep_spawn_egg" : "Puff Shroom Sleep Spawn Egg",
+  "item.examplemod.duck_spawn_egg" : "Duck Spawn Egg",
+  "item.examplemod.squash_spawn_egg" : "Squash Spawn Egg",
+  "item.examplemod.threepeater_spawn_egg" : "Three Peater Spawn Egg",
+  "item.examplemod.tangle_kelp_spawn_egg" : "Tangle Kelp Spawn Egg",
+
+
   "item.examplemod.normal_zombie_spawn_egg" : "Normal Zombie Spawn Egg",
+  "item.examplemod.duck_tube_zombie_spawn_egg" : "Duck Tube Zombie Spawn Egg",
+  "item.examplemod.cone_head_zombie_spawn_egg" : "Cone Head Zombie Spawn Egg",
+  "item.examplemod.bucket_head_zombie_spawn_egg" : "Bucket Head Zombie Spawn Egg",
+  "item.examplemod.duck_tube_cone_head_zombie_spawn_egg" : "Duck Tube Cone Head Zombie Spawn Egg",
+  "item.examplemod.duck_tube_bucket_head_zombie_spawn_egg" : "Duck Tube Bucket Head Zombie Spawn Egg",
+  "item.examplemod.snorkel_zombie_spawn_egg" : "Snorkel Zombie Spawn Egg",
+
+  "item.examplemod.house_door_1" : "House Door 1",
+  "item.examplemod.house_door_2" : "House Door 2",
+  "item.examplemod.pool_chair" : "Pool Chair",
+  "item.examplemod.life_guard_tower" : "Life Guard Tower",
+  "item.examplemod.stone1" : "Stone 1",
+  "item.examplemod.stone2" : "Stone 2",
+  "item.examplemod.fence" : "Fence",
+  "item.examplemod.submarine" : "Submarine",
+
+  "item.examplemod.zombie_hand" : "Zombie Hand",
+  "item.examplemod.large_sun" : "Large Sun",
+  "item.examplemod.small_sun" : "Small sun",
+  "item.examplemod.paper" : "Paper",
+  "item.examplemod.football_helmet" : "Football Helmet",
+  "item.examplemod.grave1_spawn_egg" : "Grave 1",
+  "item.examplemod.grave2_spawn_egg" : "Grave 2",
+  "item.examplemod.grave3_spawn_egg" : "Grave 3",
+  "item.examplemod.freeze_zombie_spawn_egg" : "Freeze Zombie",
+  "item.examplemod.ash_zombie_spawn_egg" : "Ash Zombie",
   "item.examplemod.puff_shroom_spawn_egg" : "Puff Shroom",
   "item.examplemod.sun_shroom_spawn_egg" : "Sun Shroom",
   "item.examplemod.fume_shroom_spawn_egg" : "Fume Shroom",
@@ -17,5 +53,11 @@
   "item.examplemod.backup_zombie_spawn_egg" : "Backup Zombie",
   "block.exmaplemod.ice_spike" : "Ice Spike",
   "block.exmaplemod.vine" : "Vine",
-  "block.exmaplemod.soul_head" : "Soul Head"
+  "block.exmaplemod.soul_head" : "Soul Head",
+  "block.exmaplemod.lily_pad_block" : "Lily Pad Block",
+
+  "block.exmaplemod.pool_brick_1" : "Pool Brick 1 Block",
+  "block.exmaplemod.pool_brick_2" : "Pool Brick 2 Block",
+  "block.exmaplemod.pool_brick_3" : "Pool Brick 3 Block",
+  "block.exmaplemod.pool_brick_4" : "Pool Brick 4 Block"
 }

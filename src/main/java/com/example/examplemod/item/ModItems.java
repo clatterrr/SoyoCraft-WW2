@@ -18,63 +18,157 @@ public class ModItems {
             () -> new ForgeSpawnEggItem(ModEntityTypes.NORMAL_ZOMBIE, 0x22b341, 0x19732e,
                     new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
 
-    public static final RegistryObject<Item> SUN_SHROOM_SPAWN_EGG = ITEMS.register("sun_shroom_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntityTypes.SUN_SHROOM, 0x22b341, 0x19732e,
+    public static final RegistryObject<Item> PEA_SHOOTER_SPAWN_EGG = ITEMS.register("pea_shooter_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.PEA_SHOOTER, 0x22b341, 0x19732e,
                     new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
-
+    public static final RegistryObject<Item> SUN_FLOWER_SPAWN_EGG = ITEMS.register("sun_flower_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.SUNFLOWER, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+    public static final RegistryObject<Item> WALL_NUT_SPAWN_EGG = ITEMS.register("wall_nut_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.WALLNUT, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
     public static final RegistryObject<Item> PUFF_SHROOM_SPAWN_EGG = ITEMS.register("puff_shroom_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntityTypes.PUFF_SHROOM, 0x22b341, 0x19732e,
                     new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
 
-    public static final RegistryObject<Item> FUME_SHROOM_SPAWN_EGG = ITEMS.register("fume_shroom_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntityTypes.FUME_SHROOM, 0x22b341, 0x19732e,
+    public static final RegistryObject<Item> PUFF_SHROOM_SLEEP_SPAWN_EGG = ITEMS.register("puff_shroom_sleep_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.PUFF_SHROOM_SLEEP, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+    public static final RegistryObject<Item> LILY_PAD_SPAWN_EGG = ITEMS.register("lily_pad_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.LILY_PAD, 0x22b341, 0x19732e,
                     new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
 
-    public static final RegistryObject<Item> GRAVE_BUSTER_SPAWN_EGG = ITEMS.register("grave_buster_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntityTypes.GRAVE_BUSTER, 0x22b341, 0x19732e,
+    public static final RegistryObject<Item> SQUASH_SPAWN_EGG = ITEMS.register("squash_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.SQUASH, 0x22b341, 0x19732e,
                     new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
 
-    public static final RegistryObject<Item> HYPNO_SHROOM_SPAWN_EGG = ITEMS.register("hypno_shroom_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntityTypes.HYPNO_SHROOM, 0x22b341, 0x19732e,
+    public static final RegistryObject<Item> THREEPEATER_SPAWN_EGG = ITEMS.register("threepeater_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.THREEPEATER, 0x22b341, 0x19732e,
                     new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
 
-    public static final RegistryObject<Item> SCAREDY_SHROOM_SPAWN_EGG = ITEMS.register("scaredy_shroom_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntityTypes.SCAREDY_SHROOM, 0x22b341, 0x19732e,
+    public static final RegistryObject<Item> TANGLE_KELP_SPAWN_EGG = ITEMS.register("tangle_kelp_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.TANGLE_KELP, 0x22b341, 0x19732e,
                     new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
 
-    public static final RegistryObject<Item> ICE_SHROOM_SPAWN_EGG = ITEMS.register("ice_shroom_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntityTypes.ICE_SHROOM, 0x22b341, 0x19732e,
+    public static final RegistryObject<Item> JALAPENO_SPAWN_EGG = ITEMS.register("jalapeno_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.JALAPENO, 0x22b341, 0x19732e,
                     new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
 
-    public static final RegistryObject<Item> DOOM_SHROOM_SPAWN_EGG = ITEMS.register("doom_shroom_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntityTypes.DOOM_SHROOM, 0x22b341, 0x19732e,
+    public static final RegistryObject<Item> SPIKE_WEED_SPAWN_EGG = ITEMS.register("spike_weed_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.SPIKEWEED, 0x22b341, 0x19732e,
                     new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
 
-    public static final RegistryObject<Item> NEWSPAPER_ZOMBIE_SPAWN_EGG = ITEMS.register("newspaper_zombie_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntityTypes.NEWSPAPER_ZOMBIE, 0x22b341, 0x19732e,
+    public static final RegistryObject<Item> TORCH_WOOD_SPAWN_EGG = ITEMS.register("torch_wood_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.TORCHWOOD, 0x22b341, 0x19732e,
                     new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
 
-    public static final RegistryObject<Item> SCREEN_DOOR_ZOMBIE_SPAWN_EGG = ITEMS.register("screen_door_zombie_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntityTypes.SCREEN_DOOR_ZOMBIE, 0x22b341, 0x19732e,
+    public static final RegistryObject<Item> TALL_NUT_SPAWN_EGG = ITEMS.register("tall_nut_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.TALLNUT, 0x22b341, 0x19732e,
                     new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
 
-    public static final RegistryObject<Item> FOOTBALL_ZOMBIE_SPAWN_EGG = ITEMS.register("football_zombie_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntityTypes.FOOTBALL_ZOMBIE, 0x22b341, 0x19732e,
+    public static final RegistryObject<Item> CONE_HEAD_ZOMBIE_SPAWN_EGG = ITEMS.register("dancing_zombie_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.CONEHEAD_ZOMBIE, 0x22b341, 0x19732e,
                     new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
 
-    public static final RegistryObject<Item> DANCING_ZOMBIE_SPAWN_EGG = ITEMS.register("dancing_zombie_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntityTypes.DANCING_ZOMBIE, 0x22b341, 0x19732e,
+    public static final RegistryObject<Item> BUCKET_HEAD_ZOMBIE_SPAWN_EGG = ITEMS.register("backup_zombie_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.BUCKETHEAD_ZOMBIE, 0x22b341, 0x19732e,
                     new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
 
-    public static final RegistryObject<Item> BACKUP_ZOMBIE_SPAWN_EGG = ITEMS.register("backup_zombie_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntityTypes.BACKUP_ZOMBIE, 0x22b341, 0x19732e,
+    public static final RegistryObject<Item> GRAVE1_SPAWN_EGG = ITEMS.register("grave1_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.GRAVE1, 0x22b341, 0x19732e,
                     new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
 
+    public static final RegistryObject<Item> GRAVE2_SPAWN_EGG = ITEMS.register("grave2_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.GRAVE2, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+    public static final RegistryObject<Item> HOUSE_DOOR_1_SPAWN_EGG = ITEMS.register("house_door_1_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.HOUSE_DOOR_1, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+    public static final RegistryObject<Item> STONE_1_SPAWN_EGG = ITEMS.register("stone1_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.STONE1, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+    public static final RegistryObject<Item> STONE_2_SPAWN_EGG = ITEMS.register("stone2_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.STONE2, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+    public static final RegistryObject<Item> FENCE_SPAWN_EGG = ITEMS.register("fence_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.FENCE, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+    public static final RegistryObject<Item> SUBMARINE_SPAWN_EGG = ITEMS.register("submarine_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.SUB_MARINE, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+    public static final RegistryObject<Item> HOUSE_DOOR_2_SPAWN_EGG = ITEMS.register("house_door_2_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.HOUSE_DOOR_2, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+    public static final RegistryObject<Item> LIFE_GUARD_TOWER_SPAWN_EGG = ITEMS.register("life_guard_tower_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.LIFE_GUARD_TOWER, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+    public static final RegistryObject<Item> DUCK_SPAWN_EGG = ITEMS.register("duck_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.DUCK, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+    public static final RegistryObject<Item> POOL_CHAIR_SPAWN_EGG = ITEMS.register("pool_chair_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.POOL_CHAIR, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+    public static final RegistryObject<Item> DUCK_TUBE_BUCKET_HEAD_ZOMBIE_SPAWN_EGG = ITEMS.register("duck_tube_bucket_head_zombie_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.DUCK_TUBE_BUCKET_HEAD_ZOMBIE, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+    public static final RegistryObject<Item> DUCK_TUBE_CONE_HEAD_ZOMBIE_SPAWN_EGG = ITEMS.register("duck_tube_cone_head_zombie_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.DUCK_TUBE_CONE_HEAD_ZOMBIE, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+    public static final RegistryObject<Item> DUCK_TUBE_ZOMBIE_SPAWN_EGG = ITEMS.register("duck_tube_zombie_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.DUCK_TUBE_ZOMBIE, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+    public static final RegistryObject<Item> SNORKEL_ZOMBIE_SPAWN_EGG = ITEMS.register("snorkel_zombie_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.SNORKEL_ZOMBIE, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+    public static final RegistryObject<Item> ZOMBONI_SPAWN_EGG = ITEMS.register("zomboni_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.ZOMBONI, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+    public static final RegistryObject<Item> ZOMBIE_BOBSLED_TEAM_SPAWN_EGG = ITEMS.register("zombie_bobsled_team_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.ZOMBIE_BOBSLED_TEAM, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+    public static final RegistryObject<Item> DOLPHIN_RIDER_ZOMBIE_SPAWN_EGG = ITEMS.register("dolphin_rider_zombie_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.DOLPHIN_RIDER_ZOMBIE, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+    public static final RegistryObject<Item> FREEZE_ZOMBIE_SPAWN_EGG = ITEMS.register("freeze_zombie_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.FREEZE_ZOMBIE, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+    public static final RegistryObject<Item> ASH_ZOMBIE_SPAWN_EGG = ITEMS.register("ash_zombie_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.ASH_ZOMBIE, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+    public static final RegistryObject<Item> GRAVE3_SPAWN_EGG = ITEMS.register("grave3_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.GRAVE3, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
 
     public static final RegistryObject<Item> ZIRCON = ITEMS.register("zircon", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_FOOD)));
 
 
     public static final RegistryObject<Item> ZOMBIE_HAND = ITEMS.register("zombie_hand", () -> new ZombieHandItem(new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+    public static final RegistryObject<Item> LARGE_SUN = ITEMS.register("large_sun", () -> new LargeSunItem(new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+
+    public static final RegistryObject<Item> SMALL_SUN = ITEMS.register("small_sun", () -> new SmallSunItem(new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+    public static final RegistryObject<Item> PAPER = ITEMS.register("paper", () -> new PaperItem(new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+    public static final RegistryObject<Item> FOOTBALL_ITEM = ITEMS.register("football_helmet", () -> new FootballHelmetItem(new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+    public static final RegistryObject<Item> LILY_PAD_ITEM = ITEMS.register("lily_pad", () -> new LilyPadItem(new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+    public static final RegistryObject<Item> LILY_PAD_PEA_SHOOTER_ITEM = ITEMS.register("lily_pad_pea_shooter", () -> new LilyPadPeaShooterItem(new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
 
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);

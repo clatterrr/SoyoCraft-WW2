@@ -3,6 +3,9 @@ package com.example.examplemod;
 import com.example.examplemod.block.ModBlocks;
 import com.example.examplemod.entity.ModEntityTypes;
 import com.example.examplemod.entity.client.*;
+import com.example.examplemod.entity.custom.DuckTubeConeHeadZombieEntity;
+import com.example.examplemod.entity.custom.HouseDoor1Entity;
+import com.example.examplemod.entity.custom.PuffShroomSleepEntity;
 import com.example.examplemod.item.ModItems;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
@@ -57,6 +60,7 @@ public class ExampleMod
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModEntityTypes.register(modEventBus);
+        //ModBlockEntities.register(modEventBus);
 
         // Register the Deferred Register to the mod event bus so blocks get registered
         BLOCKS.register(modEventBus);
@@ -94,21 +98,43 @@ public class ExampleMod
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
 
+            EntityRenderers.register(ModEntityTypes.HOUSE_DOOR_1.get(), HouseDoor1Renderer::new);
+            EntityRenderers.register(ModEntityTypes.HOUSE_DOOR_2.get(), HouseDoor2Renderer::new);
+            EntityRenderers.register(ModEntityTypes.LIFE_GUARD_TOWER.get(), LifeGuardTowerRenderer::new);
+            EntityRenderers.register(ModEntityTypes.POOL_CHAIR.get(), PoolChairRenderer::new);
+            EntityRenderers.register(ModEntityTypes.DUCK.get(), DuckRenderer::new);
+            EntityRenderers.register(ModEntityTypes.STONE1.get(), Stone1Renderer::new);
+            EntityRenderers.register(ModEntityTypes.STONE2.get(), Stone2Renderer::new);
+            EntityRenderers.register(ModEntityTypes.FENCE.get(), FenceRenderer::new);
+            EntityRenderers.register(ModEntityTypes.SUB_MARINE.get(), SubMarineRenderer::new);
+
             EntityRenderers.register(ModEntityTypes.PUFF_SHROOM.get(), PuffShroomRenderer::new);
-            EntityRenderers.register(ModEntityTypes.SUN_SHROOM.get(), SunShroomRenderer::new);
-            EntityRenderers.register(ModEntityTypes.FUME_SHROOM.get(), FumeShroomRenderer::new);
-            EntityRenderers.register(ModEntityTypes.GRAVE_BUSTER.get(), GraveBusterRenderer::new);
-            EntityRenderers.register(ModEntityTypes.HYPNO_SHROOM.get(), HypnoShroomRenderer::new);
-            EntityRenderers.register(ModEntityTypes.SCAREDY_SHROOM.get(), ScaredyShroomRenderer::new);
-            EntityRenderers.register(ModEntityTypes.ICE_SHROOM.get(), IceShroomRenderer::new);
-            EntityRenderers.register(ModEntityTypes.DOOM_SHROOM.get(), DoomShroomRenderer::new);
+            EntityRenderers.register(ModEntityTypes.LILY_PAD.get(), LilyPadRenderer::new);
+            EntityRenderers.register(ModEntityTypes.PEA_SHOOTER.get(), PeaShooterRenderer::new);
+            EntityRenderers.register(ModEntityTypes.PUFF_SHROOM_SLEEP.get(), PuffShroomSleepRenderer::new);
+            EntityRenderers.register(ModEntityTypes.SQUASH.get(), SquashRenderer::new);
+            EntityRenderers.register(ModEntityTypes.THREEPEATER.get(), ThreepeaterRenderer::new);
+            EntityRenderers.register(ModEntityTypes.TANGLE_KELP.get(), TangleKelpRenderer::new);
+
+            EntityRenderers.register(ModEntityTypes.NORMAL_ZOMBIE.get(), NormalZombieRenderer::new);
+            EntityRenderers.register(ModEntityTypes.DUCK_TUBE_ZOMBIE.get(), DuckTubeZombieRenderer::new);
+            EntityRenderers.register(ModEntityTypes.CONEHEAD_ZOMBIE.get(), ConeheadZombieRenderer::new);
+            EntityRenderers.register(ModEntityTypes.BUCKETHEAD_ZOMBIE.get(), BucketheadRenderer::new);
+            EntityRenderers.register(ModEntityTypes.DUCK_TUBE_CONE_HEAD_ZOMBIE.get(), DuckTubeConeheadZombieRenderer::new);
+            EntityRenderers.register(ModEntityTypes.DUCK_TUBE_BUCKET_HEAD_ZOMBIE.get(), DuckTubeBucketheadZombieRenderer::new);
+            EntityRenderers.register(ModEntityTypes.SNORKEL_ZOMBIE.get(), SnorkelZombieRenderer::new);
+
+            EntityRenderers.register(ModEntityTypes.NORMAL_ZOMBIE.get(), NormalZombieRenderer::new);
             EntityRenderers.register(ModEntityTypes.NORMAL_ZOMBIE.get(), NormalZombieRenderer::new);
             EntityRenderers.register(ModEntityTypes.NEWSPAPER_ZOMBIE.get(), NewspaperZombieRenderer::new);
-            EntityRenderers.register(ModEntityTypes.SCREEN_DOOR_ZOMBIE.get(), ScreenDoorZombieRenderer::new);
-            EntityRenderers.register(ModEntityTypes.FOOTBALL_ZOMBIE.get(), FootballZombieRenderer::new);
-            EntityRenderers.register(ModEntityTypes.DANCING_ZOMBIE.get(), DancingZombieRenderer::new);
-            EntityRenderers.register(ModEntityTypes.BACKUP_ZOMBIE.get(), BackupZombieRenderer::new);
-            EntityRenderers.register(ModEntityTypes.ZOMBIE_HAND.get(), ZombieHandRenderer::new);
+            EntityRenderers.register(ModEntityTypes.GRAVE1.get(), Grave1Renderer::new);
+            EntityRenderers.register(ModEntityTypes.GRAVE2.get(), Grave2Renderer::new);
+            EntityRenderers.register(ModEntityTypes.GRAVE3.get(), Grave3Renderer::new);
+            EntityRenderers.register(ModEntityTypes.ASH_ZOMBIE.get(), AshZombieRenderer::new);
+
+            EntityRenderers.register(ModEntityTypes.MAGIC_PROJECTILE.get(), MagicProjectileRenderer::new);
+            EntityRenderers.register(ModEntityTypes.SPORES_PROJECTILE.get(), SporesProjectileRenderer::new);
+            EntityRenderers.register(ModEntityTypes.HURT_PROJECTILE.get(), HurtProjectileRenderer::new);
         }
     }
 }

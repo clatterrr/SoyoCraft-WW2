@@ -1,7 +1,7 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"animation.fume_shroom.idle": {
+		"animation.ice_shroom.idle": {
 			"animation_length": 1
 		}
 	},

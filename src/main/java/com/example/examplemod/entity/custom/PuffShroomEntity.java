@@ -1,8 +1,13 @@
 package com.example.examplemod.entity.custom;
 
+import com.example.examplemod.entity.client.SporesProjectileModel;
 import com.example.examplemod.item.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
@@ -13,6 +18,7 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.monster.Husk;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
@@ -20,6 +26,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -29,10 +36,15 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class PuffShroomEntity extends ThePlantEntity implements IAnimatable {
+
+    private static final EntityDataAccessor<Boolean> ATTACKING =
+            SynchedEntityData.defineId(NormalZombieEntity.class, EntityDataSerializers.BOOLEAN);
     private AnimationFactory factory = new AnimationFactory(this);
 
     public PuffShroomEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
+
         super(pEntityType, pLevel);
+        this.setNoGravity(true);
     }
 
     public static AttributeSupplier setAttributes() {
@@ -40,23 +52,26 @@ public class PuffShroomEntity extends ThePlantEntity implements IAnimatable {
                 .add(Attributes.MAX_HEALTH, 15.0D)
                 .add(Attributes.ATTACK_DAMAGE, 3.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
-                .add(Attributes.MOVEMENT_SPEED, 0.15f).build();
+                .add(Attributes.KNOCKBACK_RESISTANCE, 100f)
+                .add(Attributes.MOVEMENT_SPEED, 0.0f).build();
     }
 
     private boolean drop_hand = false;
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new SummonGoal());
-        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.2D, false));
-        //this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Villager.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, TheZombieEntity.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.puff_shroom.idle", true));
+        if(this.isAttacking()){
+
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.puff_shroom.attack", true));
+        }else {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.puff_shroom.idle", true));
+        }
         return PlayState.CONTINUE;
     }
 
@@ -66,12 +81,6 @@ public class PuffShroomEntity extends ThePlantEntity implements IAnimatable {
                 0, this::predicate));
     }
 
-    private boolean hit_by_snow = false;
-
-    public void hit_snow(){
-        this.setSpeed(0.7F);
-        this.hit_by_snow = true;
-    }
 
     @Override
     public AnimationFactory getFactory() {
@@ -98,61 +107,71 @@ public class PuffShroomEntity extends ThePlantEntity implements IAnimatable {
         return 0.2F;
     }
 
-    public void tick(){
-        super.tick();
-        if(this.getHealth() < 10 && this.drop_hand == false){
-            this.drop_hand = true;
-            this.spawnAtLocation(ModItems.ZOMBIE_HAND.get());
-        }
-        if(this.hit_by_snow == true){
-            final double d0 = this.random.nextGaussian() * 0.2D;
-            final double d1 = this.random.nextGaussian() * 0.2D;
-            final double d2 = this.random.nextGaussian() * 0.2D;
-            this.getLevel().addParticle(ParticleTypes.SNOWFLAKE, this.getX(), this.getY(), this.getZ(), d0, d1, d2);
-        }
+    public void setAttacking(boolean attacking) {
+        this.entityData.set(ATTACKING, attacking);
     }
 
-    public class SummonGoal extends Goal {
-        private final PuffShroomEntity cactus;
+    public boolean isAttacking() {
+        return this.entityData.get(ATTACKING);
+    }
 
-        public SummonGoal() {
-            cactus = PuffShroomEntity.this;
-            cactuspos = cactus.getOnPos();
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(ATTACKING, false);
+    }
+
+    public void tick(){
+        this.yBodyRot = 90;
+        this.setPos(this.position().x, -60, this.position().z);
+
+        super.tick();
+
+    }
+
+    public class ShootGoal extends Goal {
+        private final PuffShroomEntity shroom;
+
+        public ShootGoal() {
+            shroom = PuffShroomEntity.this;
         }
 
         private int cool_down = 0;
-        private BlockPos cactuspos;
 
         @Override
         public boolean canUse() {
 
-            BlockPos thepos = this.cactus.getOnPos();
+            if(this.shroom.getTarget() != null){
 
-            int search_radius = 3;
-            for (int i = -search_radius; i <= search_radius; i++) {
-                for (int j = -search_radius; j <= search_radius; j++) {
-                    for (int k = 0; k <= 2; k++) {
-                        BlockPos newpos = new BlockPos(thepos.getX() + i, thepos.getY() + k, thepos.getZ() + j);
-                        Block bp = this.cactus.getLevel().getBlockState(newpos).getBlock();
-                        if (bp == Blocks.CACTUS) {
-                            this.cactuspos = newpos;
-                            return true;
-                        }
-                    }
+                BlockPos bp0 = this.shroom.getTarget().getOnPos();
+                BlockPos bp1 = this.shroom.getOnPos();
+
+                if(bp0.getZ() - bp1.getZ() < 8 && bp0.getZ() - bp1.getZ() > -1 ){
+                    this.shroom.setAttacking(true);
+                    return true;
                 }
             }
+            this.shroom.setAttacking(false);
             return false;
         }
 
         public void tick() {
+            Vec3 p = this.shroom.getTarget().position();
+            final double d0 = this.shroom.random.nextGaussian() * 0.2D;
+            final double d1 = this.shroom.random.nextGaussian() * 0.2D;
+            final double d2 = this.shroom.random.nextGaussian() * 0.2D;
+            this.shroom.getLevel().addParticle(ParticleTypes.SPLASH, p.x, p.y, p.z, d0, d1, d2);
             this.cool_down += 1;
-            if (this.cactuspos != this.cactus.getOnPos()) {
-                if (this.cool_down > 5) {
-                    this.cactus.getLevel().destroyBlock(this.cactuspos, false);
-                    PuffShroomEntity c = new PuffShroomEntity((EntityType<? extends Monster>) this.cactus.getType(), this.cactus.getLevel());
-                    c.setPos(this.cactuspos.getX(), this.cactuspos.getY(), this.cactuspos.getZ());
-                    this.cactus.getLevel().addFreshEntity(c);
-                }
+            if(this.cool_down > 5) {
+
+
+                SporesProjectileEntity pea = new SporesProjectileEntity(this.shroom.getLevel(), this.shroom);
+                pea.shootFromRotation(this.shroom, this.shroom.getXRot(), this.shroom.yBodyRot, 0.0F, 1F, 1F);
+                shroom.getLevel().addFreshEntity(pea);
+                HurtProjectileEntity pea2 = new HurtProjectileEntity(this.shroom.getLevel(), this.shroom);
+                pea2.shootFromRotation(this.shroom, this.shroom.getXRot(), this.shroom.yBodyRot, 0.0F, 1F, 1F);
+                shroom.getLevel().addFreshEntity(pea2);
+                this.cool_down = 0;
             }
         }
     }
