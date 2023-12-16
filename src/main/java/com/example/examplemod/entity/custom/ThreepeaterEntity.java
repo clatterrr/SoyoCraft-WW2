@@ -1,5 +1,6 @@
 package com.example.examplemod.entity.custom;
 
+import com.example.examplemod.entity.ModEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -37,6 +38,7 @@ public class ThreepeaterEntity extends ThePlantEntity implements IAnimatable {
 
     public ThreepeaterEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+        this.setNoGravity(true);
     }
 
     public static AttributeSupplier setAttributes() {
@@ -111,45 +113,41 @@ public class ThreepeaterEntity extends ThePlantEntity implements IAnimatable {
     private int cool_down = 0;
     public void tick(){
         this.yBodyRot = 0;
+        this.setDeltaMovement(0,0,0);
         super.tick();
+        this.setDeltaMovement(0,0,0);
         this.cool_down += 1;
         List<TheZombieEntity> zombies = this.level.getEntitiesOfClass(TheZombieEntity.class, this.getBoundingBox().inflate(8));
         if(!zombies.isEmpty()){
             for(int i = 0; i < zombies.size();i++){
                 TheZombieEntity z = zombies.get(i);
+                if(z instanceof SnorkelZombieEntity s){
+                    if(s.Style() == 0){
+                        continue;
+                    }
+                }
                 int zd = z.getOnPos().getX() - this.getOnPos().getX();
                 if(z.getOnPos().getZ() >= this.getOnPos().getZ() && zd >= -1 && zd <= 1){
                     if(this.cool_down > 8){
                         this.cool_down = 0;
 
+
+                        BlockPos bpq = this.getOnPos();
                         {
-                            SporesProjectileEntity pea = new SporesProjectileEntity(this.getLevel(), this, new Vec3(1.0f, 0.7f, 0f));
-                            pea.shootFromRotation(this, this.getXRot(), this.yBodyRot, 0.0F, 1F, 1F);
+                            PeaProjectileEntity pea = new PeaProjectileEntity(ModEntityTypes.PEA_PROJECTILE.get(), this.level);
+                            pea.setPos(bpq.getX() + 0.5f, bpq.getY() + 1.7f, bpq.getZ() + 1.3f);
                             this.getLevel().addFreshEntity(pea);
-                            HurtProjectileEntity pea2 = new HurtProjectileEntity(this.getLevel(), this, pea);
-                            pea2.shootFromRotation(this, this.getXRot(), this.yBodyRot, 0.0F, 1F, 1F);
-                            this.getLevel().addFreshEntity(pea2);
                         }
-
                         {
-                            SporesProjectileEntity pea = new SporesProjectileEntity(this.getLevel(), this, new Vec3(0.0f, 0.2f, 0f));
-                            pea.shootFromRotation(this, this.getXRot(), this.yBodyRot, 0.0F, 1F, 1F);
+                            PeaProjectileEntity pea = new PeaProjectileEntity(ModEntityTypes.PEA_PROJECTILE.get(), this.level);
+                            pea.setPos(bpq.getX() + 1.5f, bpq.getY() + 2.5f, bpq.getZ() + 1.3f);
                             this.getLevel().addFreshEntity(pea);
-                            HurtProjectileEntity pea2 = new HurtProjectileEntity(this.getLevel(), this, pea);
-                            pea2.shootFromRotation(this, this.getXRot(), this.yBodyRot, 0.0F, 1F, 1F);
-                            this.getLevel().addFreshEntity(pea2);
                         }
-
                         {
-                            SporesProjectileEntity pea = new SporesProjectileEntity(this.getLevel(), this, new Vec3(-1.0f, 0.6f, 0f));
-                            pea.shootFromRotation(this, this.getXRot(), this.yBodyRot, 0.0F, 1F, 1F);
+                            PeaProjectileEntity pea = new PeaProjectileEntity(ModEntityTypes.PEA_PROJECTILE.get(), this.level);
+                            pea.setPos(bpq.getX() - 0.5f, bpq.getY() + 2.3, bpq.getZ() + 1.3f);
                             this.getLevel().addFreshEntity(pea);
-                            HurtProjectileEntity pea2 = new HurtProjectileEntity(this.getLevel(), this, pea);
-                            pea2.shootFromRotation(this, this.getXRot(), this.yBodyRot, 0.0F, 1F, 1F);
-                            this.getLevel().addFreshEntity(pea2);
                         }
-
-
                     }
                 }
             }

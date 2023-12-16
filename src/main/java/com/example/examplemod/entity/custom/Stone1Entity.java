@@ -10,9 +10,12 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.axolotl.Axolotl;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.Silverfish;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FluidState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
@@ -26,15 +29,17 @@ public class Stone1Entity extends Monster implements IAnimatable {
     private int counter = 0;
     private int cool_down = 0;
 
+
     public Stone1Entity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 1500.0D)
+                .add(Attributes.MAX_HEALTH, 10.0D)
                 .add(Attributes.ATTACK_DAMAGE, 3.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
+                .add(Attributes.ARMOR, 10)
                 .add(Attributes.MOVEMENT_SPEED, 0.15f).build();
     }
 
@@ -43,6 +48,11 @@ public class Stone1Entity extends Monster implements IAnimatable {
     @Override
     protected void registerGoals() {
 
+    }
+
+    @Override
+    public boolean canStandOnFluid(FluidState p_204042_) {
+        return true;
     }
 
 
@@ -83,6 +93,7 @@ public class Stone1Entity extends Monster implements IAnimatable {
     public int Style() {
         return this.entityData.get(STYLE);
     }
+
 
     @Override
     protected void defineSynchedData() {

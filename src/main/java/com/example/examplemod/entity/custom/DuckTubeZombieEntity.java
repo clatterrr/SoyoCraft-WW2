@@ -39,15 +39,6 @@ public class DuckTubeZombieEntity extends TheZombieEntity implements IAnimatable
     public DuckTubeZombieEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.setNoGravity(true);
-        //this.setPathfindingMalus(BlockPathTypes.WATER, 8.0f);
-        double r = pLevel.random.nextGaussian();
-        if(r < 0.4){
-            this.setStyle(0);
-        }else if(r < 0.6){
-            this.setStyle(1);
-        }else {
-            this.setStyle(2);
-        }
     }
 
     public static AttributeSupplier setAttributes() {
@@ -121,26 +112,32 @@ public class DuckTubeZombieEntity extends TheZombieEntity implements IAnimatable
     int kill_tick = 0;
     public void tick() {
 
-        if (this.getTarget() != null) {
-            double dx = this.getX() - this.getTarget().getX();
-            double dz = this.getZ() - this.getTarget().getZ();
-
-            if ((dx * dx + dz * dz) < 4.0) {
-                this.setAttacking(true);
-            }
-        }
-        if(this.getHealth() < 10){
-            this.kill_tick += 1;
-            this.setDeltaMovement(0, -0.1f, 0);
-            if(this.kill_tick > 40){
-                this.kill();
-            }
+        /*
+        if(this.kelped == true){
+            this.setDeltaMovement(0,-0.1f, 0);
         }else{
+            if (this.getTarget() != null) {
+                double dx = this.getX() - this.getTarget().getX();
+                double dz = this.getZ() - this.getTarget().getZ();
 
-            this.setDeltaMovement(0, 0, -0.01f);
+                if ((dx * dx + dz * dz) < 4.0) {
+                    this.setAttacking(true);
+                }
+            }
+            if(this.getHealth() < 10){
+                this.kill_tick += 1;
+                this.setDeltaMovement(0, -0.1f, 0);
+                if(this.kill_tick > 40){
+                    this.kill();
+                }
+            }else{
+
+                this.setDeltaMovement(0, 0, -0.01f);
+            }
         }
+        */
         super.tick();
-        this.yBodyRot = 0;
+        this.yBodyRot = 180;
     }
 
     public void setAttacking(boolean attacking) {

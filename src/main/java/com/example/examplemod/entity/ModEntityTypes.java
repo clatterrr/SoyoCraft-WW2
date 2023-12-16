@@ -27,6 +27,12 @@ public class ModEntityTypes {
                             .sized(0.4f, 1.5f)
                             .build(new ResourceLocation(ExampleMod.MODID, "puff_shroom").toString()));
 
+    public static final RegistryObject<EntityType<PeaProjectileEntity>> PEA_PROJECTILE =
+            ENTITY_TYPES.register("pea_projectile",
+                    () -> EntityType.Builder.of(PeaProjectileEntity::new, MobCategory.MONSTER)
+                            .sized(0.4f, 1.5f)
+                            .build(new ResourceLocation(ExampleMod.MODID, "pea_projectile").toString()));
+
     public static final RegistryObject<EntityType<PuffShroomSleepEntity>> PUFF_SHROOM_SLEEP =
             ENTITY_TYPES.register("puff_shroom_sleep",
                     () -> EntityType.Builder.of(PuffShroomSleepEntity::new, MobCategory.MONSTER)
@@ -214,30 +220,6 @@ public class ModEntityTypes {
                     () -> EntityType.Builder.of(Grave3Entity::new, MobCategory.MONSTER)
                             .sized(0.4f, 1.5f)
                             .build(new ResourceLocation(ExampleMod.MODID, "grave3").toString()));
-
-    public static final RegistryObject<EntityType<MagicProjectileEntity>> MAGIC_PROJECTILE =
-            ENTITY_TYPES.register("magic_projectile",
-                    () -> EntityType.Builder.<MagicProjectileEntity>of(MagicProjectileEntity::new, MobCategory.MISC)
-                            .sized(0.5f, 0.5f)
-                            .clientTrackingRange(4)
-                            .updateInterval(20)
-                            .build("magic_projectile"));
-
-    public static final RegistryObject<EntityType<SporesProjectileEntity>> SPORES_PROJECTILE =
-            ENTITY_TYPES.register("spores_projectile",
-                    () -> EntityType.Builder.<SporesProjectileEntity>of(SporesProjectileEntity::new, MobCategory.MISC)
-                            .sized(0.5f, 0.5f)
-                            .clientTrackingRange(4)
-                            .updateInterval(20)
-                            .build("spores_projectile"));
-
-    public static final RegistryObject<EntityType<HurtProjectileEntity>> HURT_PROJECTILE =
-            ENTITY_TYPES.register("hurt_projectile",
-                    () -> EntityType.Builder.<HurtProjectileEntity>of(HurtProjectileEntity::new, MobCategory.MISC)
-                            .sized(0.5f, 0.5f)
-                            .clientTrackingRange(4)
-                            .updateInterval(20)
-                            .build("hurt_projectile"));
 
     public static final RegistryObject<EntityType<ZombieHandEntity>> ZOMBIE_HAND =
             ENTITY_TYPES.register("zombie_hand",

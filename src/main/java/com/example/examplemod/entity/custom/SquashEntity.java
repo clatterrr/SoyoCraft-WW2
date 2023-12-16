@@ -60,6 +60,7 @@ public class SquashEntity extends Monster implements IAnimatable {
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+
         if(this.isAttacking() == 0){
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.squash.idle", true));
         }else if(this.isAttacking() == 1){
@@ -71,6 +72,8 @@ public class SquashEntity extends Monster implements IAnimatable {
         }else{
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.squash.attack_left", true));
         }
+
+        //event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.squash.move", true));
         return PlayState.CONTINUE;
     }
 
@@ -124,7 +127,9 @@ public class SquashEntity extends Monster implements IAnimatable {
 
     public void tick(){
         this.yBodyRot = 90;
+        this.setDeltaMovement(0,0,0);
         super.tick();
+        this.setDeltaMovement(0,0,0);
 
         if(this.isAttacking() >= 3){
             this.kill_count += 1;
@@ -176,5 +181,6 @@ public class SquashEntity extends Monster implements IAnimatable {
                 this.setAttacking(3);
             }
         }
+
     }
 }

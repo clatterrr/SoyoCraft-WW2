@@ -132,9 +132,7 @@ public class ExampleMod
             EntityRenderers.register(ModEntityTypes.GRAVE3.get(), Grave3Renderer::new);
             EntityRenderers.register(ModEntityTypes.ASH_ZOMBIE.get(), AshZombieRenderer::new);
 
-            EntityRenderers.register(ModEntityTypes.MAGIC_PROJECTILE.get(), MagicProjectileRenderer::new);
-            EntityRenderers.register(ModEntityTypes.SPORES_PROJECTILE.get(), SporesProjectileRenderer::new);
-            EntityRenderers.register(ModEntityTypes.HURT_PROJECTILE.get(), HurtProjectileRenderer::new);
+            EntityRenderers.register(ModEntityTypes.PEA_PROJECTILE.get(), PeaProjectileRenderer::new);
         }
     }
 }

@@ -26,6 +26,8 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
+import java.util.List;
+
 public class SnorkelZombieEntity extends TheZombieEntity implements IAnimatable {
 
     private static final EntityDataAccessor<Boolean> ATTACKING =
@@ -37,14 +39,7 @@ public class SnorkelZombieEntity extends TheZombieEntity implements IAnimatable 
 
     public SnorkelZombieEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
-        double r = pLevel.random.nextGaussian();
-        if(r < 0.4){
-            this.setStyle(0);
-        }else if(r < 0.6){
-            this.setStyle(1);
-        }else {
-            this.setStyle(2);
-        }
+        this.setNoGravity(true);
     }
 
     public static AttributeSupplier setAttributes() {
@@ -59,10 +54,6 @@ public class SnorkelZombieEntity extends TheZombieEntity implements IAnimatable 
 
     @Override
     protected void registerGoals() {
-        //this.goalSelector.addGoal(1, new SummonGoal());
-
-         this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.2D, false));
-        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, ThePlantEntity.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
@@ -71,37 +62,19 @@ public class SnorkelZombieEntity extends TheZombieEntity implements IAnimatable 
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 
-
-        if(this.getHealth() > 20){
-            if(this.isAttacking() == true){
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.attack", true));
+        if(this.Style() == 0){
+            if(this.getHealth() >= 20){
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.snorkel_zombie.swim", true));
             }else{
-                if(this.Style() == 0){
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk", true));
-                }else if(this.Style() == 1){
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk2", true));
-                }else {
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk3", true));
-                }
-
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.snorkel_zombie.swim2", true));
             }
-        }else {
-            if(this.isAttacking()){
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.attack2", true));
+        }else if(this.Style() == 1){
+            if(this.getHealth() >= 20){
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.snorkel_zombie.attack", true));
             }else{
-                if(this.Style() == 0){
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk1_1", true));
-                }else if(this.Style() == 1){
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk2_1", true));
-                }else {
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk3_1", true));
-                }
-
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.snorkel_zombie.attack2", true));
             }
         }
-
-
-
         return PlayState.CONTINUE;
     }
 
@@ -140,15 +113,36 @@ public class SnorkelZombieEntity extends TheZombieEntity implements IAnimatable 
 
     public void tick() {
 
-        if (this.getTarget() != null) {
-            double dx = this.getX() - this.getTarget().getX();
-            double dz = this.getZ() - this.getTarget().getZ();
 
-            if ((dx * dx + dz * dz) < 4.0) {
-                this.setAttacking(true);
+        if(this.kelped == true){
+            this.setDeltaMovement(0,-0.1f, 0);
+        }else {
+            ThePlantEntity target = null;
+            Boolean could_attack = false;
+            List<ThePlantEntity> zombies = this.level.getEntitiesOfClass(ThePlantEntity.class, this.getBoundingBox().inflate(1));
+            if(!zombies.isEmpty()) {
+                for (int i = 0; i < zombies.size(); i++) {
+                    ThePlantEntity p = zombies.get(i);
+                    if(p.getOnPos().getX() == this.getOnPos().getX() && p.getOnPos().getZ() <= this.getOnPos().getZ()){
+                        could_attack = true;
+                        target = p;
+                        break;
+                    }
+                }
+            }
+            if(could_attack == true){
+                this.setStyle(1);
+                this.setDeltaMovement(0, 0, 0);
+                target.hurt(DamageSource.GENERIC, 3f);
+            }else{
+                this.setDeltaMovement(0, 0, -0.01f);
+                this.setStyle(0);
             }
         }
+
+
         super.tick();
+        this.yBodyRot = 180;
     }
 
     public void setAttacking(boolean attacking) {

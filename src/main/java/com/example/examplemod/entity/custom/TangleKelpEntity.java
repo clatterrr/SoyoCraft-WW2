@@ -27,7 +27,9 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class TangleKelpEntity extends ThePlantEntity implements IAnimatable {
+import java.util.List;
+
+public class TangleKelpEntity extends Monster implements IAnimatable {
 
     private static final EntityDataAccessor<Boolean> ATTACKING =
             SynchedEntityData.defineId(NormalZombieEntity.class, EntityDataSerializers.BOOLEAN);
@@ -35,6 +37,7 @@ public class TangleKelpEntity extends ThePlantEntity implements IAnimatable {
 
     public TangleKelpEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+        this.setNoGravity(true);
     }
 
     public static AttributeSupplier setAttributes() {
@@ -50,7 +53,6 @@ public class TangleKelpEntity extends ThePlantEntity implements IAnimatable {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new ShootGoal());
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Villager.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, TheZombieEntity.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
@@ -59,9 +61,9 @@ public class TangleKelpEntity extends ThePlantEntity implements IAnimatable {
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         if(this.isAttacking()){
 
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.puff_shroom.attack", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.tangle_kelp.attack", true));
         }else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.puff_shroom.idle", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.tangle_kelp.idle", true));
         }
         return PlayState.CONTINUE;
     }
@@ -112,57 +114,39 @@ public class TangleKelpEntity extends ThePlantEntity implements IAnimatable {
         this.entityData.define(ATTACKING, false);
     }
 
+    TheZombieEntity zz = null;
+    int zz_tick = 0;
     public void tick(){
         this.yBodyRot = 90;
-        super.tick();
-
-    }
-
-    public class ShootGoal extends Goal {
-        private final TangleKelpEntity shroom;
-
-        public ShootGoal() {
-            shroom = TangleKelpEntity.this;
-        }
-
-        private int cool_down = 0;
-
-        @Override
-        public boolean canUse() {
-
-            if(this.shroom.getTarget() != null){
-
-                BlockPos bp0 = this.shroom.getTarget().getOnPos();
-                BlockPos bp1 = this.shroom.getOnPos();
-
-                if(bp0.getZ() - bp1.getZ() < 8 && bp0.getZ() - bp1.getZ() > -1 ){
-                    this.shroom.setAttacking(true);
-                    return true;
+        if(zz == null){
+            List<TheZombieEntity> zombies = this.level.getEntitiesOfClass(TheZombieEntity.class, this.getBoundingBox().inflate(2));
+            if(!zombies.isEmpty()) {
+                for (int i = 0; i < zombies.size(); i++) {
+                    TheZombieEntity z = zombies.get(i);
+                    if(z.getOnPos().getX() == this.getOnPos().getX() && z.getOnPos().getZ() - this.getOnPos().getZ() <= 1){
+                        zz = z;
+                        break;
+                    }
                 }
             }
-            this.shroom.setAttacking(false);
-            return false;
         }
 
-        public void tick() {
-            Vec3 p = this.shroom.getTarget().position();
-            final double d0 = this.shroom.random.nextGaussian() * 0.2D;
-            final double d1 = this.shroom.random.nextGaussian() * 0.2D;
-            final double d2 = this.shroom.random.nextGaussian() * 0.2D;
-            this.shroom.getLevel().addParticle(ParticleTypes.SPLASH, p.x, p.y, p.z, d0, d1, d2);
-            this.cool_down += 1;
-            if(this.cool_down > 5) {
-
-
-                SporesProjectileEntity pea = new SporesProjectileEntity(this.shroom.getLevel(), this.shroom);
-                pea.shootFromRotation(this.shroom, this.shroom.getXRot(), this.shroom.yBodyRot, 0.0F, 1F, 1F);
-                shroom.getLevel().addFreshEntity(pea);
-                HurtProjectileEntity pea2 = new HurtProjectileEntity(this.shroom.getLevel(), this.shroom);
-                pea2.shootFromRotation(this.shroom, this.shroom.getXRot(), this.shroom.yBodyRot, 0.0F, 1F, 1F);
-                shroom.getLevel().addFreshEntity(pea2);
-                this.cool_down = 0;
+        if(zz != null){
+            this.setAttacking(true);
+            this.zz_tick += 1;
+            if(this.zz_tick > 30){
+                zz.kelped = true;
+                //zz.setDeltaMovement(zz.getDeltaMovement().x, -0.1f, zz.getDeltaMovement().z);
+                this.setDeltaMovement(0, -0.1f, 0);
+            }
+            if(this.zz_tick > 60){
+                zz.remove(RemovalReason.KILLED);
+                this.remove(RemovalReason.KILLED);
             }
         }
-    }
+        this.setDeltaMovement(0,0,0);
+        super.tick();
+        this.setDeltaMovement(0,0,0);
 
+    }
 }

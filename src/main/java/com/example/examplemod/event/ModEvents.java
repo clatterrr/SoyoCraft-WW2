@@ -57,6 +57,7 @@ public class ModEvents {
             event.put(ModEntityTypes.WALLNUT.get(), WallnutEntity.setAttributes());
             event.put(ModEntityTypes.PUFF_SHROOM.get(), PuffShroomEntity.setAttributes());
             event.put(ModEntityTypes.PUFF_SHROOM_SLEEP.get(), PuffShroomSleepEntity.setAttributes());
+            event.put(ModEntityTypes.PEA_PROJECTILE.get(), PeaProjectileEntity.setAttributes());
 
             event.put(ModEntityTypes.LILY_PAD.get(), LilyPadEntity.setAttributes());
             event.put(ModEntityTypes.SQUASH.get(), SquashEntity.setAttributes());
@@ -77,9 +78,7 @@ public class ModEvents {
         @SubscribeEvent
         public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
             event.registerLayerDefinition(ModModelLayers.ZOMBIE_HAND_LAYER, ZombieHandModel::createBodyLayer);
-            event.registerLayerDefinition(ModModelLayers.MAGIC_PROJECTILE_LAYER, MagicProjectileModel::createBodyLayer);
-           event.registerLayerDefinition(ModModelLayers.SPORES_PROJECTILE_LAYER, SporesProjectileModel::createBodyLayer);
-            event.registerLayerDefinition(ModModelLayers.HURT_PROJECTILE_LAYER, HurtProjectileModel::createBodyLayer);
+
         }
     }
 }

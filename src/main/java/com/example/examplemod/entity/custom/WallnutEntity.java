@@ -154,13 +154,6 @@ public class WallnutEntity extends ThePlantEntity implements IAnimatable {
             if(this.cool_down > 5) {
 
 
-                SporesProjectileEntity pea = new SporesProjectileEntity(this.shroom.getLevel(), this.shroom);
-                pea.shootFromRotation(this.shroom, this.shroom.getXRot(), this.shroom.yBodyRot, 0.0F, 1F, 1F);
-                shroom.getLevel().addFreshEntity(pea);
-                HurtProjectileEntity pea2 = new HurtProjectileEntity(this.shroom.getLevel(), this.shroom);
-                pea2.shootFromRotation(this.shroom, this.shroom.getXRot(), this.shroom.yBodyRot, 0.0F, 1F, 1F);
-                shroom.getLevel().addFreshEntity(pea2);
-                this.cool_down = 0;
             }
         }
     }

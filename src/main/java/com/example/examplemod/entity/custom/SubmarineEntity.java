@@ -13,6 +13,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FluidState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
@@ -32,9 +33,10 @@ public class SubmarineEntity extends Monster implements IAnimatable {
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 1500.0D)
+                .add(Attributes.MAX_HEALTH, 10.0D)
                 .add(Attributes.ATTACK_DAMAGE, 3.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
+                .add(Attributes.ARMOR, 10.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.15f).build();
     }
 
@@ -50,7 +52,10 @@ public class SubmarineEntity extends Monster implements IAnimatable {
     public void registerControllers(AnimationData data) {
 
     }
-
+    @Override
+    public boolean canStandOnFluid(FluidState p_204042_) {
+        return true;
+    }
     @Override
     public AnimationFactory getFactory() {
         return factory;

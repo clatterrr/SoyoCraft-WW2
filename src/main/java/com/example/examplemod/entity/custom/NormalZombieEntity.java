@@ -58,7 +58,7 @@ public class NormalZombieEntity extends TheZombieEntity implements IAnimatable {
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 40)
+                .add(Attributes.MAX_HEALTH, 30)
                 .add(Attributes.ATTACK_DAMAGE, 3.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.FLYING_SPEED, 0.1f)
@@ -82,7 +82,7 @@ public class NormalZombieEntity extends TheZombieEntity implements IAnimatable {
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 
 
-        if(this.getHealth() > 20){
+        if(this.getHealth() > 15){
             if(this.isAttacking() == true){
                 event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.attack", true));
             }else{
@@ -157,6 +157,10 @@ public class NormalZombieEntity extends TheZombieEntity implements IAnimatable {
             if ((dx * dx + dz * dz) < 4.0) {
                 this.setAttacking(true);
             }
+        }
+        if(this.getHealth() < 15 && this.drop_hand == false){
+            this.drop_hand = true;
+            this.spawnAtLocation(ModItems.ZOMBIE_HAND.get());
         }
         super.tick();
     }

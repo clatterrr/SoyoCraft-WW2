@@ -122,8 +122,9 @@ public class DuckTubeBucketHeadZombieEntity extends TheZombieEntity implements I
         }
 
         this.setDeltaMovement(0, 0, -0.01f);
+        this.setDeltaMovement(0,0,0);
         super.tick();
-        this.yBodyRot = 0;
+       // this.yBodyRot = 0;
     }
 
     public void setAttacking(boolean attacking) {

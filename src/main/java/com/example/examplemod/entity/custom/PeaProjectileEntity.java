@@ -1,6 +1,5 @@
 package com.example.examplemod.entity.custom;
 
-import com.example.examplemod.entity.ModEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -18,9 +17,8 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -32,14 +30,17 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import java.util.List;
 
-public class PeaShooterEntity extends ThePlantEntity implements IAnimatable {
+public class PeaProjectileEntity extends Monster implements IAnimatable {
 
     private static final EntityDataAccessor<Boolean> ATTACKING =
             SynchedEntityData.defineId(NormalZombieEntity.class, EntityDataSerializers.BOOLEAN);
     private AnimationFactory factory = new AnimationFactory(this);
 
-    public PeaShooterEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
+    public PeaProjectileEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
+
         super(pEntityType, pLevel);
+        this.setNoGravity(true);
+        this.setBoundingBox(AABB.ofSize(new Vec3(0,0,0), 0, 0, 0));
     }
 
     public static AttributeSupplier setAttributes() {
@@ -48,7 +49,7 @@ public class PeaShooterEntity extends ThePlantEntity implements IAnimatable {
                 .add(Attributes.ATTACK_DAMAGE, 3.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 100f)
-                .add(Attributes.MOVEMENT_SPEED, 0.15f).build();
+                .add(Attributes.MOVEMENT_SPEED, 0.0f).build();
     }
 
     private boolean drop_hand = false;
@@ -61,7 +62,7 @@ public class PeaShooterEntity extends ThePlantEntity implements IAnimatable {
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.pea_shooter.idle", true));
+
         return PlayState.CONTINUE;
     }
 
@@ -111,45 +112,18 @@ public class PeaShooterEntity extends ThePlantEntity implements IAnimatable {
         this.entityData.define(ATTACKING, false);
     }
 
-    int cool_down = 0;
     public void tick(){
-        this.cool_down += 1;
-        this.yBodyRot = 0;
+        this.setDeltaMovement(0,0,0.2f);
         super.tick();
-        BlockPos bp = this.getOnPos();
-        List<LilyPadEntity> lily_pads = this.level.getEntitiesOfClass(LilyPadEntity.class, this.getBoundingBox().inflate(1));
-        if(!lily_pads.isEmpty()){
-            LilyPadEntity flag = lily_pads.get(0);
-            this.setDeltaMovement(flag.getDeltaMovement());
-        }
-        Boolean find_zombie = false;
         List<TheZombieEntity> zombies = this.level.getEntitiesOfClass(TheZombieEntity.class, this.getBoundingBox().inflate(8));
-        if(!zombies.isEmpty()){
-            for(int i = 0; i < zombies.size();i++){
+        if(!zombies.isEmpty()) {
+            for (int i = 0; i < zombies.size(); i++) {
                 TheZombieEntity z = zombies.get(i);
-                if(z instanceof SnorkelZombieEntity s){
-                    if(s.Style() == 0){
-                        continue;
-                    }
+                if(z.getOnPos().getX() == this.getOnPos().getX() && z.getOnPos().getZ() == this.getOnPos().getZ()){
+                    z.hurt(DamageSource.GENERIC, 3f);
+                    this.remove(RemovalReason.KILLED);
                 }
-                if(z.getOnPos().getZ() >= this.getOnPos().getZ() && z.getOnPos().getX() == this.getOnPos().getX()){
-                    find_zombie = true;
-
-                }
-            }
-        }
-        if(find_zombie == true){
-            if(this.cool_down > 8){
-                this.cool_down = 0;
-                PeaProjectileEntity pea = new PeaProjectileEntity(ModEntityTypes.PEA_PROJECTILE.get(), this.level);
-                BlockPos bpq = this.getOnPos();
-                pea.setPos(bpq.getX() + 0.5f, bpq.getY() + 1.8f, bpq.getZ() + 1.3f);
-                this.getLevel().addFreshEntity(pea);
             }
         }
     }
-
-
-
-
 }

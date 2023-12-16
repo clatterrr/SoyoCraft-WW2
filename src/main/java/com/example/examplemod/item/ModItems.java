@@ -37,6 +37,10 @@ public class ModItems {
     public static final RegistryObject<Item> LILY_PAD_SPAWN_EGG = ITEMS.register("lily_pad_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntityTypes.LILY_PAD, 0x22b341, 0x19732e,
                     new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+    public static final RegistryObject<Item> PEA_PROJECTILE_SPAWN_EGG = ITEMS.register("pea_projectile_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.PEA_PROJECTILE, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
 
     public static final RegistryObject<Item> SQUASH_SPAWN_EGG = ITEMS.register("squash_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntityTypes.SQUASH, 0x22b341, 0x19732e,
