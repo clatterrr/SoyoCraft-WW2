@@ -1,8 +1,6 @@
 package com.example.examplemod.entity.custom;
 
-import com.example.examplemod.entity.ModEntityTypes;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -12,14 +10,12 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -28,22 +24,19 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-import java.util.List;
+public class TheVillagerEntity extends TheBirdEntity implements IAnimatable {
 
-public class ThreepeaterEntity extends TheBirdEntity implements IAnimatable {
-
-    private static final EntityDataAccessor<Boolean> ATTACKING =
-            SynchedEntityData.defineId(TheBirdEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> STATUS =
+            SynchedEntityData.defineId(TheBirdEntity.class, EntityDataSerializers.INT);
     private AnimationFactory factory = new AnimationFactory(this);
 
-    public ThreepeaterEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
+    public TheVillagerEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
-        this.setNoGravity(true);
     }
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 20.0D)
+                .add(Attributes.MAX_HEALTH, 1.0D)
                 .add(Attributes.ATTACK_DAMAGE, 3.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 100f)
@@ -60,7 +53,7 @@ public class ThreepeaterEntity extends TheBirdEntity implements IAnimatable {
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.threepeater.idle", true));
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.the_villager.idle", true));
         return PlayState.CONTINUE;
     }
 
@@ -96,22 +89,22 @@ public class ThreepeaterEntity extends TheBirdEntity implements IAnimatable {
         return 0.2F;
     }
 
-    public void setAttacking(boolean attacking) {
-        this.entityData.set(ATTACKING, attacking);
+    public void setStatus(int value) {
+        this.entityData.set(STATUS, value);
     }
 
-    public boolean isAttacking() {
-        return this.entityData.get(ATTACKING);
+    public int Status() {
+        return this.entityData.get(STATUS);
     }
 
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(ATTACKING, false);
+        this.entityData.define(STATUS, 0);
     }
     private int cool_down = 0;
     public void tick(){
+        super.tick();
         this.yBodyRot = 0;
-        this.setDeltaMovement(0,0,0);
     }
 }

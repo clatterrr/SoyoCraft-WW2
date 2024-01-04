@@ -1,6 +1,7 @@
 package com.example.examplemod.entity.client;
 
 import com.example.examplemod.ExampleMod;
+import com.example.examplemod.entity.custom.RedBirdEntity;
 import com.example.examplemod.entity.custom.ThreepeaterEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -12,18 +13,18 @@ import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 import javax.annotation.Nullable;
 
-public class ThreepeaterRenderer extends GeoEntityRenderer<ThreepeaterEntity> {
-    public ThreepeaterRenderer(EntityRendererProvider.Context p_174008_) {
-        super(p_174008_, new ThreepeaterModel());
+public class RedBirdRenderer extends GeoEntityRenderer<RedBirdEntity> {
+    public RedBirdRenderer(EntityRendererProvider.Context p_174008_) {
+        super(p_174008_, new RedBirdModel());
     }
 
     @Override
-    public ResourceLocation getTextureLocation(ThreepeaterEntity p_114482_) {
-        return new ResourceLocation(ExampleMod.MODID, "textures/entity/threepeater.png");
+    public ResourceLocation getTextureLocation(RedBirdEntity p_114482_) {
+        return new ResourceLocation(ExampleMod.MODID, "textures/entity/red_bird.png");
     }
 
     @Override
-    public RenderType getRenderType(ThreepeaterEntity animatable, float partialTicks, PoseStack stack,
+    public RenderType getRenderType(RedBirdEntity animatable, float partialTicks, PoseStack stack,
                                     @Nullable MultiBufferSource renderTypeBuffer,
                                     @Nullable VertexConsumer vertexBuilder, int packedLightIn,
                                     ResourceLocation textureLocation) {

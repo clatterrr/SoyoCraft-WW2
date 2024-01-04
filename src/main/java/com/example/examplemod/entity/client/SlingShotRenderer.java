@@ -1,7 +1,8 @@
 package com.example.examplemod.entity.client;
 
 import com.example.examplemod.ExampleMod;
-import com.example.examplemod.entity.custom.ThreepeaterEntity;
+import com.example.examplemod.entity.custom.SlingShotEntity;
+import com.example.examplemod.entity.custom.StoneBlockEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -12,18 +13,18 @@ import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 import javax.annotation.Nullable;
 
-public class ThreepeaterRenderer extends GeoEntityRenderer<ThreepeaterEntity> {
-    public ThreepeaterRenderer(EntityRendererProvider.Context p_174008_) {
-        super(p_174008_, new ThreepeaterModel());
+public class SlingShotRenderer extends GeoEntityRenderer<SlingShotEntity> {
+    public SlingShotRenderer(EntityRendererProvider.Context p_174008_) {
+        super(p_174008_, new SlingShotModel());
     }
 
     @Override
-    public ResourceLocation getTextureLocation(ThreepeaterEntity p_114482_) {
-        return new ResourceLocation(ExampleMod.MODID, "textures/entity/threepeater.png");
+    public ResourceLocation getTextureLocation(SlingShotEntity p_114482_) {
+        return new ResourceLocation(ExampleMod.MODID, "textures/entity/sling_shot.png");
     }
 
     @Override
-    public RenderType getRenderType(ThreepeaterEntity animatable, float partialTicks, PoseStack stack,
+    public RenderType getRenderType(SlingShotEntity animatable, float partialTicks, PoseStack stack,
                                     @Nullable MultiBufferSource renderTypeBuffer,
                                     @Nullable VertexConsumer vertexBuilder, int packedLightIn,
                                     ResourceLocation textureLocation) {

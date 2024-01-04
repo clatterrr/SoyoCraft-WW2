@@ -1,7 +1,8 @@
 package com.example.examplemod.entity.client;
 
 import com.example.examplemod.ExampleMod;
-import com.example.examplemod.entity.custom.ThreepeaterEntity;
+import com.example.examplemod.entity.custom.ChuckBirdEntity;
+import com.example.examplemod.entity.custom.GreenPig3Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -12,18 +13,18 @@ import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 import javax.annotation.Nullable;
 
-public class ThreepeaterRenderer extends GeoEntityRenderer<ThreepeaterEntity> {
-    public ThreepeaterRenderer(EntityRendererProvider.Context p_174008_) {
-        super(p_174008_, new ThreepeaterModel());
+public class GreenPig3Renderer extends GeoEntityRenderer<GreenPig3Entity> {
+    public GreenPig3Renderer(EntityRendererProvider.Context p_174008_) {
+        super(p_174008_, new GreenPig3Model());
     }
 
     @Override
-    public ResourceLocation getTextureLocation(ThreepeaterEntity p_114482_) {
-        return new ResourceLocation(ExampleMod.MODID, "textures/entity/threepeater.png");
+    public ResourceLocation getTextureLocation(GreenPig3Entity p_114482_) {
+        return new ResourceLocation(ExampleMod.MODID, "textures/entity/green_pig_3.png");
     }
 
     @Override
-    public RenderType getRenderType(ThreepeaterEntity animatable, float partialTicks, PoseStack stack,
+    public RenderType getRenderType(GreenPig3Entity animatable, float partialTicks, PoseStack stack,
                                     @Nullable MultiBufferSource renderTypeBuffer,
                                     @Nullable VertexConsumer vertexBuilder, int packedLightIn,
                                     ResourceLocation textureLocation) {
