@@ -39,7 +39,7 @@ public class TorchwoodEntity extends ThePlantEntity implements IAnimatable {
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 15.0D)
+                .add(Attributes.MAX_HEALTH, 1.0D)
                 .add(Attributes.ATTACK_DAMAGE, 3.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 100f)
@@ -50,19 +50,11 @@ public class TorchwoodEntity extends ThePlantEntity implements IAnimatable {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new ShootGoal());
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Villager.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, TheZombieEntity.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        if(this.isAttacking()){
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.torch_wood.idle", true));
 
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.puff_shroom.attack", true));
-        }else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.puff_shroom.idle", true));
-        }
         return PlayState.CONTINUE;
     }
 
@@ -114,48 +106,10 @@ public class TorchwoodEntity extends ThePlantEntity implements IAnimatable {
 
     public void tick(){
         this.yBodyRot = 90;
+        this.setDeltaMovement(0,0,0);
         super.tick();
+        this.setDeltaMovement(0,0,0);
 
-    }
-
-    public class ShootGoal extends Goal {
-        private final TorchwoodEntity shroom;
-
-        public ShootGoal() {
-            shroom = TorchwoodEntity.this;
-        }
-
-        private int cool_down = 0;
-
-        @Override
-        public boolean canUse() {
-
-            if(this.shroom.getTarget() != null){
-
-                BlockPos bp0 = this.shroom.getTarget().getOnPos();
-                BlockPos bp1 = this.shroom.getOnPos();
-
-                if(bp0.getZ() - bp1.getZ() < 8 && bp0.getZ() - bp1.getZ() > -1 ){
-                    this.shroom.setAttacking(true);
-                    return true;
-                }
-            }
-            this.shroom.setAttacking(false);
-            return false;
-        }
-
-        public void tick() {
-            Vec3 p = this.shroom.getTarget().position();
-            final double d0 = this.shroom.random.nextGaussian() * 0.2D;
-            final double d1 = this.shroom.random.nextGaussian() * 0.2D;
-            final double d2 = this.shroom.random.nextGaussian() * 0.2D;
-            this.shroom.getLevel().addParticle(ParticleTypes.SPLASH, p.x, p.y, p.z, d0, d1, d2);
-            this.cool_down += 1;
-            if(this.cool_down > 5) {
-
-
-            }
-        }
     }
 
 }

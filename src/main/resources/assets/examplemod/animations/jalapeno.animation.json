@@ -23,6 +23,32 @@
 					}
 				}
 			}
+		},
+		"animation.jalapeno.idle2": {
+			"animation_length": 1,
+			"bones": {
+				"whole_body": {
+					"position": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"1.0": {
+							"vector": [0, 0, 0]
+						}
+					},
+					"scale": {
+						"0.0": {
+							"vector": [1, 1, 1]
+						},
+						"0.5": {
+							"vector": [1, 0.9, 1]
+						},
+						"1.0": {
+							"vector": [1, 1, 1]
+						}
+					}
+				}
+			}
 		}
 	},
 	"geckolib_format_version": 2

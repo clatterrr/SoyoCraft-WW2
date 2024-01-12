@@ -49,7 +49,7 @@ public class DuckTubeConeHeadZombieEntity extends TheZombieEntity implements IAn
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 40)
+                .add(Attributes.MAX_HEALTH, 1)
                 .add(Attributes.ATTACK_DAMAGE, 3.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.4f).build();

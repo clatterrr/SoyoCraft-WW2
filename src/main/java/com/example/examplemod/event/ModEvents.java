@@ -37,6 +37,15 @@ public class ModEvents {
             event.put(ModEntityTypes.FENCE.get(), FenceEntity.setAttributes());
             event.put(ModEntityTypes.SUB_MARINE.get(), SubmarineEntity.setAttributes());
 
+            event.put(ModEntityTypes.LAWN_MOWER.get(), LawnMowerEntity.setAttributes());
+            event.put(ModEntityTypes.POOL_CLEANER.get(), PoolCleanerEntity.setAttributes());
+            event.put(ModEntityTypes.GARDEN_RAKE.get(), GardenRakeEntity.setAttributes());
+            event.put(ModEntityTypes.CRAZY_DAVE.get(), CrazyDaveEntity.setAttributes());
+            event.put(ModEntityTypes.DAVE_CAR.get(), DaveCarEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.LITTLE_ZOMBIE.get(), LittleZombieEntity.setAttributes());
+            event.put(ModEntityTypes.LITTLE_DUCK_TUBE_ZOMBIE.get(), LittleDuckyTubeZombieEntity.setAttributes());
             event.put(ModEntityTypes.NORMAL_ZOMBIE.get(), NormalZombieEntity.setAttributes());
             event.put(ModEntityTypes.CONEHEAD_ZOMBIE.get(), ConeheadZombieEntity.setAttributes());
             event.put(ModEntityTypes.BUCKETHEAD_ZOMBIE.get(), BucketheadZombieEntity.setAttributes());
@@ -49,6 +58,7 @@ public class ModEvents {
             event.put(ModEntityTypes.DUCK_TUBE_BUCKET_HEAD_ZOMBIE.get(), DuckTubeBucketHeadZombieEntity.setAttributes());
             event.put(ModEntityTypes.SNORKEL_ZOMBIE.get(), SnorkelZombieEntity.setAttributes());
             event.put(ModEntityTypes.ZOMBONI.get(), ZomboniEntity.setAttributes());
+            event.put(ModEntityTypes.SLED.get(), SledEntity.setAttributes());
             event.put(ModEntityTypes.ZOMBIE_BOBSLED_TEAM.get(), ZombieBobsledTeamEntity.setAttributes());
             event.put(ModEntityTypes.DOLPHIN_RIDER_ZOMBIE.get(), DolphinRiderZombieEntity.setAttributes());
 
@@ -58,6 +68,11 @@ public class ModEvents {
             event.put(ModEntityTypes.PUFF_SHROOM.get(), PuffShroomEntity.setAttributes());
             event.put(ModEntityTypes.PUFF_SHROOM_SLEEP.get(), PuffShroomSleepEntity.setAttributes());
             event.put(ModEntityTypes.PEA_PROJECTILE.get(), PeaProjectileEntity.setAttributes());
+
+            event.put(ModEntityTypes.ICE_PEA_PROJECTILE.get(), IcePeaProjectileEntity.setAttributes());
+            event.put(ModEntityTypes.FIRE_PEA_PROJECTILE.get(), FirePeaProjectileEntity.setAttributes());
+            event.put(ModEntityTypes.SNOW_PEA.get(), SnowPeaEntity.setAttributes());
+            event.put(ModEntityTypes.REPEATER.get(), RepeaterEntity.setAttributes());
 
             event.put(ModEntityTypes.LILY_PAD.get(), LilyPadEntity.setAttributes());
             event.put(ModEntityTypes.SQUASH.get(), SquashEntity.setAttributes());

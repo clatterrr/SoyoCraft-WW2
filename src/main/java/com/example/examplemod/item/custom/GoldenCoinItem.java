@@ -5,9 +5,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
-public class PoolCleanerItem extends Item {
+public class GoldenCoinItem extends Item {
 
-    public PoolCleanerItem(Properties p_41383_) {
+    public GoldenCoinItem(Properties p_41383_) {
         super(p_41383_);
     }
 

@@ -17,6 +17,8 @@ import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -25,6 +27,8 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+
+import java.util.List;
 
 public class DolphinRiderZombieEntity extends TheZombieEntity implements IAnimatable {
 
@@ -37,19 +41,11 @@ public class DolphinRiderZombieEntity extends TheZombieEntity implements IAnimat
 
     public DolphinRiderZombieEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
-        double r = pLevel.random.nextGaussian();
-        if(r < 0.4){
-            this.setStyle(0);
-        }else if(r < 0.6){
-            this.setStyle(1);
-        }else {
-            this.setStyle(2);
-        }
     }
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 40)
+                .add(Attributes.MAX_HEALTH, 10)
                 .add(Attributes.ATTACK_DAMAGE, 3.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.07f).build();
@@ -59,47 +55,35 @@ public class DolphinRiderZombieEntity extends TheZombieEntity implements IAnimat
 
     @Override
     protected void registerGoals() {
-        //this.goalSelector.addGoal(1, new SummonGoal());
-
-         this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.2D, false));
-        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, ThePlantEntity.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
 
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 
 
-        if(this.getHealth() > 20){
-            if(this.isAttacking() == true){
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.attack", true));
-            }else{
-                if(this.Style() == 0){
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk", true));
-                }else if(this.Style() == 1){
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk2", true));
-                }else {
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk3", true));
-                }
-
-            }
-        }else {
+        if(this.Style() == 0){
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.dolphin_rider_zombie.walk", true));
+        }else if(this.Style() ==1){
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.dolphin_rider_zombie.drop", false));
+        }else if(this.Style() == 2){
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.dolphin_rider_zombie.swim", true));
+        }else if(this.Style() == 3){
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.dolphin_rider_zombie.jump", false));
+        }else if(this.Style() == 4){
             if(this.isAttacking()){
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.attack2", true));
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.dolphin_rider_zombie.attack", true));
+
             }else{
-                if(this.Style() == 0){
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk1_1", true));
-                }else if(this.Style() == 1){
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk2_1", true));
-                }else {
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk3_1", true));
+                if(this.getHealth() > 5){
+                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.dolphin_rider_zombie.swim2", true));
+
+                }else{
+                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.dolphin_rider_zombie.swim3", true));
                 }
-
             }
-        }
 
+
+        }
 
 
         return PlayState.CONTINUE;
@@ -138,17 +122,101 @@ public class DolphinRiderZombieEntity extends TheZombieEntity implements IAnimat
         return 0.2F;
     }
 
+    int drop_cool_down = 0;
+
+    boolean is_tall_nut = false;
+
     public void tick() {
+        this.setStyle(2);
+        this.setNoGravity(true);
+        /*
+        BlockPos back = new BlockPos(this.getOnPos().getX(), this.getOnPos().getY(), this.getOnPos().getZ() + 1);
+        BlockPos front = new BlockPos(this.getOnPos().getX(), this.getOnPos().getY(), this.getOnPos().getZ());
+        Block back_block = this.level.getBlockState(back).getBlock();
+        Block front_block = this.level.getBlockState(front).getBlock();
 
-        if (this.getTarget() != null) {
-            double dx = this.getX() - this.getTarget().getX();
-            double dz = this.getZ() - this.getTarget().getZ();
-
-            if ((dx * dx + dz * dz) < 4.0) {
-                this.setAttacking(true);
+        if(this.Style() == 0){
+            this.setDeltaMovement(0, 0, -0.01f);
+            if(back_block == Blocks.GRASS_BLOCK && front_block == Blocks.WATER){
+                this.setStyle(1);
             }
         }
+        if(this.Style() == 1){
+            this.setDeltaMovement(0, 0, -0.02f);
+        }
+        if(this.Style() == 2){
+            this.setDeltaMovement(0, 0, -0.02f);
+            List<ThePlantEntity> plants = this.level.getEntitiesOfClass(ThePlantEntity.class, this.getBoundingBox().inflate(2));
+            if(!plants.isEmpty()) {
+                for (int i = 0; i < plants.size(); i++) {
+                    ThePlantEntity z = plants.get(i);
+                    if(z.getOnPos().getX() == this.getOnPos().getX() &&  z.position().z + 0.8f > this.position().z){
+                        this.setStyle(3);
+                        if(z instanceof  TallnutEntity tall){
+                            this.is_tall_nut = true;
+                        }
+                    }
+                }
+            }
+        }
+        if(this.Style() == 3){
+        }
+        if(this.Style() == 4){
+            this.setDeltaMovement(0, 0, -0.01f);
+        }
+
+        if(this.Style() == 1){
+            this.drop_cool_down += 1;
+            if(this.drop_cool_down >= 20){
+                this.setStyle(2);
+                this.drop_cool_down = 0;
+            }
+        }
+
+        if(this.Style() == 3){
+            this.drop_cool_down += 1;
+
+            if(this.drop_cool_down < 18){
+
+                this.setDeltaMovement(0, 0.04f, -0.06f);
+                if(this.is_tall_nut){
+                    this.setDeltaMovement(0, 0.04f, 0);
+                }
+            }else if(this.drop_cool_down < 36){
+
+                this.setDeltaMovement(0, -0.04f, -0.04f);
+                if(this.is_tall_nut){
+                    this.setDeltaMovement(0, -0.04f, 0);
+                }
+            }else{
+                this.setStyle(4);
+                this.drop_cool_down = 0;
+            }
+        }
+        if(this.Style() == 4){
+            this.setDeltaMovement(0,0,-0.01f);
+            this.setAttacking(false);
+            List<ThePlantEntity> plants = this.level.getEntitiesOfClass(ThePlantEntity.class, this.getBoundingBox().inflate(2));
+            if(!plants.isEmpty()) {
+                for (int i = 0; i < plants.size(); i++) {
+                    ThePlantEntity z = plants.get(i);
+                    if(z.getOnPos().getX() == this.getOnPos().getX()  &&  z.position().z + 0.8f > this.position().z &&  z.position().z < this.position().z){
+                        this.setDeltaMovement(0,0,0);
+                        this.setAttacking(true);
+                        if(z instanceof LilyPadEntity pad){
+
+                        }else {
+
+                            z.hurt(DamageSource.CACTUS, 1.0f);
+                        }
+                    }
+                }
+            }
+
+        }
+        */
         super.tick();
+        this.yBodyRot = 180;
     }
 
     public void setAttacking(boolean attacking) {

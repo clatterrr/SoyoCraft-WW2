@@ -48,7 +48,7 @@ public class PuffShroomEntity extends ThePlantEntity implements IAnimatable {
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 15.0D)
+                .add(Attributes.MAX_HEALTH, 1.0D)
                 .add(Attributes.ATTACK_DAMAGE, 3.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 100f)

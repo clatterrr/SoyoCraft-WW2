@@ -2,6 +2,8 @@ package com.example.examplemod.entity.client;
 
 import com.example.examplemod.ExampleMod;
 import com.example.examplemod.entity.custom.NormalZombieEntity;
+import com.example.examplemod.entity.custom.PoleVaultingEntity;
+import com.example.examplemod.entity.custom.PoleVaultingZombieEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -12,20 +14,20 @@ import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 import javax.annotation.Nullable;
 
-public class PoleVaultingZombieRenderer extends GeoEntityRenderer<NormalZombieEntity> {
+public class PoleVaultingZombieRenderer extends GeoEntityRenderer<PoleVaultingZombieEntity> {
 
     public PoleVaultingZombieRenderer(EntityRendererProvider.Context renderManager) {
-        super(renderManager, new NormalZombieModel());
+        super(renderManager, new PoleVaultingZombieModel());
         this.shadowRadius = 0.3f;
     }
 
     @Override
-    public ResourceLocation getTextureLocation(NormalZombieEntity instance) {
-        return new ResourceLocation(ExampleMod.MODID, "textures/entity/normal_zombie.png");
+    public ResourceLocation getTextureLocation(PoleVaultingZombieEntity instance) {
+        return new ResourceLocation(ExampleMod.MODID, "textures/entity/pole_vaulting_zombie.png");
     }
 
     @Override
-    public RenderType getRenderType(NormalZombieEntity animatable, float partialTicks, PoseStack stack,
+    public RenderType getRenderType(PoleVaultingZombieEntity animatable, float partialTicks, PoseStack stack,
                                     @Nullable MultiBufferSource renderTypeBuffer,
                                     @Nullable VertexConsumer vertexBuilder, int packedLightIn,
                                     ResourceLocation textureLocation) {

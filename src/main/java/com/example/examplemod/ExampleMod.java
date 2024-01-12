@@ -108,6 +108,14 @@ public class ExampleMod
             EntityRenderers.register(ModEntityTypes.FENCE.get(), FenceRenderer::new);
             EntityRenderers.register(ModEntityTypes.SUB_MARINE.get(), SubMarineRenderer::new);
 
+            EntityRenderers.register(ModEntityTypes.LITTLE_ZOMBIE.get(), LittleZombieRenderer::new);
+            EntityRenderers.register(ModEntityTypes.LITTLE_DUCK_TUBE_ZOMBIE.get(), LittleDuckTubeZombieRenderer::new);
+            EntityRenderers.register(ModEntityTypes.DAVE_CAR.get(), DaveCarRenderer::new);
+            EntityRenderers.register(ModEntityTypes.CRAZY_DAVE.get(), CrazyDaveRenderer::new);
+            EntityRenderers.register(ModEntityTypes.LAWN_MOWER.get(), LawnMowerRenderer::new);
+            EntityRenderers.register(ModEntityTypes.POOL_CLEANER.get(), PoolCleanerRenderer::new);
+            EntityRenderers.register(ModEntityTypes.GARDEN_RAKE.get(), GardenRakeRenderer::new);
+
             EntityRenderers.register(ModEntityTypes.PUFF_SHROOM.get(), PuffShroomRenderer::new);
             EntityRenderers.register(ModEntityTypes.LILY_PAD.get(), LilyPadRenderer::new);
             EntityRenderers.register(ModEntityTypes.PEA_SHOOTER.get(), PeaShooterRenderer::new);
@@ -115,6 +123,7 @@ public class ExampleMod
             EntityRenderers.register(ModEntityTypes.SQUASH.get(), SquashRenderer::new);
             EntityRenderers.register(ModEntityTypes.THREEPEATER.get(), ThreepeaterRenderer::new);
             EntityRenderers.register(ModEntityTypes.TANGLE_KELP.get(), TangleKelpRenderer::new);
+            EntityRenderers.register(ModEntityTypes.POLE_VAULTING_ZOMBIE.get(), PoleVaultingZombieRenderer::new);
 
             EntityRenderers.register(ModEntityTypes.NORMAL_ZOMBIE.get(), NormalZombieRenderer::new);
             EntityRenderers.register(ModEntityTypes.DUCK_TUBE_ZOMBIE.get(), DuckTubeZombieRenderer::new);
@@ -132,7 +141,22 @@ public class ExampleMod
             EntityRenderers.register(ModEntityTypes.GRAVE3.get(), Grave3Renderer::new);
             EntityRenderers.register(ModEntityTypes.ASH_ZOMBIE.get(), AshZombieRenderer::new);
 
+            EntityRenderers.register(ModEntityTypes.ZOMBONI.get(), ZomboniRenderer::new);
+            EntityRenderers.register(ModEntityTypes.ZOMBIE_BOBSLED_TEAM.get(), ZombieBobsledTeamRenderer::new);
+            EntityRenderers.register(ModEntityTypes.JALAPENO.get(), JalapenoRenderer::new);
+            EntityRenderers.register(ModEntityTypes.DOLPHIN_RIDER_ZOMBIE.get(), DolphinRiderZombieRenderer::new);
+            EntityRenderers.register(ModEntityTypes.SPIKEWEED.get(), SpikeweedRenderer::new);
+            EntityRenderers.register(ModEntityTypes.TORCHWOOD.get(), TorchwoodRenderer::new);
+            EntityRenderers.register(ModEntityTypes.TALLNUT.get(), TallnutRenderer::new);
+
+            EntityRenderers.register(ModEntityTypes.SLED.get(), SledRenderer::new);
+
             EntityRenderers.register(ModEntityTypes.PEA_PROJECTILE.get(), PeaProjectileRenderer::new);
+            EntityRenderers.register(ModEntityTypes.ICE_PEA_PROJECTILE.get(), IcePeaProjectileRenderer::new);
+            EntityRenderers.register(ModEntityTypes.FIRE_PEA_PROJECTILE.get(), FirePeaProjectileRenderer::new);
+            EntityRenderers.register(ModEntityTypes.WALLNUT.get(), WallnutRenderer::new);
+            EntityRenderers.register(ModEntityTypes.SNOW_PEA.get(), SnowPeaRenderer::new);
+            EntityRenderers.register(ModEntityTypes.REPEATER.get(), RepeaterRenderer::new);
         }
     }
 }

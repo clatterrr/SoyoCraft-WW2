@@ -1,0 +1,658 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.dolphin_rider_zombie.drop": {
+			"loop": true,
+			"animation_length": 1.25,
+			"bones": {
+				"left_arm": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.25": {
+							"vector": [-45, 0, 0]
+						}
+					}
+				},
+				"right_arm": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.25": {
+							"vector": [-25, 0, 0]
+						}
+					}
+				},
+				"left_leg": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.5": {
+							"vector": [0, 0, 0]
+						},
+						"0.75": {
+							"vector": [-48.88172, -6.71771, -18.88172]
+						}
+					}
+				},
+				"top_leg": {
+					"rotation": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"right_leg": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.5": {
+							"vector": [0, 0, 0]
+						},
+						"0.75": {
+							"vector": [-50, 0, 17.5]
+						}
+					}
+				},
+				"dolphin": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.25": {
+							"vector": [40, 0, 0]
+						},
+						"0.5": {
+							"vector": [137.5, 0, 0]
+						},
+						"0.75": {
+							"vector": [220, 0, 0]
+						},
+						"1.0": {
+							"vector": [295, 0, 0]
+						},
+						"1.25": {
+							"vector": [360, 0, 0]
+						}
+					},
+					"position": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.5": {
+							"vector": [-2.33, 3.45, 3]
+						},
+						"0.75": {
+							"vector": [-3.5, 5.17, -4.5]
+						},
+						"1.0": {
+							"vector": [-5.25, -2.25, -1.75]
+						},
+						"1.25": {
+							"vector": [-7, -14, 1]
+						}
+					},
+					"scale": {
+						"vector": [1, 1, 1]
+					}
+				},
+				"zombie": {
+					"position": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.25": {
+							"vector": [0, -1, 0]
+						},
+						"0.5": {
+							"vector": [0, -1, 0]
+						},
+						"0.75": {
+							"vector": [0, 4, 0]
+						},
+						"1.25": {
+							"vector": [0, -6, 4]
+						}
+					}
+				}
+			}
+		},
+		"animation.dolphin_rider_zombie.walk": {
+			"loop": true,
+			"animation_length": 1,
+			"bones": {
+				"right_arm": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.25": {
+							"vector": [-20, 0, 0]
+						},
+						"0.5": {
+							"vector": [0, 0, 0]
+						},
+						"0.75": {
+							"vector": [20, 0, 0]
+						},
+						"1.0": {
+							"vector": [0, 0, 0]
+						}
+					}
+				},
+				"left_leg": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.25": {
+							"vector": [-20, 0, 0]
+						},
+						"0.5": {
+							"vector": [0, 0, 0]
+						},
+						"0.75": {
+							"vector": [20, 0, 0]
+						},
+						"1.0": {
+							"vector": [0, 0, 0]
+						}
+					}
+				},
+				"right_leg": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.25": {
+							"vector": [20, 0, 0]
+						},
+						"0.5": {
+							"vector": [0, 0, 0]
+						},
+						"0.75": {
+							"vector": [-20, 0, 0]
+						},
+						"1.0": {
+							"vector": [0, 0, 0]
+						}
+					}
+				}
+			}
+		},
+		"animation.dolphin_rider_zombie.attack": {
+			"loop": true,
+			"animation_length": 2,
+			"bones": {
+				"left_arm": {
+					"rotation": {
+						"0.0": {
+							"vector": [-62.5, 0, 22.5]
+						},
+						"0.5": {
+							"vector": [-52.5, 0, 22.5]
+						},
+						"1.0": {
+							"vector": [-62.5, 0, 22.5]
+						},
+						"1.5": {
+							"vector": [-77.5, 0, 22.5]
+						},
+						"2.0": {
+							"vector": [-62.5, 0, 22.5]
+						}
+					}
+				},
+				"right_arm": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.5": {
+							"vector": [-105, 0, 0]
+						},
+						"1.0": {
+							"vector": [0, 0, 0]
+						},
+						"1.5": {
+							"vector": [-85, 0, 0]
+						},
+						"2.0": {
+							"vector": [0, 0, 0]
+						}
+					}
+				},
+				"left_leg": {
+					"rotation": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"top_leg": {
+					"rotation": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"right_leg": {
+					"rotation": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"dolphin": {
+					"rotation": {
+						"vector": [360, 0, 0]
+					},
+					"position": {
+						"vector": [-7, -14, 7]
+					},
+					"scale": {
+						"vector": [0.2, 0.2, 0]
+					}
+				},
+				"zombie": {
+					"position": {
+						"vector": [0, -11, 1]
+					}
+				},
+				"bone": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.5": {
+							"vector": [-7.5, 0, 0]
+						},
+						"1.0": {
+							"vector": [2.5, 0, 0]
+						},
+						"1.5": {
+							"vector": [-5, 0, 0]
+						},
+						"2.0": {
+							"vector": [0, 0, 0]
+						}
+					},
+					"position": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"1.0": {
+							"vector": [0, 0, 0]
+						}
+					}
+				}
+			}
+		},
+		"animation.dolphin_rider_zombie.swim": {
+			"loop": true,
+			"animation_length": 1,
+			"bones": {
+				"left_arm": {
+					"rotation": {
+						"vector": [0, 0, 22.5]
+					}
+				},
+				"right_arm": {
+					"rotation": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"left_leg": {
+					"rotation": {
+						"vector": [-48.2367, -15.18892, -13.16783]
+					}
+				},
+				"top_leg": {
+					"rotation": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"right_leg": {
+					"rotation": {
+						"vector": [-48.2367, 15.18892, 13.16783]
+					}
+				},
+				"dolphin": {
+					"rotation": {
+						"vector": [360, 0, 0]
+					},
+					"position": {
+						"0.0": {
+							"vector": [-7, -14, 1]
+						},
+						"0.5": {
+							"vector": [-7, -15, 1]
+						},
+						"1.0": {
+							"vector": [-7, -14, 1]
+						}
+					}
+				},
+				"zombie": {
+					"position": {
+						"0.0": {
+							"vector": [0, -6, 4]
+						},
+						"0.5": {
+							"vector": [0, -7, 4]
+						},
+						"1.0": {
+							"vector": [0, -6, 4]
+						}
+					}
+				}
+			}
+		},
+		"animation.dolphin_rider_zombie.swim2": {
+			"loop": true,
+			"animation_length": 2,
+			"bones": {
+				"left_arm": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 22.5]
+						},
+						"0.5": {
+							"vector": [-20, 0, 22.5]
+						},
+						"1.0": {
+							"vector": [0, 0, 22.5]
+						},
+						"1.5": {
+							"vector": [20, 0, 22.5]
+						},
+						"2.0": {
+							"vector": [0, 0, 22.5]
+						}
+					}
+				},
+				"right_arm": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.5": {
+							"vector": [20, 0, 0]
+						},
+						"1.0": {
+							"vector": [0, 0, 0]
+						},
+						"1.5": {
+							"vector": [-20, 0, 0]
+						},
+						"2.0": {
+							"vector": [0, 0, 0]
+						}
+					}
+				},
+				"left_leg": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.5": {
+							"vector": [20, 0, 0]
+						},
+						"1.0": {
+							"vector": [0, 0, 0]
+						},
+						"1.5": {
+							"vector": [-20, 0, 0]
+						},
+						"2.0": {
+							"vector": [0, 0, 0]
+						}
+					}
+				},
+				"top_leg": {
+					"rotation": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"right_leg": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.5": {
+							"vector": [-20, 0, 0]
+						},
+						"1.0": {
+							"vector": [0, 0, 0]
+						},
+						"1.5": {
+							"vector": [20, 0, 0]
+						},
+						"2.0": {
+							"vector": [0, 0, 0]
+						}
+					}
+				},
+				"dolphin": {
+					"rotation": {
+						"vector": [360, 0, 0]
+					},
+					"position": {
+						"vector": [-7, -14, 7]
+					},
+					"scale": {
+						"vector": [0.2, 0.2, 0]
+					}
+				},
+				"zombie": {
+					"position": {
+						"vector": [0, -11, 1]
+					}
+				}
+			}
+		},
+		"animation.dolphin_rider_zombie.swim3": {
+			"loop": true,
+			"animation_length": 2,
+			"bones": {
+				"left_arm": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 22.5]
+						},
+						"0.5": {
+							"vector": [-20, 0, 22.5]
+						},
+						"1.0": {
+							"vector": [0, 0, 22.5]
+						},
+						"1.5": {
+							"vector": [20, 0, 22.5]
+						},
+						"2.0": {
+							"vector": [0, 0, 22.5]
+						}
+					},
+					"position": {
+						"vector": [-5, 0, 0]
+					},
+					"scale": {
+						"vector": [0.6, 0, 1]
+					}
+				},
+				"right_arm": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.5": {
+							"vector": [20, 0, 0]
+						},
+						"1.0": {
+							"vector": [0, 0, 0]
+						},
+						"1.5": {
+							"vector": [-20, 0, 0]
+						},
+						"2.0": {
+							"vector": [0, 0, 0]
+						}
+					}
+				},
+				"left_leg": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.5": {
+							"vector": [20, 0, 0]
+						},
+						"1.0": {
+							"vector": [0, 0, 0]
+						},
+						"1.5": {
+							"vector": [-20, 0, 0]
+						},
+						"2.0": {
+							"vector": [0, 0, 0]
+						}
+					}
+				},
+				"top_leg": {
+					"rotation": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"right_leg": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.5": {
+							"vector": [-20, 0, 0]
+						},
+						"1.0": {
+							"vector": [0, 0, 0]
+						},
+						"1.5": {
+							"vector": [20, 0, 0]
+						},
+						"2.0": {
+							"vector": [0, 0, 0]
+						}
+					}
+				},
+				"dolphin": {
+					"rotation": {
+						"vector": [360, 0, 0]
+					},
+					"position": {
+						"vector": [-7, -14, 7]
+					},
+					"scale": {
+						"vector": [0.2, 0.2, 0]
+					}
+				},
+				"zombie": {
+					"position": {
+						"vector": [0, -11, 1]
+					}
+				}
+			}
+		},
+		"animation.dolphin_rider_zombie.jump": {
+			"loop": true,
+			"animation_length": 1.5,
+			"bones": {
+				"left_arm": {
+					"rotation": {
+						"vector": [0, 0, 22.5]
+					}
+				},
+				"right_arm": {
+					"rotation": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"left_leg": {
+					"rotation": {
+						"vector": [-48.2367, -15.18892, -13.16783]
+					}
+				},
+				"top_leg": {
+					"rotation": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"right_leg": {
+					"rotation": {
+						"vector": [-48.2367, 15.18892, 13.16783]
+					}
+				},
+				"dolphin": {
+					"rotation": {
+						"0.0": {
+							"vector": [360, 0, 0]
+						},
+						"0.25": {
+							"vector": [320, 0, 0]
+						},
+						"0.75": {
+							"vector": [360, 0, 0]
+						}
+					},
+					"position": {
+						"0.0": {
+							"vector": [-7, -14, 1]
+						},
+						"0.25": {
+							"vector": [-7, 2, 1]
+						},
+						"0.5": {
+							"vector": [-7, 17, 1]
+						},
+						"1.0": {
+							"vector": [-7, 1, 1]
+						},
+						"1.25": {
+							"vector": [-7, -21, 1]
+						}
+					},
+					"scale": {
+						"vector": [1, 1, 1]
+					}
+				},
+				"zombie": {
+					"rotation": {
+						"vector": [0, 0, 0]
+					},
+					"position": {
+						"0.0": {
+							"vector": [0, -6, 4]
+						},
+						"0.25": {
+							"vector": [0, 8, 4]
+						},
+						"0.5": {
+							"vector": [0, 24, 4]
+						},
+						"0.75": {
+							"vector": [0, 17, 4]
+						},
+						"1.0": {
+							"vector": [0, 8, 4]
+						},
+						"1.25": {
+							"vector": [0, -6, 4]
+						}
+					}
+				},
+				"mouth": {
+					"rotation": {
+						"vector": [0, 0, 0]
+					},
+					"position": {
+						"vector": [0, 0, 0]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

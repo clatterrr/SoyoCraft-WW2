@@ -2,6 +2,7 @@ package com.example.examplemod.entity.client;
 
 import com.example.examplemod.ExampleMod;
 import com.example.examplemod.entity.custom.PuffShroomEntity;
+import com.example.examplemod.entity.custom.WallnutEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -12,18 +13,18 @@ import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 import javax.annotation.Nullable;
 
-public class WallnutRenderer extends GeoEntityRenderer<PuffShroomEntity> {
+public class WallnutRenderer extends GeoEntityRenderer<WallnutEntity> {
     public WallnutRenderer(EntityRendererProvider.Context p_174008_) {
-        super(p_174008_, new PuffShroomModel());
+        super(p_174008_, new WallnutModel());
     }
 
     @Override
-    public ResourceLocation getTextureLocation(PuffShroomEntity p_114482_) {
-        return new ResourceLocation(ExampleMod.MODID, "textures/entity/puff_shroom.png");
+    public ResourceLocation getTextureLocation(WallnutEntity p_114482_) {
+        return new ResourceLocation(ExampleMod.MODID, "textures/entity/wall_nut.png");
     }
 
     @Override
-    public RenderType getRenderType(PuffShroomEntity animatable, float partialTicks, PoseStack stack,
+    public RenderType getRenderType(WallnutEntity animatable, float partialTicks, PoseStack stack,
                                     @Nullable MultiBufferSource renderTypeBuffer,
                                     @Nullable VertexConsumer vertexBuilder, int packedLightIn,
                                     ResourceLocation textureLocation) {

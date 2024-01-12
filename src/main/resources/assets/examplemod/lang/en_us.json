@@ -10,6 +10,14 @@
   "item.examplemod.threepeater_spawn_egg" : "Three Peater Spawn Egg",
   "item.examplemod.tangle_kelp_spawn_egg" : "Tangle Kelp Spawn Egg",
 
+  "item.examplemod.little_zombie_spawn_egg" : "Little Zombie Spawn Egg",
+  "item.examplemod.little_duck_tube_zombie_spawn_egg" : "Little Duck Tube Zombie Spawn Egg",
+  "item.examplemod.crazy_dave_spawn_egg" : "Crazy Dave Spawn Egg",
+  "item.examplemod.dave_car_spawn_egg" : "Dave Car Spawn Egg",
+  "item.examplemod.lawn_mower_spawn_egg" : "Lawn Mower Spawn Egg",
+  "item.examplemod.pool_cleaner_spawn_egg" : "Pool Cleaner Spawn Egg",
+  "item.examplemod.garden_rake_spawn_egg" : "Garden Rake Spawn Egg",
+
   "item.examplemod.pea_projectile_spawn_egg" : "Pea Projectile Spawn Egg",
 
 
@@ -21,6 +29,21 @@
   "item.examplemod.duck_tube_bucket_head_zombie_spawn_egg" : "Duck Tube Bucket Head Zombie Spawn Egg",
   "item.examplemod.snorkel_zombie_spawn_egg" : "Snorkel Zombie Spawn Egg",
 
+
+  "item.examplemod.zomboni_spawn_egg" : "Zomboni Spawn Egg",
+  "item.examplemod.sled_spawn_egg" : "Sled Spawn Egg",
+  "item.examplemod.zombie_bobsled_team_spawn_egg" : "Zombie Bobsled Team Spawn Egg",
+  "item.examplemod.jalapeno_spawn_egg" : "Jalapeno Spawn Egg",
+  "item.examplemod.dolphin_rider_zombie_spawn_egg" : "Dolphin Rider Zombie Spawn Egg",
+  "item.examplemod.spike_weed_spawn_egg" : "Spike Weed Spawn Egg",
+  "item.examplemod.torch_wood_spawn_egg" : "Torch Wood Spawn Egg",
+  "item.examplemod.tall_nut_spawn_egg" : "Tall nut Spawn Egg",
+
+  "item.examplemod.snow_pea_spawn_egg" : "Snow Pea Spawn Egg",
+  "item.examplemod.repeater_spawn_egg" : "Repeater Spawn Egg",
+  "item.examplemod.wall_nut_spawn_egg" : "Wall nut Spawn Egg",
+  "item.examplemod.pole_vaulting_zombie_spawn_egg" : "Pole Vaulting Zombie Spawn Egg",
+
   "item.examplemod.house_door_1" : "House Door 1",
   "item.examplemod.house_door_2" : "House Door 2",
   "item.examplemod.pool_chair" : "Pool Chair",
@@ -29,6 +52,10 @@
   "item.examplemod.stone2" : "Stone 2",
   "item.examplemod.fence" : "Fence",
   "item.examplemod.submarine" : "Submarine",
+
+  "item.examplemod.sliver_coin" : "Sliver Coin",
+  "item.examplemod.golden_coin" : "Golden Coin",
+  "item.examplemod.dave_key" : "Dave Key",
 
   "item.examplemod.zombie_hand" : "Zombie Hand",
   "item.examplemod.large_sun" : "Large Sun",

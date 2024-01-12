@@ -36,7 +36,7 @@ public class Stone1Entity extends Monster implements IAnimatable {
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 10.0D)
+                .add(Attributes.MAX_HEALTH, 1.0D)
                 .add(Attributes.ATTACK_DAMAGE, 3.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.ARMOR, 10)

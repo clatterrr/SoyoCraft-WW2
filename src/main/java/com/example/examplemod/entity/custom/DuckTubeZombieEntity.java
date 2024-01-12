@@ -1,5 +1,6 @@
 package com.example.examplemod.entity.custom;
 
+import com.example.examplemod.item.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -27,6 +28,8 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
+import java.util.List;
+
 public class DuckTubeZombieEntity extends TheZombieEntity implements IAnimatable {
 
     private static final EntityDataAccessor<Boolean> ATTACKING =
@@ -42,8 +45,9 @@ public class DuckTubeZombieEntity extends TheZombieEntity implements IAnimatable
     }
 
     public static AttributeSupplier setAttributes() {
+
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 50)
+                .add(Attributes.MAX_HEALTH, 12)
                 .add(Attributes.ATTACK_DAMAGE, 3.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.4f).build();
@@ -53,22 +57,15 @@ public class DuckTubeZombieEntity extends TheZombieEntity implements IAnimatable
 
     @Override
     protected void registerGoals() {
-        //this.goalSelector.addGoal(1, new SummonGoal());
-/*
-         this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.2D, false));
-        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this)); */
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, ThePlantEntity.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
 
 
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 
-        if(this.getHealth() > 30){
+        if(this.getHealth() > 3){
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.duck_tube_zombie.swim", true));
-        }else if(this.getHealth() > 10){
+        }else if(this.getHealth() > 1){
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.duck_tube_zombie.swim2", true));
         }else{
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.duck_tube_zombie.die", true));
@@ -112,32 +109,32 @@ public class DuckTubeZombieEntity extends TheZombieEntity implements IAnimatable
     int kill_tick = 0;
     public void tick() {
 
-        /*
-        if(this.kelped == true){
-            this.setDeltaMovement(0,-0.1f, 0);
-        }else{
-            if (this.getTarget() != null) {
-                double dx = this.getX() - this.getTarget().getX();
-                double dz = this.getZ() - this.getTarget().getZ();
-
-                if ((dx * dx + dz * dz) < 4.0) {
+        List<ThePlantEntity> plants = this.level.getEntitiesOfClass(ThePlantEntity.class, this.getBoundingBox().inflate(2));
+        if(!plants.isEmpty()) {
+            for (int i = 0; i < plants.size(); i++) {
+                ThePlantEntity z = plants.get(i);
+                if(z.getOnPos().getX() == this.getOnPos().getX() &&  z.position().z + 0.8f > this.position().z && z.position().z < this.position().z){
+                    this.kelped = true;
                     this.setAttacking(true);
+                    z.hurt(DamageSource.CACTUS, 1.0f);
                 }
-            }
-            if(this.getHealth() < 10){
-                this.kill_tick += 1;
-                this.setDeltaMovement(0, -0.1f, 0);
-                if(this.kill_tick > 40){
-                    this.kill();
-                }
-            }else{
-
-                this.setDeltaMovement(0, 0, -0.01f);
             }
         }
-        */
+
+        if(this.getHealth() <= 5 && this.drop_hand == false){
+            this.drop_hand = true;
+            this.spawnAtLocation(ModItems.ZOMBIE_HAND.get());
+        }
+        if(this.kelped) {
+            this.setDeltaMovement(0,0,0);
+        }else{
+
+            this.setDeltaMovement(0, 0, -0.005f);
+        }
+        this.kelped = false;
         super.tick();
-        this.yBodyRot = 180;
+
+        this.yBodyRot = 0;
     }
 
     public void setAttacking(boolean attacking) {

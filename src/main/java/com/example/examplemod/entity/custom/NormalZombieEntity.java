@@ -47,6 +47,7 @@ public class NormalZombieEntity extends TheZombieEntity implements IAnimatable {
     public NormalZombieEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         double r = pLevel.random.nextGaussian();
+        this.yBodyRot = 180;
         if(r < 0.4){
             this.setStyle(0);
         }else if(r < 0.6){
@@ -58,7 +59,7 @@ public class NormalZombieEntity extends TheZombieEntity implements IAnimatable {
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 30)
+                .add(Attributes.MAX_HEALTH, 10)
                 .add(Attributes.ATTACK_DAMAGE, 3.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.FLYING_SPEED, 0.1f)
@@ -82,7 +83,7 @@ public class NormalZombieEntity extends TheZombieEntity implements IAnimatable {
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 
 
-        if(this.getHealth() > 15){
+        if(this.getHealth() > 5){
             if(this.isAttacking() == true){
                 event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.attack", true));
             }else{
@@ -149,20 +150,32 @@ public class NormalZombieEntity extends TheZombieEntity implements IAnimatable {
     }
 
     public void tick() {
-
-        if (this.getTarget() != null) {
-            double dx = this.getX() - this.getTarget().getX();
-            double dz = this.getZ() - this.getTarget().getZ();
-
-            if ((dx * dx + dz * dz) < 4.0) {
-                this.setAttacking(true);
+        this.setAttacking(false);
+        List<ThePlantEntity> plants = this.level.getEntitiesOfClass(ThePlantEntity.class, this.getBoundingBox().inflate(2));
+        if(!plants.isEmpty()) {
+            for (int i = 0; i < plants.size(); i++) {
+                ThePlantEntity z = plants.get(i);
+                if(z.getOnPos().getX() == this.getOnPos().getX() &&  z.position().z + 0.8f > this.position().z){
+                    this.kelped = true;
+                    this.setAttacking(true);
+                    z.hurt(DamageSource.CACTUS, 1.0f);
+                }
             }
         }
-        if(this.getHealth() < 15 && this.drop_hand == false){
+        if(this.getHealth() <= 5 && this.drop_hand == false){
             this.drop_hand = true;
             this.spawnAtLocation(ModItems.ZOMBIE_HAND.get());
         }
+        if(this.kelped) {
+            this.setDeltaMovement(0,0,0);
+        }else{
+
+            this.setDeltaMovement(0, 0, -0.01f);
+        }
+        this.kelped = false;
         super.tick();
+
+        this.yBodyRot = 180;
     }
 
     public void setAttacking(boolean attacking) {

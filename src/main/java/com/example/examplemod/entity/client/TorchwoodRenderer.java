@@ -2,6 +2,7 @@ package com.example.examplemod.entity.client;
 
 import com.example.examplemod.ExampleMod;
 import com.example.examplemod.entity.custom.PuffShroomEntity;
+import com.example.examplemod.entity.custom.TorchwoodEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -12,18 +13,18 @@ import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 import javax.annotation.Nullable;
 
-public class TorchwoodRenderer extends GeoEntityRenderer<PuffShroomEntity> {
+public class TorchwoodRenderer extends GeoEntityRenderer<TorchwoodEntity> {
     public TorchwoodRenderer(EntityRendererProvider.Context p_174008_) {
-        super(p_174008_, new PuffShroomModel());
+        super(p_174008_, new TorchwoodModel());
     }
 
     @Override
-    public ResourceLocation getTextureLocation(PuffShroomEntity p_114482_) {
-        return new ResourceLocation(ExampleMod.MODID, "textures/entity/puff_shroom.png");
+    public ResourceLocation getTextureLocation(TorchwoodEntity p_114482_) {
+        return new ResourceLocation(ExampleMod.MODID, "textures/entity/torch_wood.png");
     }
 
     @Override
-    public RenderType getRenderType(PuffShroomEntity animatable, float partialTicks, PoseStack stack,
+    public RenderType getRenderType(TorchwoodEntity animatable, float partialTicks, PoseStack stack,
                                     @Nullable MultiBufferSource renderTypeBuffer,
                                     @Nullable VertexConsumer vertexBuilder, int packedLightIn,
                                     ResourceLocation textureLocation) {

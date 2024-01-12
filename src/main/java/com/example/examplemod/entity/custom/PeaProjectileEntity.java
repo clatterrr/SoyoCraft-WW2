@@ -1,5 +1,6 @@
 package com.example.examplemod.entity.custom;
 
+import com.example.examplemod.entity.ModEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -41,18 +42,22 @@ public class PeaProjectileEntity extends Monster implements IAnimatable {
         super(pEntityType, pLevel);
         this.setNoGravity(true);
         this.setBoundingBox(AABB.ofSize(new Vec3(0,0,0), 0, 0, 0));
+        this.could_fire = true;
     }
 
+    public void setCouldFire(boolean could_fire){
+        this.could_fire = could_fire;
+    }
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 15.0D)
+                .add(Attributes.MAX_HEALTH, 1.0D)
                 .add(Attributes.ATTACK_DAMAGE, 3.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 100f)
                 .add(Attributes.MOVEMENT_SPEED, 0.0f).build();
     }
 
-    private boolean drop_hand = false;
+    private boolean could_fire = true;
 
     @Override
     protected void registerGoals() {
@@ -120,10 +125,24 @@ public class PeaProjectileEntity extends Monster implements IAnimatable {
             for (int i = 0; i < zombies.size(); i++) {
                 TheZombieEntity z = zombies.get(i);
                 if(z.getOnPos().getX() == this.getOnPos().getX() && z.getOnPos().getZ() == this.getOnPos().getZ()){
-                    z.hurt(DamageSource.GENERIC, 3f);
+                    z.hurt(DamageSource.GENERIC, 0.1f);
                     this.remove(RemovalReason.KILLED);
                 }
             }
         }
+
+        if(this.could_fire){
+            List<TorchwoodEntity> torch = this.level.getEntitiesOfClass(TorchwoodEntity.class, this.getBoundingBox().inflate(1));
+            for(int i = 0; i< torch.size();i++){
+                TorchwoodEntity z = torch.get(i);
+                if(z.getOnPos().getZ()  == this.getOnPos().getZ() && z.getOnPos().getX() == this.getOnPos().getX()){
+                    FirePeaProjectileEntity pea = new FirePeaProjectileEntity(ModEntityTypes.FIRE_PEA_PROJECTILE.get(), this.level);
+                    pea.setPos(this.position());
+                    this.level.addFreshEntity(pea);
+                    this.remove(RemovalReason.DISCARDED);
+                }
+            }
+        }
+
     }
 }

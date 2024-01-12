@@ -44,7 +44,7 @@ public class PeaShooterEntity extends ThePlantEntity implements IAnimatable {
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 15.0D)
+                .add(Attributes.MAX_HEALTH, 10.0D)
                 .add(Attributes.ATTACK_DAMAGE, 3.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 100f)
@@ -55,9 +55,6 @@ public class PeaShooterEntity extends ThePlantEntity implements IAnimatable {
 
     @Override
     protected void registerGoals() {
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Villager.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, TheZombieEntity.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
@@ -115,7 +112,9 @@ public class PeaShooterEntity extends ThePlantEntity implements IAnimatable {
     public void tick(){
         this.cool_down += 1;
         this.yBodyRot = 0;
+        this.setDeltaMovement(0,0,0);
         super.tick();
+        this.setDeltaMovement(0,0,0);
         BlockPos bp = this.getOnPos();
         List<LilyPadEntity> lily_pads = this.level.getEntitiesOfClass(LilyPadEntity.class, this.getBoundingBox().inflate(1));
         if(!lily_pads.isEmpty()){
@@ -139,7 +138,7 @@ public class PeaShooterEntity extends ThePlantEntity implements IAnimatable {
             }
         }
         if(find_zombie == true){
-            if(this.cool_down > 8){
+            if(this.cool_down > 20){
                 this.cool_down = 0;
                 PeaProjectileEntity pea = new PeaProjectileEntity(ModEntityTypes.PEA_PROJECTILE.get(), this.level);
                 BlockPos bpq = this.getOnPos();

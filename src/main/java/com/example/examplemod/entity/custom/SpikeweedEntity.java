@@ -1,6 +1,8 @@
 package com.example.examplemod.entity.custom;
 
+import net.minecraft.client.particle.Particle;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -18,6 +20,8 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -27,11 +31,15 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class SpikeweedEntity extends ThePlantEntity implements IAnimatable {
+import java.util.List;
+
+public class SpikeweedEntity extends Monster implements IAnimatable {
 
     private static final EntityDataAccessor<Boolean> ATTACKING =
             SynchedEntityData.defineId(NormalZombieEntity.class, EntityDataSerializers.BOOLEAN);
     private AnimationFactory factory = new AnimationFactory(this);
+
+
 
     public SpikeweedEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -39,7 +47,7 @@ public class SpikeweedEntity extends ThePlantEntity implements IAnimatable {
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 15.0D)
+                .add(Attributes.MAX_HEALTH, 1.0D)
                 .add(Attributes.ATTACK_DAMAGE, 3.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 100f)
@@ -50,18 +58,14 @@ public class SpikeweedEntity extends ThePlantEntity implements IAnimatable {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new ShootGoal());
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Villager.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, TheZombieEntity.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         if(this.isAttacking()){
 
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.puff_shroom.attack", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.spike_weed.attack", true));
         }else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.puff_shroom.idle", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.spike_weed.idle", true));
         }
         return PlayState.CONTINUE;
     }
@@ -112,51 +116,34 @@ public class SpikeweedEntity extends ThePlantEntity implements IAnimatable {
         this.entityData.define(ATTACKING, false);
     }
 
+    private int cool_down = 0;
     public void tick(){
         this.yBodyRot = 90;
+        this.cool_down += 1;
+        Boolean attack = false;
+        this.setDeltaMovement(0,0,0);
         super.tick();
+        this.setDeltaMovement(0,0,0);
+        List<TheZombieEntity> plants = this.level.getEntitiesOfClass(TheZombieEntity.class, this.getBoundingBox().inflate(2));
+        if(!plants.isEmpty()) {
+                for (int i = 0; i < plants.size(); i++) {
+                    TheZombieEntity z = plants.get(i);
+                    if(z.getOnPos().getX() == this.getOnPos().getX() && z.getOnPos().getZ() == this.getOnPos().getZ()){
+                        z.hurt(DamageSource.CACTUS, 0.5f);
+                        attack = true;
+                    }
+                    if(z.getOnPos().getX() == this.getOnPos().getX() && z.getOnPos().getZ() == this.getOnPos().getZ() + 1){
+                        if(z instanceof ZomboniEntity zomboni){
+                            this.level.addParticle(ParticleTypes.EXPLOSION, z.position().x, z.position().y, z.position().z, 1.0f, 1.0f, 1.0f);
+                            zomboni.kill();
+                            this.kill();
+                        }
+                    }
 
-    }
-
-    public class ShootGoal extends Goal {
-        private final SpikeweedEntity shroom;
-
-        public ShootGoal() {
-            shroom = SpikeweedEntity.this;
-        }
-
-        private int cool_down = 0;
-
-        @Override
-        public boolean canUse() {
-
-            if(this.shroom.getTarget() != null){
-
-                BlockPos bp0 = this.shroom.getTarget().getOnPos();
-                BlockPos bp1 = this.shroom.getOnPos();
-
-                if(bp0.getZ() - bp1.getZ() < 8 && bp0.getZ() - bp1.getZ() > -1 ){
-                    this.shroom.setAttacking(true);
-                    return true;
                 }
-            }
-            this.shroom.setAttacking(false);
-            return false;
+
+
         }
-
-        public void tick() {
-            Vec3 p = this.shroom.getTarget().position();
-            final double d0 = this.shroom.random.nextGaussian() * 0.2D;
-            final double d1 = this.shroom.random.nextGaussian() * 0.2D;
-            final double d2 = this.shroom.random.nextGaussian() * 0.2D;
-            this.shroom.getLevel().addParticle(ParticleTypes.SPLASH, p.x, p.y, p.z, d0, d1, d2);
-            this.cool_down += 1;
-            if(this.cool_down > 5) {
-
-
-
-            }
-        }
+        this.setAttacking(attack);
     }
-
 }

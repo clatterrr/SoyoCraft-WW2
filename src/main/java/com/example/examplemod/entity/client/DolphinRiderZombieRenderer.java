@@ -1,6 +1,7 @@
 package com.example.examplemod.entity.client;
 
 import com.example.examplemod.ExampleMod;
+import com.example.examplemod.entity.custom.DolphinRiderZombieEntity;
 import com.example.examplemod.entity.custom.NormalZombieEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -12,20 +13,20 @@ import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 import javax.annotation.Nullable;
 
-public class DolphinRiderZombieRenderer extends GeoEntityRenderer<NormalZombieEntity> {
+public class DolphinRiderZombieRenderer extends GeoEntityRenderer<DolphinRiderZombieEntity> {
 
     public DolphinRiderZombieRenderer(EntityRendererProvider.Context renderManager) {
-        super(renderManager, new NormalZombieModel());
+        super(renderManager, new DolphinRiderZombieModel());
         this.shadowRadius = 0.3f;
     }
 
     @Override
-    public ResourceLocation getTextureLocation(NormalZombieEntity instance) {
-        return new ResourceLocation(ExampleMod.MODID, "textures/entity/normal_zombie.png");
+    public ResourceLocation getTextureLocation(DolphinRiderZombieEntity instance) {
+        return new ResourceLocation(ExampleMod.MODID, "textures/entity/dolphin_rider_zombie.png");
     }
 
     @Override
-    public RenderType getRenderType(NormalZombieEntity animatable, float partialTicks, PoseStack stack,
+    public RenderType getRenderType(DolphinRiderZombieEntity animatable, float partialTicks, PoseStack stack,
                                     @Nullable MultiBufferSource renderTypeBuffer,
                                     @Nullable VertexConsumer vertexBuilder, int packedLightIn,
                                     ResourceLocation textureLocation) {

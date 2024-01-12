@@ -14,6 +14,54 @@ public class ModEntityTypes {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
             DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, ExampleMod.MODID);
 
+    public static final RegistryObject<EntityType<SledEntity>> SLED =
+            ENTITY_TYPES.register("sled",
+                    () -> EntityType.Builder.of(SledEntity::new, MobCategory.MONSTER)
+                            .sized(0.4f, 1.5f)
+                            .build(new ResourceLocation(ExampleMod.MODID, "sled").toString()));
+
+    public static final RegistryObject<EntityType<LittleZombieEntity>> LITTLE_ZOMBIE =
+            ENTITY_TYPES.register("little_zombie",
+                    () -> EntityType.Builder.of(LittleZombieEntity::new, MobCategory.MONSTER)
+                            .sized(0.4f, 1.5f)
+                            .build(new ResourceLocation(ExampleMod.MODID, "little_zombie").toString()));
+
+    public static final RegistryObject<EntityType<LittleDuckyTubeZombieEntity>> LITTLE_DUCK_TUBE_ZOMBIE =
+            ENTITY_TYPES.register("little_duck_tube_zombie",
+                    () -> EntityType.Builder.of(LittleDuckyTubeZombieEntity::new, MobCategory.MONSTER)
+                            .sized(0.4f, 1.5f)
+                            .build(new ResourceLocation(ExampleMod.MODID, "little_duck_tube_zombie").toString()));
+
+    public static final RegistryObject<EntityType<CrazyDaveEntity>> CRAZY_DAVE =
+            ENTITY_TYPES.register("crazy_dave",
+                    () -> EntityType.Builder.of(CrazyDaveEntity::new, MobCategory.MONSTER)
+                            .sized(0.4f, 1.5f)
+                            .build(new ResourceLocation(ExampleMod.MODID, "crazy_dave").toString()));
+
+    public static final RegistryObject<EntityType<DaveCarEntity>> DAVE_CAR =
+            ENTITY_TYPES.register("dave_car",
+                    () -> EntityType.Builder.of(DaveCarEntity::new, MobCategory.MONSTER)
+                            .sized(0.4f, 1.5f)
+                            .build(new ResourceLocation(ExampleMod.MODID, "dave_car").toString()));
+
+    public static final RegistryObject<EntityType<LawnMowerEntity>> LAWN_MOWER =
+            ENTITY_TYPES.register("lawn_mower",
+                    () -> EntityType.Builder.of(LawnMowerEntity::new, MobCategory.MONSTER)
+                            .sized(0.4f, 1.5f)
+                            .build(new ResourceLocation(ExampleMod.MODID, "lawn_mower").toString()));
+
+    public static final RegistryObject<EntityType<PoolCleanerEntity>> POOL_CLEANER =
+            ENTITY_TYPES.register("pool_cleaner",
+                    () -> EntityType.Builder.of(PoolCleanerEntity::new, MobCategory.MONSTER)
+                            .sized(0.4f, 1.5f)
+                            .build(new ResourceLocation(ExampleMod.MODID, "pool_cleaner").toString()));
+
+    public static final RegistryObject<EntityType<GardenRakeEntity>> GARDEN_RAKE =
+            ENTITY_TYPES.register("garden_rake",
+                    () -> EntityType.Builder.of(GardenRakeEntity::new, MobCategory.MONSTER)
+                            .sized(0.4f, 1.5f)
+                            .build(new ResourceLocation(ExampleMod.MODID, "garden_rake").toString()));
+
 
     public static final RegistryObject<EntityType<NormalZombieEntity>> NORMAL_ZOMBIE =
             ENTITY_TYPES.register("normal_zombie",
@@ -32,6 +80,18 @@ public class ModEntityTypes {
                     () -> EntityType.Builder.of(PeaProjectileEntity::new, MobCategory.MONSTER)
                             .sized(0.4f, 1.5f)
                             .build(new ResourceLocation(ExampleMod.MODID, "pea_projectile").toString()));
+
+    public static final RegistryObject<EntityType<IcePeaProjectileEntity>> ICE_PEA_PROJECTILE =
+            ENTITY_TYPES.register("ice_pea_projectile",
+                    () -> EntityType.Builder.of(IcePeaProjectileEntity::new, MobCategory.MONSTER)
+                            .sized(0.4f, 1.5f)
+                            .build(new ResourceLocation(ExampleMod.MODID, "ice_pea_projectile").toString()));
+
+    public static final RegistryObject<EntityType<FirePeaProjectileEntity>> FIRE_PEA_PROJECTILE =
+            ENTITY_TYPES.register("fire_pea_projectile",
+                    () -> EntityType.Builder.of(FirePeaProjectileEntity::new, MobCategory.MONSTER)
+                            .sized(0.4f, 1.5f)
+                            .build(new ResourceLocation(ExampleMod.MODID, "fire_pea_projectile").toString()));
 
     public static final RegistryObject<EntityType<PuffShroomSleepEntity>> PUFF_SHROOM_SLEEP =
             ENTITY_TYPES.register("puff_shroom_sleep",
@@ -142,6 +202,18 @@ public class ModEntityTypes {
                     () -> EntityType.Builder.of(PeaShooterEntity::new, MobCategory.MONSTER)
                             .sized(0.4f, 1.5f)
                             .build(new ResourceLocation(ExampleMod.MODID, "pea_shooter").toString()));
+
+    public static final RegistryObject<EntityType<SnowPeaEntity>> SNOW_PEA =
+            ENTITY_TYPES.register("snow_pea",
+                    () -> EntityType.Builder.of(SnowPeaEntity::new, MobCategory.MONSTER)
+                            .sized(0.4f, 1.5f)
+                            .build(new ResourceLocation(ExampleMod.MODID, "snow_pea").toString()));
+
+    public static final RegistryObject<EntityType<RepeaterEntity>> REPEATER =
+            ENTITY_TYPES.register("repeater",
+                    () -> EntityType.Builder.of(RepeaterEntity::new, MobCategory.MONSTER)
+                            .sized(0.4f, 1.5f)
+                            .build(new ResourceLocation(ExampleMod.MODID, "repeater").toString()));
 
     public static final RegistryObject<EntityType<SunflowerEntity>> SUNFLOWER =
             ENTITY_TYPES.register("sunflower",

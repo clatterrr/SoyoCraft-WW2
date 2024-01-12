@@ -26,6 +26,8 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
+import java.util.List;
+
 public class PoleVaultingZombieEntity extends TheZombieEntity implements IAnimatable {
 
     private static final EntityDataAccessor<Boolean> ATTACKING =
@@ -37,71 +39,37 @@ public class PoleVaultingZombieEntity extends TheZombieEntity implements IAnimat
 
     public PoleVaultingZombieEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
-        double r = pLevel.random.nextGaussian();
-        if(r < 0.4){
-            this.setStyle(0);
-        }else if(r < 0.6){
-            this.setStyle(1);
-        }else {
-            this.setStyle(2);
-        }
+
     }
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 40)
+                .add(Attributes.MAX_HEALTH, 12)
                 .add(Attributes.ATTACK_DAMAGE, 3.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.07f).build();
     }
 
-    private boolean drop_hand = false;
+    private boolean is_tall_nut = false;
 
     @Override
     protected void registerGoals() {
-        //this.goalSelector.addGoal(1, new SummonGoal());
-
-         this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.2D, false));
-        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, ThePlantEntity.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
-
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 
 
-        if(this.getHealth() > 20){
-            if(this.isAttacking() == true){
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.attack", true));
-            }else{
-                if(this.Style() == 0){
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk", true));
-                }else if(this.Style() == 1){
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk2", true));
-                }else {
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk3", true));
-                }
-
-            }
-        }else {
-            if(this.isAttacking()){
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.attack2", true));
-            }else{
-                if(this.Style() == 0){
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk1_1", true));
-                }else if(this.Style() == 1){
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk2_1", true));
-                }else {
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk3_1", true));
-                }
-
+        if(this.Style() == 0){
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.pole_vaulting_zombie.walk", true));
+        }else if(this.Style() ==1){
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.pole_vaulting_zombie.jump", false));
+        }else if(this.Style() == 2) {
+            if (this.isAttacking()) {
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.pole_vaulting_zombie.attack", true));
+            } else {
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.pole_vaulting_zombie.walk2", true));
             }
         }
-
-
-
         return PlayState.CONTINUE;
     }
 
@@ -137,18 +105,67 @@ public class PoleVaultingZombieEntity extends TheZombieEntity implements IAnimat
     protected float getSoundVolume() {
         return 0.2F;
     }
-
+    private  int cool = 0;
     public void tick() {
 
-        if (this.getTarget() != null) {
-            double dx = this.getX() - this.getTarget().getX();
-            double dz = this.getZ() - this.getTarget().getZ();
-
-            if ((dx * dx + dz * dz) < 4.0) {
-                this.setAttacking(true);
+        if(this.Style() == 0){
+            this.setDeltaMovement(0,0, -0.02f);
+            List<ThePlantEntity> plants = this.level.getEntitiesOfClass(ThePlantEntity.class, this.getBoundingBox().inflate(2));
+            if(!plants.isEmpty()) {
+                for (int i = 0; i < plants.size(); i++) {
+                    ThePlantEntity z = plants.get(i);
+                    if(z.getOnPos().getX() == this.getOnPos().getX() &&  z.position().z + 0.8f > this.position().z &&  z.position().z < this.position().z){
+                        this.setStyle(1);
+                        if(z instanceof  TallnutEntity tall){
+                            this.is_tall_nut = true;
+                        }
+                    }
+                }
             }
         }
+
+        if(this.Style() == 1){
+            this.cool += 1;
+            if(this.cool < 12) {
+                if(this.is_tall_nut){
+
+                    this.setDeltaMovement(0,0.1, 0);
+                }else {
+
+                    this.setDeltaMovement(0,0.1, -0.04f);
+                }
+            }else{
+                if(this.is_tall_nut){
+
+                    this.setDeltaMovement(0,-0.1, 0);
+                }else {
+
+                    this.setDeltaMovement(0,-0.1, -0.04f);
+                }
+            }
+            if(this.cool >= 24){
+                this.setStyle(2);
+            }
+        }
+
+        if(this.Style() == 2){
+            this.setDeltaMovement(0,0,-0.01f);
+            this.setAttacking(false);
+            List<ThePlantEntity> plants = this.level.getEntitiesOfClass(ThePlantEntity.class, this.getBoundingBox().inflate(2));
+            if(!plants.isEmpty()) {
+                for (int i = 0; i < plants.size(); i++) {
+                    ThePlantEntity z = plants.get(i);
+                    if(z.getOnPos().getX() == this.getOnPos().getX()  &&  z.position().z + 0.8f > this.position().z &&  z.position().z < this.position().z){
+                        this.setDeltaMovement(0,0,0);
+                        this.setAttacking(true);
+                        z.hurt(DamageSource.CACTUS, 1.0f);
+                    }
+                }
+            }
+
+        }
         super.tick();
+        this.yBodyRot = 180;
     }
 
     public void setAttacking(boolean attacking) {

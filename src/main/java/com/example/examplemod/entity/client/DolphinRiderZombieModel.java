@@ -1,25 +1,26 @@
 package com.example.examplemod.entity.client;
 
 import com.example.examplemod.ExampleMod;
+import com.example.examplemod.entity.custom.DolphinRiderZombieEntity;
 import com.example.examplemod.entity.custom.NormalZombieEntity;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 
-public class DolphinRiderZombieModel extends AnimatedGeoModel<NormalZombieEntity> {
+public class DolphinRiderZombieModel extends AnimatedGeoModel<DolphinRiderZombieEntity> {
 
     @Override
-    public ResourceLocation getModelResource(NormalZombieEntity animatable) {
-        return new ResourceLocation(ExampleMod.MODID, "geo/normal_zombie.geo.json");
+    public ResourceLocation getModelResource(DolphinRiderZombieEntity animatable) {
+        return new ResourceLocation(ExampleMod.MODID, "geo/dolphin_rider_zombie.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureResource(NormalZombieEntity animatable) {
-        return new ResourceLocation(ExampleMod.MODID, "textures/entity/normal_zombie.png");
+    public ResourceLocation getTextureResource(DolphinRiderZombieEntity animatable) {
+        return new ResourceLocation(ExampleMod.MODID, "textures/entity/dolphin_rider_zombie.png");
     }
 
     @Override
-    public ResourceLocation getAnimationResource(NormalZombieEntity  animatable) {
-       return new ResourceLocation(ExampleMod.MODID, "animations/normal_zombie.animation.json");
+    public ResourceLocation getAnimationResource(DolphinRiderZombieEntity  animatable) {
+       return new ResourceLocation(ExampleMod.MODID, "animations/dolphin_rider_zombie.animation.json");
 
     }
 

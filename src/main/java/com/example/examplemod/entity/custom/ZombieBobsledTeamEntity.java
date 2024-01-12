@@ -1,5 +1,6 @@
 package com.example.examplemod.entity.custom;
 
+import com.example.examplemod.entity.ModEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -17,6 +18,7 @@ import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -49,8 +51,8 @@ public class ZombieBobsledTeamEntity extends TheZombieEntity implements IAnimata
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 40)
-                .add(Attributes.ATTACK_DAMAGE, 3.0f)
+                .add(Attributes.MAX_HEALTH, 10)
+                .add(Attributes.ATTACK_DAMAGE, 1.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.07f).build();
     }
@@ -72,7 +74,7 @@ public class ZombieBobsledTeamEntity extends TheZombieEntity implements IAnimata
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 
 
-        if(this.getHealth() > 20){
+        if(this.getHealth() > 5){
             if(this.isAttacking() == true){
                 event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.attack", true));
             }else{
@@ -140,15 +142,9 @@ public class ZombieBobsledTeamEntity extends TheZombieEntity implements IAnimata
 
     public void tick() {
 
-        if (this.getTarget() != null) {
-            double dx = this.getX() - this.getTarget().getX();
-            double dz = this.getZ() - this.getTarget().getZ();
-
-            if ((dx * dx + dz * dz) < 4.0) {
-                this.setAttacking(true);
-            }
-        }
+        this.setDeltaMovement(0, 0, -0.01f);
         super.tick();
+        this.yBodyRot = 180;
     }
 
     public void setAttacking(boolean attacking) {

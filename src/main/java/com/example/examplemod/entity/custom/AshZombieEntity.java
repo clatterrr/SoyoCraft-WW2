@@ -26,7 +26,7 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class AshZombieEntity extends TheZombieEntity implements IAnimatable {
+public class AshZombieEntity extends Monster implements IAnimatable {
 
     private static final EntityDataAccessor<Boolean> ATTACKING =
             SynchedEntityData.defineId(AshZombieEntity.class, EntityDataSerializers.BOOLEAN);
@@ -104,8 +104,9 @@ public class AshZombieEntity extends TheZombieEntity implements IAnimatable {
 
     public void tick() {
         if(this.tickCount > 100){
-            this.kill();
+            this.remove(RemovalReason.DISCARDED);
         }
+        this.yBodyRot = 90;
         super.tick();
     }
 

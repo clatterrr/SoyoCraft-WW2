@@ -29,8 +29,9 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class TallnutEntity extends ThePlantEntity implements IAnimatable {
 
-    private static final EntityDataAccessor<Boolean> ATTACKING =
-            SynchedEntityData.defineId(NormalZombieEntity.class, EntityDataSerializers.BOOLEAN);
+
+    private static final EntityDataAccessor<Integer> STYLE =
+            SynchedEntityData.defineId(TallnutEntity.class, EntityDataSerializers.INT);
     private AnimationFactory factory = new AnimationFactory(this);
 
     public TallnutEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
@@ -39,7 +40,7 @@ public class TallnutEntity extends ThePlantEntity implements IAnimatable {
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 15.0D)
+                .add(Attributes.MAX_HEALTH, 60.0D)
                 .add(Attributes.ATTACK_DAMAGE, 3.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 100f)
@@ -50,19 +51,20 @@ public class TallnutEntity extends ThePlantEntity implements IAnimatable {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new ShootGoal());
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Villager.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, TheZombieEntity.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        if(this.isAttacking()){
+        if(this.Style() == 0){
 
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.puff_shroom.attack", true));
-        }else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.puff_shroom.idle", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.wall_nut.idle", true));
+        }else if(this.Style() == 1){
+
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.wall_nut.idle2", true));
+        }else if(this.Style() == 2){
+
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.wall_nut.idle3", true));
         }
+
         return PlayState.CONTINUE;
     }
 
@@ -98,64 +100,32 @@ public class TallnutEntity extends ThePlantEntity implements IAnimatable {
         return 0.2F;
     }
 
-    public void setAttacking(boolean attacking) {
-        this.entityData.set(ATTACKING, attacking);
+    public void setStyle(int style) {
+        this.entityData.set(STYLE, style);
     }
 
-    public boolean isAttacking() {
-        return this.entityData.get(ATTACKING);
+    public int Style() {
+        return this.entityData.get(STYLE);
     }
 
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(ATTACKING, false);
+        this.entityData.define(STYLE, 0);
     }
 
     public void tick(){
         this.yBodyRot = 90;
+        this.setDeltaMovement(0,0,0);
         super.tick();
+        this.setDeltaMovement(0,0,0);
+        if(this.getHealth() >= 40){
+            this.setStyle(0);
+        }else if(this.getHealth() >= 20){
+            this.setStyle(1);
+        }else {
+            this.setStyle(2);
+        }
 
     }
-
-    public class ShootGoal extends Goal {
-        private final TallnutEntity shroom;
-
-        public ShootGoal() {
-            shroom = TallnutEntity.this;
-        }
-
-        private int cool_down = 0;
-
-        @Override
-        public boolean canUse() {
-
-            if(this.shroom.getTarget() != null){
-
-                BlockPos bp0 = this.shroom.getTarget().getOnPos();
-                BlockPos bp1 = this.shroom.getOnPos();
-
-                if(bp0.getZ() - bp1.getZ() < 8 && bp0.getZ() - bp1.getZ() > -1 ){
-                    this.shroom.setAttacking(true);
-                    return true;
-                }
-            }
-            this.shroom.setAttacking(false);
-            return false;
-        }
-
-        public void tick() {
-            Vec3 p = this.shroom.getTarget().position();
-            final double d0 = this.shroom.random.nextGaussian() * 0.2D;
-            final double d1 = this.shroom.random.nextGaussian() * 0.2D;
-            final double d2 = this.shroom.random.nextGaussian() * 0.2D;
-            this.shroom.getLevel().addParticle(ParticleTypes.SPLASH, p.x, p.y, p.z, d0, d1, d2);
-            this.cool_down += 1;
-            if(this.cool_down > 5) {
-
-
-            }
-        }
-    }
-
 }

@@ -2,6 +2,7 @@ package com.example.examplemod.entity.client;
 
 import com.example.examplemod.ExampleMod;
 import com.example.examplemod.entity.custom.NormalZombieEntity;
+import com.example.examplemod.entity.custom.ZomboniEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -12,20 +13,20 @@ import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 import javax.annotation.Nullable;
 
-public class ZomboniRenderer extends GeoEntityRenderer<NormalZombieEntity> {
+public class ZomboniRenderer extends GeoEntityRenderer<ZomboniEntity> {
 
     public ZomboniRenderer(EntityRendererProvider.Context renderManager) {
-        super(renderManager, new NormalZombieModel());
+        super(renderManager, new ZomboniModel());
         this.shadowRadius = 0.3f;
     }
 
     @Override
-    public ResourceLocation getTextureLocation(NormalZombieEntity instance) {
-        return new ResourceLocation(ExampleMod.MODID, "textures/entity/normal_zombie.png");
+    public ResourceLocation getTextureLocation(ZomboniEntity instance) {
+        return new ResourceLocation(ExampleMod.MODID, "textures/entity/zomboni.png");
     }
 
     @Override
-    public RenderType getRenderType(NormalZombieEntity animatable, float partialTicks, PoseStack stack,
+    public RenderType getRenderType(ZomboniEntity animatable, float partialTicks, PoseStack stack,
                                     @Nullable MultiBufferSource renderTypeBuffer,
                                     @Nullable VertexConsumer vertexBuilder, int packedLightIn,
                                     ResourceLocation textureLocation) {

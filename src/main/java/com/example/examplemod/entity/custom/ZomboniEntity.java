@@ -17,6 +17,7 @@ import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -25,6 +26,8 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+
+import java.util.List;
 
 public class ZomboniEntity extends TheZombieEntity implements IAnimatable {
 
@@ -49,7 +52,7 @@ public class ZomboniEntity extends TheZombieEntity implements IAnimatable {
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 40)
+                .add(Attributes.MAX_HEALTH, 20)
                 .add(Attributes.ATTACK_DAMAGE, 3.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.07f).build();
@@ -70,37 +73,7 @@ public class ZomboniEntity extends TheZombieEntity implements IAnimatable {
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-
-
-        if(this.getHealth() > 20){
-            if(this.isAttacking() == true){
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.attack", true));
-            }else{
-                if(this.Style() == 0){
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk", true));
-                }else if(this.Style() == 1){
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk2", true));
-                }else {
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk3", true));
-                }
-
-            }
-        }else {
-            if(this.isAttacking()){
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.attack2", true));
-            }else{
-                if(this.Style() == 0){
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk1_1", true));
-                }else if(this.Style() == 1){
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk2_1", true));
-                }else {
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk3_1", true));
-                }
-
-            }
-        }
-
-
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.zomboni.walk", true));
 
         return PlayState.CONTINUE;
     }
@@ -140,15 +113,25 @@ public class ZomboniEntity extends TheZombieEntity implements IAnimatable {
 
     public void tick() {
 
-        if (this.getTarget() != null) {
-            double dx = this.getX() - this.getTarget().getX();
-            double dz = this.getZ() - this.getTarget().getZ();
-
-            if ((dx * dx + dz * dz) < 4.0) {
-                this.setAttacking(true);
+       // this.setDeltaMovement(0, 0, -0.02f);
+        super.tick();
+        this.yBodyRot = 0;
+        /*
+        BlockPos bp = this.getOnPos();
+        if(this.level.getBlockState(bp).getBlock() != Blocks.ICE){
+            this.level.setBlock(bp, Blocks.ICE.defaultBlockState(), 1);
+        }
+        List<ThePlantEntity> plants = this.level.getEntitiesOfClass(ThePlantEntity.class, this.getBoundingBox().inflate(2));
+        if(!plants.isEmpty()) {
+            for (int i = 0; i < plants.size(); i++) {
+                ThePlantEntity z = plants.get(i);
+                if(z.getOnPos().getX() == this.getOnPos().getX() && z.getOnPos().getZ() == this.getOnPos().getZ() - 1){
+                    z.kill();
+                }
             }
         }
-        super.tick();
+        */
+
     }
 
     public void setAttacking(boolean attacking) {

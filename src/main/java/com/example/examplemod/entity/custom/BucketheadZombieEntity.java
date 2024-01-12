@@ -1,5 +1,6 @@
 package com.example.examplemod.entity.custom;
 
+import com.example.examplemod.item.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -49,7 +50,7 @@ public class BucketheadZombieEntity extends TheZombieEntity implements IAnimatab
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 40)
+                .add(Attributes.MAX_HEALTH, 30)
                 .add(Attributes.ATTACK_DAMAGE, 3.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.07f).build();
@@ -71,37 +72,13 @@ public class BucketheadZombieEntity extends TheZombieEntity implements IAnimatab
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 
+        if(this.isAttacking()){
 
-        if(this.getHealth() > 20){
-            if(this.isAttacking() == true){
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.attack", true));
-            }else{
-                if(this.Style() == 0){
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk", true));
-                }else if(this.Style() == 1){
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk2", true));
-                }else {
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk3", true));
-                }
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.bucket_head_zombie.attack", true));
+        }else{
 
-            }
-        }else {
-            if(this.isAttacking()){
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.attack2", true));
-            }else{
-                if(this.Style() == 0){
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk1_1", true));
-                }else if(this.Style() == 1){
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk2_1", true));
-                }else {
-                    event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.walk3_1", true));
-                }
-
-            }
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.bucket_head_zombie.walk", true));
         }
-
-
-
         return PlayState.CONTINUE;
     }
 
@@ -148,7 +125,14 @@ public class BucketheadZombieEntity extends TheZombieEntity implements IAnimatab
                 this.setAttacking(true);
             }
         }
+        if(this.getHealth() <= 5 && this.drop_hand == false){
+            this.drop_hand = true;
+            this.spawnAtLocation(ModItems.ZOMBIE_HAND.get());
+        }
+        this.setDeltaMovement(0, 0, -0.01f);
         super.tick();
+
+        this.yBodyRot = 180;
     }
 
     public void setAttacking(boolean attacking) {

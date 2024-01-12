@@ -1,5 +1,7 @@
 package com.example.examplemod.entity.custom;
 
+import com.example.examplemod.block.ModBlocks;
+import com.example.examplemod.entity.ModEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -17,6 +19,8 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -27,6 +31,8 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
+import java.util.List;
+
 public class JalapenoEntity extends ThePlantEntity implements IAnimatable {
 
     private static final EntityDataAccessor<Boolean> ATTACKING =
@@ -35,11 +41,12 @@ public class JalapenoEntity extends ThePlantEntity implements IAnimatable {
 
     public JalapenoEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+        this.setNoGravity(true);
     }
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 15.0D)
+                .add(Attributes.MAX_HEALTH, 1.0D)
                 .add(Attributes.ATTACK_DAMAGE, 3.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 100f)
@@ -57,12 +64,8 @@ public class JalapenoEntity extends ThePlantEntity implements IAnimatable {
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        if(this.isAttacking()){
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.jalapeno.idle2", false));
 
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.puff_shroom.attack", true));
-        }else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.puff_shroom.idle", true));
-        }
         return PlayState.CONTINUE;
     }
 
@@ -111,11 +114,64 @@ public class JalapenoEntity extends ThePlantEntity implements IAnimatable {
         super.defineSynchedData();
         this.entityData.define(ATTACKING, false);
     }
-
+    private int cool = 0;
     public void tick(){
-        this.yBodyRot = 90;
+        this.yBodyRot = 270;
         super.tick();
+        /*
+        this.cool += 1;
+        if(this.cool == 20){
+            List<TheZombieEntity> plants = this.level.getEntitiesOfClass(TheZombieEntity.class, this.getBoundingBox().inflate(6));
+            if(!plants.isEmpty()) {
+                for (int i = 0; i < plants.size(); i++) {
+                    TheZombieEntity z = plants.get(i);
+                    if(z.getOnPos().getX() == this.getOnPos().getX()){
+                        AshZombieEntity ash = new AshZombieEntity(ModEntityTypes.ASH_ZOMBIE.get(), this.level);
+                        ash.setPos(z.position());
+                        this.level.addFreshEntity(ash);
+                        z.remove(RemovalReason.DISCARDED);
+                    }
+                }
+            }
+            BlockPos pos = this.getOnPos();
+            for(int i = -10; i < 10;i++){
+                BlockPos np = new BlockPos(pos.getX(), pos.getY(), pos.getZ() + i);
+                BlockPos np1 = new BlockPos(pos.getX(), pos.getY() + 1.0f, pos.getZ() + i);
+                if(this.level.getBlockState(np).getBlock() == Blocks.ICE || this.level.getBlockState(np).getBlock() == Blocks.GRASS_BLOCK || this.level.getBlockState(np).getBlock() == ModBlocks.POOL_BRICK_4.get()|| this.level.getBlockState(np).getBlock() == ModBlocks.POOL_BRICK_3.get()){
+                    this.level.setBlock(np1, Blocks.FIRE.defaultBlockState(), 1);
+                    this.level.setBlock(np, Blocks.GRASS_BLOCK.defaultBlockState(), 1);
+                }
+                if(this.level.getBlockState(np).getBlock() == Blocks.WATER){
+                    this.level.setBlock(np1, Blocks.FIRE.defaultBlockState(), 1);
+                }
+            }
+        }
+        BlockPos pos = this.getOnPos();
+        if(this.cool > 20){
+            for(int i = -10; i < 10;i++){
+                BlockPos np = new BlockPos(pos.getX(), pos.getY(), pos.getZ() + i);
+                BlockPos np1 = new BlockPos(pos.getX(), pos.getY() + 1.0f, pos.getZ() + i);
+                if(this.level.getBlockState(np).getBlock() == Blocks.WATER){
+                    this.level.setBlock(np1, Blocks.FIRE.defaultBlockState(), 1);
+                }
+            }
+        }
+        if(this.cool > 30){
+            for(int i = -10; i < 10;i++){
+                BlockPos np = new BlockPos(pos.getX(), pos.getY(), pos.getZ() + i);
+                BlockPos np1 = new BlockPos(pos.getX(), pos.getY() + 1.0f, pos.getZ() + i);
+                if(this.level.getBlockState(np).getBlock() == Blocks.ICE || this.level.getBlockState(np).getBlock() == Blocks.GRASS_BLOCK || this.level.getBlockState(np).getBlock() == ModBlocks.POOL_BRICK_4.get()|| this.level.getBlockState(np).getBlock() == ModBlocks.POOL_BRICK_3.get()){
 
+                    this.level.setBlock(np, Blocks.GRASS_BLOCK.defaultBlockState(), 1);
+                    this.level.setBlock(np1, Blocks.AIR.defaultBlockState(), 1);
+                }
+                if(this.level.getBlockState(np).getBlock() == Blocks.WATER){
+                    this.level.setBlock(np1, Blocks.FIRE.defaultBlockState(), 1);
+                }
+            }
+            this.kill();
+        }
+        */
     }
 
     public class ShootGoal extends Goal {

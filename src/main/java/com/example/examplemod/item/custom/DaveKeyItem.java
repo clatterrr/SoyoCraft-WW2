@@ -5,9 +5,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
-public class LawnMowerItem extends Item {
+public class DaveKeyItem extends Item {
 
-    public LawnMowerItem(Properties p_41383_) {
+    public DaveKeyItem(Properties p_41383_) {
         super(p_41383_);
     }
 
