@@ -115,7 +115,7 @@ public class ZomboniEntity extends TheZombieEntity implements IAnimatable {
 
        // this.setDeltaMovement(0, 0, -0.02f);
         super.tick();
-        this.yBodyRot = 0;
+        this.yBodyRot = -20;
         /*
         BlockPos bp = this.getOnPos();
         if(this.level.getBlockState(bp).getBlock() != Blocks.ICE){

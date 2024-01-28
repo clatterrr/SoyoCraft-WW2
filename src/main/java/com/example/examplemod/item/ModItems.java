@@ -3,6 +3,7 @@ package com.example.examplemod.item;
 import com.example.examplemod.ExampleMod;
 import com.example.examplemod.entity.ModEntityTypes;
 import com.example.examplemod.item.custom.*;
+import com.example.examplemod.item.custom.IronBucketItem;
 import net.minecraft.world.item.*;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -219,6 +220,9 @@ public class ModItems {
     public static final RegistryObject<Item> DAVE_KEY = ITEMS.register("dave_key", () -> new DaveKeyItem(new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(100)));
 
     public static final RegistryObject<Item> GOLDEN_COIN = ITEMS.register("golden_coin", () -> new GoldenCoinItem(new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(100)));
+    public static final RegistryObject<Item> IRON_BUCKET = ITEMS.register("iron_bucket", () -> new IronBucketItem(new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(100)));
+    public static final RegistryObject<Item> FLAG = ITEMS.register("flag", () -> new FlagItem(new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(100)));
+    public static final RegistryObject<Item> BUCKET = ITEMS.register("bucket", () -> new IronBucketItem(new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(100)));
 
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);

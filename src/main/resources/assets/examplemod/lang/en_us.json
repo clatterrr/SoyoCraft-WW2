@@ -52,11 +52,12 @@
   "item.examplemod.stone2" : "Stone 2",
   "item.examplemod.fence" : "Fence",
   "item.examplemod.submarine" : "Submarine",
-
+  "item.examplemod.flag" : "Flag Item",
+  "item.examplemod.bucket" : "Bucket Item",
   "item.examplemod.sliver_coin" : "Sliver Coin",
   "item.examplemod.golden_coin" : "Golden Coin",
   "item.examplemod.dave_key" : "Dave Key",
-
+  "item.examplemod.iron_bucket" : "Iron Bucket",
   "item.examplemod.zombie_hand" : "Zombie Hand",
   "item.examplemod.large_sun" : "Large Sun",
   "item.examplemod.small_sun" : "Small sun",

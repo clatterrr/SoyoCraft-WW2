@@ -76,7 +76,7 @@ public class NormalZombieEntity extends TheZombieEntity implements IAnimatable {
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, ThePlantEntity.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+       // this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
 
     }
 
@@ -150,6 +150,7 @@ public class NormalZombieEntity extends TheZombieEntity implements IAnimatable {
     }
 
     public void tick() {
+        /*
         this.setAttacking(false);
         List<ThePlantEntity> plants = this.level.getEntitiesOfClass(ThePlantEntity.class, this.getBoundingBox().inflate(2));
         if(!plants.isEmpty()) {
@@ -173,9 +174,10 @@ public class NormalZombieEntity extends TheZombieEntity implements IAnimatable {
             this.setDeltaMovement(0, 0, -0.01f);
         }
         this.kelped = false;
+        */
         super.tick();
 
-        this.yBodyRot = 180;
+        this.yBodyRot = -20;
     }
 
     public void setAttacking(boolean attacking) {

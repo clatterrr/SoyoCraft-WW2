@@ -129,10 +129,10 @@ public class BucketheadZombieEntity extends TheZombieEntity implements IAnimatab
             this.drop_hand = true;
             this.spawnAtLocation(ModItems.ZOMBIE_HAND.get());
         }
-        this.setDeltaMovement(0, 0, -0.01f);
+        //this.setDeltaMovement(0, 0, -0.01f);
         super.tick();
 
-        this.yBodyRot = 180;
+        this.yBodyRot = -20;
     }
 
     public void setAttacking(boolean attacking) {

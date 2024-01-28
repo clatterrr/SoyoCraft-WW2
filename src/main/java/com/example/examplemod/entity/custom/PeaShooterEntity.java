@@ -137,14 +137,12 @@ public class PeaShooterEntity extends ThePlantEntity implements IAnimatable {
                 }
             }
         }
-        if(find_zombie == true){
-            if(this.cool_down > 20){
-                this.cool_down = 0;
-                PeaProjectileEntity pea = new PeaProjectileEntity(ModEntityTypes.PEA_PROJECTILE.get(), this.level);
-                BlockPos bpq = this.getOnPos();
-                pea.setPos(bpq.getX() + 0.5f, bpq.getY() + 1.8f, bpq.getZ() + 1.3f);
-                this.getLevel().addFreshEntity(pea);
-            }
+        if(this.cool_down > 20){
+            this.cool_down = 0;
+            PeaProjectileEntity pea = new PeaProjectileEntity(ModEntityTypes.PEA_PROJECTILE.get(), this.level);
+            BlockPos bpq = this.getOnPos();
+            pea.setPos(bpq.getX() + 0.5f, bpq.getY() + 1.8f, bpq.getZ() + 1.3f);
+            this.getLevel().addFreshEntity(pea);
         }
     }
 

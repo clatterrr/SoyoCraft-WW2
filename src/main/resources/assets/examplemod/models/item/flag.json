@@ -1,0 +1,45 @@
+{
+	"credit": "Made with Blockbench",
+	"texture_size": [64, 64],
+	"textures": {
+		"0": "examplemod:item/flag"
+	},
+	"elements": [
+		{
+			"name": "right_arm",
+			"from": [8, -16, -3],
+			"to": [9, 0, -2],
+			"rotation": {"angle": 45, "axis": "x", "origin": [-11, -13, 20]},
+			"faces": {
+				"north": {"uv": [4, 15.75, 4.25, 19.75], "texture": "#0"},
+				"east": {"uv": [3.75, 15.75, 4, 19.75], "texture": "#0"},
+				"south": {"uv": [4.5, 15.75, 4.75, 19.75], "texture": "#0"},
+				"west": {"uv": [4.25, 15.75, 4.5, 19.75], "texture": "#0"},
+				"up": {"uv": [4.25, 15.75, 4, 15.5], "texture": "#0"},
+				"down": {"uv": [4.5, 15.5, 4.25, 15.75], "texture": "#0"}
+			}
+		},
+		{
+			"name": "right_arm",
+			"from": [8, 0, -15],
+			"to": [9, 9, -2],
+			"rotation": {"angle": 45, "axis": "x", "origin": [-11, -13, 20]},
+			"faces": {
+				"north": {"uv": [12.25, 13.75, 12.5, 16], "texture": "#0"},
+				"east": {"uv": [9, 13.75, 12.25, 16], "texture": "#0"},
+				"south": {"uv": [15.75, 13.75, 16, 16], "texture": "#0"},
+				"west": {"uv": [12.5, 13.75, 15.75, 16], "texture": "#0"},
+				"up": {"uv": [12.5, 13.75, 12.25, 10.5], "texture": "#0"},
+				"down": {"uv": [12.75, 10.5, 12.5, 13.75], "texture": "#0"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "right_arm",
+			"origin": [-12, -8, 23],
+			"color": 0,
+			"children": [0, 1]
+		}
+	]
+}
