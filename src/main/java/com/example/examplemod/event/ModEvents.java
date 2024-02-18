@@ -5,6 +5,27 @@ import com.example.examplemod.entity.ModEntityTypes;
 import com.example.examplemod.entity.ModModelLayers;
 import com.example.examplemod.entity.client.*;
 import com.example.examplemod.entity.custom.*;
+import com.example.examplemod.entity.custom.DayPlant.JalapenoEntity;
+import com.example.examplemod.entity.custom.DayPlant.PeaShooterEntity;
+import com.example.examplemod.entity.custom.DayPlant.RepeaterEntity;
+import com.example.examplemod.entity.custom.DayPlant.SnowPeaEntity;
+import com.example.examplemod.entity.custom.DayZombie.*;
+import com.example.examplemod.entity.custom.Garden.*;
+import com.example.examplemod.entity.custom.FogPlant.*;
+import com.example.examplemod.entity.custom.FogZombie.*;
+import com.example.examplemod.entity.custom.RoofPlant.*;
+import com.example.examplemod.entity.custom.RoofZombie.*;
+import com.example.examplemod.entity.custom.UpgradePlant.*;
+import com.example.examplemod.entity.custom.NightPlant.PuffShroomEntity;
+import com.example.examplemod.entity.custom.NightPlant.PuffShroomSleepEntity;
+import com.example.examplemod.entity.custom.NightZombie.NewspaperZombieEntity;
+import com.example.examplemod.entity.custom.PoolPlant.*;
+import com.example.examplemod.entity.custom.PoolZombie.*;
+import com.example.examplemod.entity.custom.Projectile.FirePeaProjectileEntity;
+import com.example.examplemod.entity.custom.Projectile.IcePeaProjectileEntity;
+import com.example.examplemod.entity.custom.Projectile.PeaProjectileEntity;
+import com.example.examplemod.entity.custom.DayPlant.SunflowerEntity;
+import com.example.examplemod.entity.custom.DayPlant.WallnutEntity;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -88,6 +109,114 @@ public class ModEvents {
             event.put(ModEntityTypes.GRAVE1.get(), Grave1Entity.setAttributes());
             event.put(ModEntityTypes.GRAVE2.get(), Grave2Entity.setAttributes());
             event.put(ModEntityTypes.GRAVE3.get(), Grave3Entity.setAttributes());
+
+
+
+            event.put(ModEntityTypes.SEA_SHROOM.get(), SeaShroomEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.PLANTERN.get(), PlanternEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.CACTUS.get(), CactusEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.BLOVER.get(), BloverEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.SPLIT_PEA.get(), SplitPeaEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.STAR_FRUIT.get(), StarFruitEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.PUMPKIN.get(), PumpkinEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.MAGENT_SHROOM.get(), MagnetShroomEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.CABBAGE_PULT.get(), CabbagePultEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.FLOWR_POT.get(), FlowerPotEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.KERNEL_PULT.get(), KernelPultEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.GARLIC.get(), GarlicEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.COFFEE_BEAN.get(), CoffeeBeanEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.MELON_PULT.get(), MelonPultEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.UMBRELLA_LEAF.get(), UmbrellaLeafEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.MARIGOLD.get(), MariGoldEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.JACK_ZOMBIE.get(), JackZombieEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.BALLOON_ZOMBIE.get(), BalloonZombieEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.DIGGER_ZOMBIE.get(), DiggerZombieEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.POGO_ZOMBIE.get(), PogoZombieEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.ZOMBIE_YETI.get(), ZombieYetiEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.GUNGEE_ZOMBIE.get(), BungeeZombieEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.LADDER_ZOMBIE.get(), LadderZombieEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.CATAPULT_ZOMBIE.get(), CatapultZombieEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.GARGANTUAR.get(), GargantuarEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.IMP.get(), ImpEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.ZOMBOSS.get(), ZomBossEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.GATLING_PEA.get(), GatlingPeaEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.TWIN_SUNFLOWER.get(), TwinSunflowerEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.GLOOM_SHROOM.get(), GloomShroomEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.CATTAIL.get(), CattailEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.WINTER_MELON.get(), WinterMelonEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.GOLD_MAGET.get(), GoldMagnetEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.SPIKE_ROCK.get(), SpikeRockEntity.setAttributes());
+
+
+            event.put(ModEntityTypes.COB_CANNON.get(), CobCannonEntity.setAttributes());
+
+
         }
 
         @SubscribeEvent

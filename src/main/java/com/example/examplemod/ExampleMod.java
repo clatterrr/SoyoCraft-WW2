@@ -3,9 +3,15 @@ package com.example.examplemod;
 import com.example.examplemod.block.ModBlocks;
 import com.example.examplemod.entity.ModEntityTypes;
 import com.example.examplemod.entity.client.*;
-import com.example.examplemod.entity.custom.DuckTubeConeHeadZombieEntity;
-import com.example.examplemod.entity.custom.HouseDoor1Entity;
-import com.example.examplemod.entity.custom.PuffShroomSleepEntity;
+
+import com.example.examplemod.entity.client.DayPlant.*;
+import com.example.examplemod.entity.client.DayZombie.*;
+import com.example.examplemod.entity.client.NightPlant.*;
+import com.example.examplemod.entity.client.NightZombie.*;
+import com.example.examplemod.entity.client.PoolPlant.*;
+import com.example.examplemod.entity.client.PoolZombie.*;
+import com.example.examplemod.entity.client.Garden.*;
+import com.example.examplemod.entity.client.Projectile.*;
 import com.example.examplemod.item.ModItems;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
@@ -123,7 +129,6 @@ public class ExampleMod
             EntityRenderers.register(ModEntityTypes.SQUASH.get(), SquashRenderer::new);
             EntityRenderers.register(ModEntityTypes.THREEPEATER.get(), ThreepeaterRenderer::new);
             EntityRenderers.register(ModEntityTypes.TANGLE_KELP.get(), TangleKelpRenderer::new);
-            EntityRenderers.register(ModEntityTypes.POLE_VAULTING_ZOMBIE.get(), PoleVaultingZombieRenderer::new);
 
             EntityRenderers.register(ModEntityTypes.NORMAL_ZOMBIE.get(), NormalZombieRenderer::new);
             EntityRenderers.register(ModEntityTypes.DUCK_TUBE_ZOMBIE.get(), DuckTubeZombieRenderer::new);
@@ -143,7 +148,6 @@ public class ExampleMod
 
             EntityRenderers.register(ModEntityTypes.ZOMBONI.get(), ZomboniRenderer::new);
             EntityRenderers.register(ModEntityTypes.ZOMBIE_BOBSLED_TEAM.get(), ZombieBobsledTeamRenderer::new);
-            EntityRenderers.register(ModEntityTypes.JALAPENO.get(), JalapenoRenderer::new);
             EntityRenderers.register(ModEntityTypes.DOLPHIN_RIDER_ZOMBIE.get(), DolphinRiderZombieRenderer::new);
             EntityRenderers.register(ModEntityTypes.SPIKEWEED.get(), SpikeweedRenderer::new);
             EntityRenderers.register(ModEntityTypes.TORCHWOOD.get(), TorchwoodRenderer::new);
@@ -154,7 +158,6 @@ public class ExampleMod
             EntityRenderers.register(ModEntityTypes.PEA_PROJECTILE.get(), PeaProjectileRenderer::new);
             EntityRenderers.register(ModEntityTypes.ICE_PEA_PROJECTILE.get(), IcePeaProjectileRenderer::new);
             EntityRenderers.register(ModEntityTypes.FIRE_PEA_PROJECTILE.get(), FirePeaProjectileRenderer::new);
-            EntityRenderers.register(ModEntityTypes.WALLNUT.get(), WallnutRenderer::new);
             EntityRenderers.register(ModEntityTypes.SNOW_PEA.get(), SnowPeaRenderer::new);
             EntityRenderers.register(ModEntityTypes.REPEATER.get(), RepeaterRenderer::new);
         }

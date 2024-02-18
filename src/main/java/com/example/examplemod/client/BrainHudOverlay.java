@@ -22,14 +22,18 @@ public class BrainHudOverlay {
         RenderSystem.setShaderTexture(0, FILLED_BRAIN);
         int brain_num = 5;
         for(int i = 0; i < brain_num; i++) {
+            /*
             GuiComponent.blit(poseStack,x - 94 + (i * 12), y - 54,0,0,12,12,
                     12,12);
+            */
         }
 
         RenderSystem.setShaderTexture(0, EMPTY_BRAIN);
         for(int i = brain_num; i < 10; i++) {
+            /*
             GuiComponent.blit(poseStack,x - 94 + (i * 12),y - 54,0,0,12,12,
                     12,12);
+            */
         }
     });
 }

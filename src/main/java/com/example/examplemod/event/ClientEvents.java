@@ -39,7 +39,7 @@ public class ClientEvents {
 
         @SubscribeEvent
         public static void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
-            event.registerAboveAll("thirst", BrainHudOverlay.HUD_BRAIN);
+           // event.registerAboveAll("thirst", BrainHudOverlay.HUD_BRAIN);
         }
     }
 }

@@ -1,7 +1,8 @@
 package com.example.examplemod.item.custom;
 
 import com.example.examplemod.entity.ModEntityTypes;
-import com.example.examplemod.entity.custom.LilyPadEntity;
+
+import com.example.examplemod.entity.custom.PoolPlant.LilyPadEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
