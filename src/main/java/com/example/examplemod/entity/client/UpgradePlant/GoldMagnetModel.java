@@ -10,17 +10,17 @@ public class GoldMagnetModel extends AnimatedGeoModel<GoldMagnetEntity> {
 
     @Override
     public ResourceLocation getModelResource(GoldMagnetEntity animatable) {
-        return new ResourceLocation(ExampleMod.MODID, "geo/gold_maget.geo.json");
+        return new ResourceLocation(ExampleMod.MODID, "geo/gold_magnet.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(GoldMagnetEntity animatable) {
-        return new ResourceLocation(ExampleMod.MODID, "textures/entity/gold_maget.png");
+        return new ResourceLocation(ExampleMod.MODID, "textures/entity/gold_magnet.png");
     }
 
     @Override
     public ResourceLocation getAnimationResource(GoldMagnetEntity animatable) {
-       return new ResourceLocation(ExampleMod.MODID, "animations/gold_maget.animation.json");
+       return new ResourceLocation(ExampleMod.MODID, "animations/gold_magnet.animation.json");
 
     }
 }

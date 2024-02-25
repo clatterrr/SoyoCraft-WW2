@@ -2,6 +2,7 @@ package com.example.examplemod.entity.custom.PoolPlant;
 
 
 import com.example.examplemod.entity.custom.DayZombie.NormalZombieEntity;
+import com.example.examplemod.entity.custom.FogPlant.SeaShroomEntity;
 import com.example.examplemod.entity.custom.TheZombieEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -117,15 +118,15 @@ public class TangleKelpEntity extends Monster implements IAnimatable {
         this.entityData.define(ATTACKING, false);
     }
 
-    TheZombieEntity zz = null;
+    SeaShroomEntity zz = null;
     int zz_tick = 0;
     public void tick(){
         this.yBodyRot = 90;
         if(zz == null){
-            List<TheZombieEntity> zombies = this.level.getEntitiesOfClass(TheZombieEntity.class, this.getBoundingBox().inflate(2));
+            List<SeaShroomEntity> zombies = this.level.getEntitiesOfClass(SeaShroomEntity.class, this.getBoundingBox().inflate(2));
             if(!zombies.isEmpty()) {
                 for (int i = 0; i < zombies.size(); i++) {
-                    TheZombieEntity z = zombies.get(i);
+                    SeaShroomEntity z = zombies.get(i);
                     if(z.getOnPos().getX() == this.getOnPos().getX() && z.getOnPos().getZ() - this.getOnPos().getZ() <= 1){
                         zz = z;
                         break;
@@ -134,22 +135,24 @@ public class TangleKelpEntity extends Monster implements IAnimatable {
             }
         }
 
+        /*
         if(zz != null){
             this.setAttacking(true);
             this.zz_tick += 1;
             if(this.zz_tick > 30){
-                zz.kelped = true;
-                //zz.setDeltaMovement(zz.getDeltaMovement().x, -0.1f, zz.getDeltaMovement().z);
+                //zz.kelped = true;
+                zz.setDeltaMovement(zz.getDeltaMovement().x, -0.1f, zz.getDeltaMovement().z);
                 this.setDeltaMovement(0, -0.1f, 0);
             }
-            if(this.zz_tick > 60){
-                zz.remove(RemovalReason.KILLED);
+
+            if(this.zz_tick > 1200){
+                //zz.remove(RemovalReason.KILLED);
                 this.remove(RemovalReason.KILLED);
             }
+
         }
-        this.setDeltaMovement(0,0,0);
+        */
         super.tick();
-        this.setDeltaMovement(0,0,0);
 
     }
 }

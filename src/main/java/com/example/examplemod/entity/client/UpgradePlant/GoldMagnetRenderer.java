@@ -20,7 +20,7 @@ public class GoldMagnetRenderer extends GeoEntityRenderer<GoldMagnetEntity> {
 
     @Override
     public ResourceLocation getTextureLocation(GoldMagnetEntity p_114482_) {
-        return new ResourceLocation(ExampleMod.MODID, "textures/entity/gold_maget.png");
+        return new ResourceLocation(ExampleMod.MODID, "textures/entity/gold_magnet.png");
     }
 
     @Override

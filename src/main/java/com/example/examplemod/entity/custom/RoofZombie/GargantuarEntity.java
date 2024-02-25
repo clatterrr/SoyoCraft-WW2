@@ -59,7 +59,7 @@ public class GargantuarEntity extends TheZombieEntity implements IAnimatable {
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.attack", true));
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.gargantuar.attack", true));
         return PlayState.CONTINUE;
     }
 
@@ -96,7 +96,9 @@ public class GargantuarEntity extends TheZombieEntity implements IAnimatable {
 
     public void tick() {
         super.tick();
-        this.yBodyRot = 180;
+        this.yBodyRot = 0;
+        //this.setDeltaMovement(0, 0, -0.02f);
+        //this.hurt(DamageSource.CACTUS, 0.5f);
     }
 
     public void setAttacking(boolean attacking) {

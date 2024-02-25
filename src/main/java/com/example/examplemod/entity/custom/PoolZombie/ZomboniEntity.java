@@ -115,24 +115,24 @@ public class ZomboniEntity extends TheZombieEntity implements IAnimatable {
 
     public void tick() {
 
-       // this.setDeltaMovement(0, 0, -0.02f);
+        this.setDeltaMovement(0, 0, 0.02f);
         super.tick();
-        this.yBodyRot = -20;
-        /*
+        this.yBodyRot = 0;
+
         BlockPos bp = this.getOnPos();
         if(this.level.getBlockState(bp).getBlock() != Blocks.ICE){
             this.level.setBlock(bp, Blocks.ICE.defaultBlockState(), 1);
         }
-        List<ThePlantEntity> plants = this.level.getEntitiesOfClass(ThePlantEntity.class, this.getBoundingBox().inflate(2));
+        List<TheZombieEntity> plants = this.level.getEntitiesOfClass(TheZombieEntity.class, this.getBoundingBox().inflate(2));
         if(!plants.isEmpty()) {
             for (int i = 0; i < plants.size(); i++) {
-                ThePlantEntity z = plants.get(i);
-                if(z.getOnPos().getX() == this.getOnPos().getX() && z.getOnPos().getZ() == this.getOnPos().getZ() - 1){
+                TheZombieEntity z = plants.get(i);
+                if(z.getOnPos().getX() == this.getOnPos().getX() && z.getOnPos().getZ() == this.getOnPos().getZ() + 1){
                     z.kill();
                 }
             }
         }
-        */
+
 
     }
 

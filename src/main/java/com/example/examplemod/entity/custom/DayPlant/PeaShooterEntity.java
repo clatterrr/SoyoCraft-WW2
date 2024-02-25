@@ -117,11 +117,12 @@ public class PeaShooterEntity extends ThePlantEntity implements IAnimatable {
 
     int cool_down = 0;
     public void tick(){
+        this.setDeltaMovement(0,0,0f);
+        super.tick();
+
         this.cool_down += 1;
         this.yBodyRot = 0;
-        this.setDeltaMovement(0,0,0);
-        super.tick();
-        this.setDeltaMovement(0,0,0);
+        this.setDeltaMovement(0,0,0f);
         BlockPos bp = this.getOnPos();
         List<LilyPadEntity> lily_pads = this.level.getEntitiesOfClass(LilyPadEntity.class, this.getBoundingBox().inflate(1));
         if(!lily_pads.isEmpty()){
@@ -144,13 +145,15 @@ public class PeaShooterEntity extends ThePlantEntity implements IAnimatable {
                 }
             }
         }
-        if(this.cool_down > 20){
+        if(this.cool_down > 20 && find_zombie){
             this.cool_down = 0;
             PeaProjectileEntity pea = new PeaProjectileEntity(ModEntityTypes.PEA_PROJECTILE.get(), this.level);
             BlockPos bpq = this.getOnPos();
             pea.setPos(bpq.getX() + 0.5f, bpq.getY() + 1.8f, bpq.getZ() + 1.3f);
             this.getLevel().addFreshEntity(pea);
         }
+
+
     }
 
 

@@ -65,13 +65,13 @@ public class SnorkelZombieEntity extends TheZombieEntity implements IAnimatable 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
 
         if(this.Style() == 0){
-            if(this.getHealth() >= 20){
+            if(this.getHealth() >= 0.5f){
                 event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.snorkel_zombie.swim", true));
             }else{
                 event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.snorkel_zombie.swim2", true));
             }
         }else if(this.Style() == 1){
-            if(this.getHealth() >= 20){
+            if(this.getHealth() >= 0.5f){
                 event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.snorkel_zombie.attack", true));
             }else{
                 event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.snorkel_zombie.attack2", true));
@@ -135,7 +135,7 @@ public class SnorkelZombieEntity extends TheZombieEntity implements IAnimatable 
             if(could_attack == true){
                 this.setStyle(1);
                 this.setDeltaMovement(0, 0, 0);
-                target.hurt(DamageSource.GENERIC, 3f);
+                target.hurt(DamageSource.GENERIC, 1f);
             }else{
                 this.setDeltaMovement(0, 0, -0.01f);
                 this.setStyle(0);

@@ -72,14 +72,7 @@ public class NormalZombieEntity extends TheZombieEntity implements IAnimatable {
 
     @Override
     protected void registerGoals() {
-        //this.goalSelector.addGoal(1, new SummonGoal());
-
-         this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.2D, false));
-        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, ThePlantEntity.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
-       // this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
-
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
@@ -177,9 +170,17 @@ public class NormalZombieEntity extends TheZombieEntity implements IAnimatable {
         }
         this.kelped = false;
         */
-        super.tick();
+        BlockPos bp = this.getOnPos();
+        if(this.level.getBlockState(bp).getBlock() == Blocks.AIR){
 
-        this.yBodyRot = -20;
+            this.setDeltaMovement(0, -0.1f, -0.01f);
+        }else{
+
+            this.setDeltaMovement(0, 0, -0.01f);
+        }
+        super.tick();
+        this.setAttacking(false);
+        this.yBodyRot = 180;
     }
 
     public void setAttacking(boolean attacking) {

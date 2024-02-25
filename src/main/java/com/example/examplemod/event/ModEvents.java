@@ -13,6 +13,7 @@ import com.example.examplemod.entity.custom.DayZombie.*;
 import com.example.examplemod.entity.custom.Garden.*;
 import com.example.examplemod.entity.custom.FogPlant.*;
 import com.example.examplemod.entity.custom.FogZombie.*;
+import com.example.examplemod.entity.custom.Projectile.SporeEntity;
 import com.example.examplemod.entity.custom.RoofPlant.*;
 import com.example.examplemod.entity.custom.RoofZombie.*;
 import com.example.examplemod.entity.custom.UpgradePlant.*;
@@ -89,6 +90,8 @@ public class ModEvents {
             event.put(ModEntityTypes.PUFF_SHROOM.get(), PuffShroomEntity.setAttributes());
             event.put(ModEntityTypes.PUFF_SHROOM_SLEEP.get(), PuffShroomSleepEntity.setAttributes());
             event.put(ModEntityTypes.PEA_PROJECTILE.get(), PeaProjectileEntity.setAttributes());
+            event.put(ModEntityTypes.SPORE.get(), SporeEntity.setAttributes());
+            event.put(ModEntityTypes.FOG_GENEATOR.get(), FogGeneratorEntity.setAttributes());
 
             event.put(ModEntityTypes.ICE_PEA_PROJECTILE.get(), IcePeaProjectileEntity.setAttributes());
             event.put(ModEntityTypes.FIRE_PEA_PROJECTILE.get(), FirePeaProjectileEntity.setAttributes());
@@ -133,7 +136,7 @@ public class ModEvents {
             event.put(ModEntityTypes.PUMPKIN.get(), PumpkinEntity.setAttributes());
 
 
-            event.put(ModEntityTypes.MAGENT_SHROOM.get(), MagnetShroomEntity.setAttributes());
+            event.put(ModEntityTypes.MAGNET_SHROOM.get(), MagnetShroomEntity.setAttributes());
 
 
             event.put(ModEntityTypes.CABBAGE_PULT.get(), CabbagePultEntity.setAttributes());
@@ -208,7 +211,7 @@ public class ModEvents {
             event.put(ModEntityTypes.WINTER_MELON.get(), WinterMelonEntity.setAttributes());
 
 
-            event.put(ModEntityTypes.GOLD_MAGET.get(), GoldMagnetEntity.setAttributes());
+            event.put(ModEntityTypes.GOLD_MAGNET.get(), GoldMagnetEntity.setAttributes());
 
 
             event.put(ModEntityTypes.SPIKE_ROCK.get(), SpikeRockEntity.setAttributes());

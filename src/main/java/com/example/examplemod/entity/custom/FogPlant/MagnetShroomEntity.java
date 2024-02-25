@@ -50,7 +50,7 @@ public class MagnetShroomEntity extends ThePlantEntity implements IAnimatable {
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.magent_shroom.idle", true));
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.magnet_shroom.idle", true));
         return PlayState.CONTINUE;
     }
 

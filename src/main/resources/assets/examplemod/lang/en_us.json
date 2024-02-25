@@ -89,5 +89,78 @@
   "block.exmaplemod.pool_brick_1" : "Pool Brick 1 Block",
   "block.exmaplemod.pool_brick_2" : "Pool Brick 2 Block",
   "block.exmaplemod.pool_brick_3" : "Pool Brick 3 Block",
-  "block.exmaplemod.pool_brick_4" : "Pool Brick 4 Block"
+  "block.exmaplemod.pool_brick_4" : "Pool Brick 4 Block",
+
+
+  "item.examplemod.sea_shroom_spawn_egg" : "SeaShroom Spawn Egg",
+
+  "item.examplemod.plantern_spawn_egg" : "Plantern Spawn Egg",
+
+  "item.examplemod.cactus_spawn_egg" : "Cactus Spawn Egg",
+
+  "item.examplemod.blover_spawn_egg" : "Blover Spawn Egg",
+
+  "item.examplemod.split_pea_spawn_egg" : "SplitPea Spawn Egg",
+
+  "item.examplemod.star_fruit_spawn_egg" : "StarFruit Spawn Egg",
+
+  "item.examplemod.pumpkin_spawn_egg" : "Pumpkin Spawn Egg",
+
+  "item.examplemod.magnet_shroom_spawn_egg" : "MagnetShroom Spawn Egg",
+
+  "item.examplemod.cabbage_pult_spawn_egg" : "CabbagePult Spawn Egg",
+
+  "item.examplemod.flowr_pot_spawn_egg" : "FlowerPot Spawn Egg",
+
+  "item.examplemod.kernel_pult_spawn_egg" : "KernelPult Spawn Egg",
+
+  "item.examplemod.garlic_spawn_egg" : "Garlic Spawn Egg",
+
+  "item.examplemod.coffee_bean_spawn_egg" : "CoffeeBean Spawn Egg",
+
+  "item.examplemod.melon_pult_spawn_egg" : "MelonPult Spawn Egg",
+
+  "item.examplemod.umbrella_leaf_spawn_egg" : "UmbrellaLeaf Spawn Egg",
+
+  "item.examplemod.marigold_spawn_egg" : "MariGold Spawn Egg",
+
+  "item.examplemod.jack_zombie_spawn_egg" : "JackZombie Spawn Egg",
+
+  "item.examplemod.balloon_zombie_spawn_egg" : "BalloonZombie Spawn Egg",
+
+  "item.examplemod.digger_zombie_spawn_egg" : "DiggerZombie Spawn Egg",
+
+  "item.examplemod.pogo_zombie_spawn_egg" : "PogoZombie Spawn Egg",
+
+  "item.examplemod.zombie_yeti_spawn_egg" : "ZombieYeti Spawn Egg",
+
+  "item.examplemod.gungee_zombie_spawn_egg" : "BungeeZombie Spawn Egg",
+
+  "item.examplemod.ladder_zombie_spawn_egg" : "LadderZombie Spawn Egg",
+
+  "item.examplemod.catapult_zombie_spawn_egg" : "CatapultZombie Spawn Egg",
+
+  "item.examplemod.gargantuar_spawn_egg" : "Gargantuar Spawn Egg",
+
+  "item.examplemod.imp_spawn_egg" : "Imp Spawn Egg",
+
+  "item.examplemod.fog_generator_spawn_egg" : "Fog Spawn Egg",
+
+  "item.examplemod.zomboss_spawn_egg" : "ZomBoss Spawn Egg",
+
+  "item.examplemod.gatling_pea_spawn_egg" : "GatlingPea Spawn Egg",
+
+  "item.examplemod.twin_sunflower_spawn_egg" : "TwinSunflower Spawn Egg",
+
+  "item.examplemod.gloom_shroom_spawn_egg" : "GloomShroom Spawn Egg",
+
+  "item.examplemod.cattail_spawn_egg" : "Cattail Spawn Egg",
+
+  "item.examplemod.winter_melon_spawn_egg" : "WinterMelon Spawn Egg",
+
+  "item.examplemod.gold_magnet_spawn_egg" : "GoldMagnet Spawn Egg",
+
+  "item.examplemod.spike_rock_spawn_egg" : "SpikeRock Spawn Egg",
+
+  "item.examplemod.cob_cannon_spawn_egg" : "CobCannon Spawn Egg"
 }

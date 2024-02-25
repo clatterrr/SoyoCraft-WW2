@@ -1,7 +1,9 @@
 
 package com.example.examplemod.entity.custom.UpgradePlant;
 
+import com.example.examplemod.entity.ModEntityTypes;
 import com.example.examplemod.entity.custom.DayZombie.NormalZombieEntity;
+import com.example.examplemod.entity.custom.Projectile.PeaProjectileEntity;
 import com.example.examplemod.entity.custom.ThePlantEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -99,8 +101,19 @@ public class GatlingPeaEntity extends ThePlantEntity implements IAnimatable {
         super.defineSynchedData();
         this.entityData.define(ATTACKING, false);
     }
+    int cool_down = 0;
     public void tick(){
+        super.tick();
+        //this.setDeltaMovement(0, 0, -0.05f);
         this.yBodyRot = 0;
+        this.cool_down += 1;
+        if(this.cool_down > 5){
+            this.cool_down = 0;
+            PeaProjectileEntity pea = new PeaProjectileEntity(ModEntityTypes.PEA_PROJECTILE.get(), this.level);
+            BlockPos bpq = this.getOnPos();
+            pea.setPos(bpq.getX() + 0.5f, bpq.getY() + 1.8f, bpq.getZ() + 1.3f);
+            this.getLevel().addFreshEntity(pea);
+        }
     }
 }
 

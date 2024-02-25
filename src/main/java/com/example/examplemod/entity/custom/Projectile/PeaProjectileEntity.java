@@ -128,7 +128,7 @@ public class PeaProjectileEntity extends Monster implements IAnimatable {
             for (int i = 0; i < zombies.size(); i++) {
                 TheZombieEntity z = zombies.get(i);
                 if(z.getOnPos().getX() == this.getOnPos().getX() && z.getOnPos().getZ() == this.getOnPos().getZ()){
-                    z.hurt(DamageSource.GENERIC, 0.1f);
+                    z.hurt(DamageSource.GENERIC, 1f);
                     this.remove(RemovalReason.KILLED);
                 }
             }

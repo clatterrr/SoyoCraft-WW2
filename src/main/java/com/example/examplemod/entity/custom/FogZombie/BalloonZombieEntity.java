@@ -1,6 +1,8 @@
 
 package com.example.examplemod.entity.custom.FogZombie;
 
+import com.example.examplemod.entity.custom.FogPlant.BloverEntity;
+import com.example.examplemod.entity.custom.PoolZombie.SnorkelZombieEntity;
 import com.example.examplemod.entity.custom.ThePlantEntity;
 import com.example.examplemod.entity.custom.TheZombieEntity;
 import net.minecraft.core.BlockPos;
@@ -16,8 +18,11 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.monster.Ghast;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -27,6 +32,8 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+
+import java.util.List;
 
 public class BalloonZombieEntity extends TheZombieEntity implements IAnimatable {
 
@@ -43,8 +50,8 @@ public class BalloonZombieEntity extends TheZombieEntity implements IAnimatable 
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 10)
-                .add(Attributes.ATTACK_DAMAGE, 3.0f)
+                .add(Attributes.MAX_HEALTH, 100)
+                .add(Attributes.ATTACK_DAMAGE, 12.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.FLYING_SPEED, 0.1f)
                 .add(Attributes.MOVEMENT_SPEED, 0.1f).build();
@@ -54,12 +61,22 @@ public class BalloonZombieEntity extends TheZombieEntity implements IAnimatable 
 
     @Override
     protected void registerGoals() {
+      //  this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.2F, false));
+      //  this.goalSelector.addGoal(11, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, ThePlantEntity.class, true));
+      //  this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Ghast.class, true));
+      //  this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Bee.class, true));
 
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.normal_zombie.attack", true));
+        if(this.Style() == 0){
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.balloon_zombie.idle", true));
+        }else if(this.Style() == 1){
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.balloon_zombie.break", true));
+        }else if(this.Style() == 2){
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.balloon_zombie.walk", true));
+        }
         return PlayState.CONTINUE;
     }
 
@@ -94,11 +111,49 @@ public class BalloonZombieEntity extends TheZombieEntity implements IAnimatable 
         return 0.2F;
     }
 
+
+    int cool_down = 0;
+    boolean flying = true;
+
+    public boolean isFlying(){
+        return this.flying;
+    }
+
+    public void Down(){
+        this.flying = false;
+    }
     public void tick() {
         super.tick();
         this.yBodyRot = 180;
+        /*
+        if(this.flying == false){
+            this.cool_down += 1;
+            if(this.cool_down < 30){
+                this.setStyle(0);
+            }else if(this.cool_down < 50){
+                this.setStyle(1);
+            }else {
+                this.setStyle(2);
+            }
+        }
+        */
+        List<BloverEntity> zombies = this.level.getEntitiesOfClass(BloverEntity.class, this.getBoundingBox().inflate(8));
+        if(!zombies.isEmpty()){
+            this.cool_down = 100;
+        }
+        if(this.cool_down >= 0){
+            this.cool_down -= 1;
+            this.setDeltaMovement(0, 0, 0.04f);
+        }else{
+            this.setDeltaMovement(0, 0, -0.01f);
+        }
     }
 
+    @Override
+    public void die(DamageSource p_21014_) {
+        this.spawnAtLocation(Items.STRING);
+        super.die(p_21014_);
+    }
     public void setAttacking(boolean attacking) {
         this.entityData.set(ATTACKING, attacking);
     }

@@ -1,8 +1,13 @@
 
 package com.example.examplemod.entity.custom.FogPlant;
 
+import com.example.examplemod.entity.ModEntityTypes;
 import com.example.examplemod.entity.custom.DayZombie.NormalZombieEntity;
+import com.example.examplemod.entity.custom.FogZombie.BalloonZombieEntity;
+import com.example.examplemod.entity.custom.PoolZombie.SnorkelZombieEntity;
+import com.example.examplemod.entity.custom.Projectile.SporeEntity;
 import com.example.examplemod.entity.custom.ThePlantEntity;
+import com.example.examplemod.entity.custom.TheZombieEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -14,6 +19,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -50,7 +56,13 @@ public class CactusEntity extends ThePlantEntity implements IAnimatable {
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.cactus.idle", true));
+        if(this.isAttacking()){
+
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.cactus.rise", true));
+        }else {
+
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.cactus.attack", true));
+        }
         return PlayState.CONTINUE;
     }
 
@@ -99,8 +111,35 @@ public class CactusEntity extends ThePlantEntity implements IAnimatable {
         super.defineSynchedData();
         this.entityData.define(ATTACKING, false);
     }
+    int cool_down = 0;
     public void tick(){
         this.yBodyRot = 0;
+        super.tick();
+        boolean find_zombie = false;
+        boolean find_balloon_zombie = false;
+        List<TheZombieEntity> zombies = this.level.getEntitiesOfClass(TheZombieEntity.class, this.getBoundingBox().inflate(8));
+        if(!zombies.isEmpty()){
+            for(int i = 0; i < zombies.size();i++){
+                TheZombieEntity z = zombies.get(i);
+                if(z.getOnPos().getZ() >= this.getOnPos().getZ() && z.getOnPos().getX() == this.getOnPos().getX() ){
+                    find_zombie = true;
+                    if(z instanceof BalloonZombieEntity ball){
+                        find_balloon_zombie = ball.isFlying();
+                        ball.Down();;
+                    }
+                }
+            }
+        }
+        this.cool_down += 1;
+
+        this.setAttacking(find_balloon_zombie);
+        if(this.cool_down > 20 && find_zombie){
+            this.cool_down = 0;
+            SporeEntity pea = new SporeEntity(ModEntityTypes.SPORE.get(), this.level);
+            BlockPos bpq = this.getOnPos();
+            pea.setPos(bpq.getX() + 0.5f, bpq.getY() + 2.8f, bpq.getZ() + 1.3f);
+            this.getLevel().addFreshEntity(pea);
+        }
     }
 }
 

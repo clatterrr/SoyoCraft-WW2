@@ -50,7 +50,7 @@ public class GoldMagnetEntity extends ThePlantEntity implements IAnimatable {
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.gold_maget.idle", true));
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.gold_magnet.idle", true));
         return PlayState.CONTINUE;
     }
 

@@ -101,6 +101,7 @@ public class PlanternEntity extends ThePlantEntity implements IAnimatable {
     }
     public void tick(){
         this.yBodyRot = 0;
+        super.tick();
     }
 }
 

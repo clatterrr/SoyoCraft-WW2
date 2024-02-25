@@ -10,17 +10,17 @@ public class MagnetShroomModel extends AnimatedGeoModel<MagnetShroomEntity> {
 
     @Override
     public ResourceLocation getModelResource(MagnetShroomEntity animatable) {
-        return new ResourceLocation(ExampleMod.MODID, "geo/magent_shroom.geo.json");
+        return new ResourceLocation(ExampleMod.MODID, "geo/magnet_shroom.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(MagnetShroomEntity animatable) {
-        return new ResourceLocation(ExampleMod.MODID, "textures/entity/magent_shroom.png");
+        return new ResourceLocation(ExampleMod.MODID, "textures/entity/magnet_shroom.png");
     }
 
     @Override
     public ResourceLocation getAnimationResource(MagnetShroomEntity animatable) {
-       return new ResourceLocation(ExampleMod.MODID, "animations/magent_shroom.animation.json");
+       return new ResourceLocation(ExampleMod.MODID, "animations/magnet_shroom.animation.json");
 
     }
 }

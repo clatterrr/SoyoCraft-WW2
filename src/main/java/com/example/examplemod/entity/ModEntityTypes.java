@@ -18,6 +18,7 @@ import com.example.examplemod.entity.custom.Projectile.PeaProjectileEntity;
 import com.example.examplemod.entity.custom.DayPlant.SnowPeaEntity;
 import com.example.examplemod.entity.custom.DayPlant.SunflowerEntity;
 import com.example.examplemod.entity.custom.DayPlant.WallnutEntity;
+import com.example.examplemod.entity.custom.Projectile.SporeEntity;
 import com.example.examplemod.entity.custom.RoofZombie.ImpEntity;
 import com.example.examplemod.entity.custom.FogPlant.*;
 import com.example.examplemod.entity.custom.FogZombie.*;
@@ -218,7 +219,11 @@ public class ModEntityTypes {
                             .sized(0.4f, 1.5f)
                             .build(new ResourceLocation(ExampleMod.MODID, "fire_pea_projectile").toString()));
 
-
+    public static final RegistryObject<EntityType<SporeEntity>> SPORE =
+            ENTITY_TYPES.register("spore",
+                    () -> EntityType.Builder.of(SporeEntity::new, MobCategory.MONSTER)
+                            .sized(0.4f, 1.5f)
+                            .build(new ResourceLocation(ExampleMod.MODID, "spore").toString()));
 
 
 
@@ -242,6 +247,12 @@ public class ModEntityTypes {
                     () -> EntityType.Builder.of(DuckEntity::new, MobCategory.MONSTER)
                             .sized(0.4f, 1.5f)
                             .build(new ResourceLocation(ExampleMod.MODID, "duck").toString()));
+
+    public static final RegistryObject<EntityType<FogGeneratorEntity>> FOG_GENEATOR =
+            ENTITY_TYPES.register("fog_generator",
+                    () -> EntityType.Builder.of(FogGeneratorEntity::new, MobCategory.MONSTER)
+                            .sized(0.4f, 1.5f)
+                            .build(new ResourceLocation(ExampleMod.MODID, "fog_generator").toString()));
 
     public static final RegistryObject<EntityType<PoolChairEntity>> POOL_CHAIR =
             ENTITY_TYPES.register("pool_chair",
@@ -451,11 +462,11 @@ public class ModEntityTypes {
 
 
 
-    public static final RegistryObject<EntityType<MagnetShroomEntity>> MAGENT_SHROOM =
-            ENTITY_TYPES.register("magent_shroom",
+    public static final RegistryObject<EntityType<MagnetShroomEntity>> MAGNET_SHROOM =
+            ENTITY_TYPES.register("magnet_shroom",
                     () -> EntityType.Builder.of(MagnetShroomEntity::new, MobCategory.MONSTER)
                             .sized(0.4f, 1.5f)
-                            .build(new ResourceLocation(ExampleMod.MODID, "magent_shroom").toString()));
+                            .build(new ResourceLocation(ExampleMod.MODID, "magnet_shroom").toString()));
 
 
 
@@ -676,11 +687,11 @@ public class ModEntityTypes {
 
 
 
-    public static final RegistryObject<EntityType<GoldMagnetEntity>> GOLD_MAGET =
-            ENTITY_TYPES.register("gold_maget",
+    public static final RegistryObject<EntityType<GoldMagnetEntity>> GOLD_MAGNET =
+            ENTITY_TYPES.register("gold_magnet",
                     () -> EntityType.Builder.of(GoldMagnetEntity::new, MobCategory.MONSTER)
                             .sized(0.4f, 1.5f)
-                            .build(new ResourceLocation(ExampleMod.MODID, "gold_maget").toString()));
+                            .build(new ResourceLocation(ExampleMod.MODID, "gold_magnet").toString()));
 
 
 

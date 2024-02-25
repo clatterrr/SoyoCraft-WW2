@@ -62,13 +62,7 @@ public class BucketheadZombieEntity extends TheZombieEntity implements IAnimatab
 
     @Override
     protected void registerGoals() {
-        //this.goalSelector.addGoal(1, new SummonGoal());
-
-         this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.2D, false));
-        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, ThePlantEntity.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
 
     }
 
@@ -131,10 +125,10 @@ public class BucketheadZombieEntity extends TheZombieEntity implements IAnimatab
             this.drop_hand = true;
             this.spawnAtLocation(ModItems.ZOMBIE_HAND.get());
         }
-        //this.setDeltaMovement(0, 0, -0.01f);
+        //this.setDeltaMovement(0.05f, 0, 0);
         super.tick();
 
-        this.yBodyRot = -20;
+        this.yBodyRot = 0;
     }
 
     public void setAttacking(boolean attacking) {

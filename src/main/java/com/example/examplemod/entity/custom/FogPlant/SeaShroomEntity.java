@@ -1,8 +1,14 @@
 
 package com.example.examplemod.entity.custom.FogPlant;
 
+import com.example.examplemod.entity.ModEntityTypes;
 import com.example.examplemod.entity.custom.DayZombie.NormalZombieEntity;
+import com.example.examplemod.entity.custom.PoolPlant.LilyPadEntity;
+import com.example.examplemod.entity.custom.PoolZombie.SnorkelZombieEntity;
+import com.example.examplemod.entity.custom.Projectile.PeaProjectileEntity;
+import com.example.examplemod.entity.custom.Projectile.SporeEntity;
 import com.example.examplemod.entity.custom.ThePlantEntity;
+import com.example.examplemod.entity.custom.TheZombieEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -33,6 +39,7 @@ public class SeaShroomEntity extends ThePlantEntity implements IAnimatable {
 
     public SeaShroomEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+        this.setNoGravity(true);
     }
 
     public static AttributeSupplier setAttributes() {
@@ -50,7 +57,13 @@ public class SeaShroomEntity extends ThePlantEntity implements IAnimatable {
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.sea_shroom.idle", true));
+        if(this.isAttacking()){
+
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.sea_shroom.attack", true));
+        }else{
+
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.sea_shroom.idle", true));
+        }
         return PlayState.CONTINUE;
     }
 
@@ -99,8 +112,35 @@ public class SeaShroomEntity extends ThePlantEntity implements IAnimatable {
         super.defineSynchedData();
         this.entityData.define(ATTACKING, false);
     }
+    int cool_down = 0;
     public void tick(){
-        this.yBodyRot = 0;
+        super.tick();
+        this.cool_down += 1;
+        this.yBodyRot = 300;
+        Boolean find_zombie = false;
+        List<TheZombieEntity> zombies = this.level.getEntitiesOfClass(TheZombieEntity.class, this.getBoundingBox().inflate(8));
+        if(!zombies.isEmpty()){
+            for(int i = 0; i < zombies.size();i++){
+                TheZombieEntity z = zombies.get(i);
+                if(z instanceof SnorkelZombieEntity s){
+                    if(s.Style() == 0){
+                        continue;
+                    }
+                }
+                if(z.getOnPos().getZ() >= this.getOnPos().getZ() && z.getOnPos().getX() == this.getOnPos().getX() && z.getOnPos().getZ() - this.getOnPos().getZ() < 4){
+                    find_zombie = true;
+                }
+            }
+        }
+        this.setAttacking(find_zombie);
+        if(this.cool_down > 4 && find_zombie){
+            this.cool_down = 0;
+            SporeEntity pea = new SporeEntity(ModEntityTypes.SPORE.get(), this.level);
+            BlockPos bpq = this.getOnPos();
+            pea.setPos(bpq.getX() + 0.5f, bpq.getY() + 1.1f, bpq.getZ() + 1.3f);
+            this.getLevel().addFreshEntity(pea);
+        }
+
     }
 }
 

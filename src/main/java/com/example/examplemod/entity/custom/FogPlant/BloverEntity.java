@@ -11,8 +11,10 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -50,7 +52,7 @@ public class BloverEntity extends ThePlantEntity implements IAnimatable {
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.blover.idle", true));
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.blover.idle2", true));
         return PlayState.CONTINUE;
     }
 
@@ -99,8 +101,22 @@ public class BloverEntity extends ThePlantEntity implements IAnimatable {
         super.defineSynchedData();
         this.entityData.define(ATTACKING, false);
     }
+
+    int cool_down = 0;
     public void tick(){
-        this.yBodyRot = 0;
+        this.yBodyRot = 20;
+        super.tick();;
+        this.cool_down += 1;
+        if(this.cool_down >= 200){
+            this.kill();
+        }
+        List<Bee> zombies = this.level.getEntitiesOfClass(Bee.class, this.getBoundingBox().inflate(8));
+        if(!zombies.isEmpty()){
+            for(int i = 0; i < zombies.size();i++){
+                LivingEntity l = zombies.get(i);
+                l.setDeltaMovement(0,0,0.03f);
+            }
+        }
     }
 }
 

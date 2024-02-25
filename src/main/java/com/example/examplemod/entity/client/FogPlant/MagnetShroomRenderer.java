@@ -20,7 +20,7 @@ public class MagnetShroomRenderer extends GeoEntityRenderer<MagnetShroomEntity> 
 
     @Override
     public ResourceLocation getTextureLocation(MagnetShroomEntity p_114482_) {
-        return new ResourceLocation(ExampleMod.MODID, "textures/entity/magent_shroom.png");
+        return new ResourceLocation(ExampleMod.MODID, "textures/entity/magnet_shroom.png");
     }
 
     @Override
