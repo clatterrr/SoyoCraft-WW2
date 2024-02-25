@@ -1,10 +1,12 @@
 package com.example.examplemod.entity.custom;
 
+import com.example.examplemod.block.ModBlocks;
 import com.example.examplemod.entity.custom.FogPlant.BloverEntity;
 import com.example.examplemod.entity.custom.FogPlant.PlanternEntity;
 import com.example.examplemod.entity.custom.PoolZombie.ZomboniEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -19,6 +21,7 @@ import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -107,9 +110,56 @@ public class FogGeneratorEntity extends TheZombieEntity implements IAnimatable {
         return 0.2F;
     }
 
-    int cool_down = 4;
+    int cool_down = 0;
     public void tick() {
         super.tick();
+        int  radius = 40;
+        int inner_radius = 10;
+        this.cool_down += 1;
+        BlockPos  bp = new BlockPos(-200, 107, 700);
+        for(int i = -radius;i <= radius; i++){
+            for(int j = -radius; j < radius;j++){
+                if(this.cool_down < 250){
+                    if(this.cool_down % 5 == 0){
+                        int c = this.cool_down / 5;
+                        if ((i * i + j * j ) <= radius * radius) {
+                            this.level.setBlock(new BlockPos(bp.getX() + i, bp.getY() + c, bp.getZ() + j), Blocks.AIR.defaultBlockState(), 3);
+                           // this.level.setBlock(new BlockPos(bp.getX() + i, bp.getY() + c + 1, bp.getZ() + j), Blocks.AIR.defaultBlockState(), 3);
+
+                        }
+                        if ((i * i + j * j) <= inner_radius * inner_radius && (i * i + j * j) >= (inner_radius - 1) * (inner_radius - 1)) {
+                            this.level.setBlock(new BlockPos(bp.getX() + i, bp.getY() + c, bp.getZ() + j), ModBlocks.POOL_BRICK_1.get().defaultBlockState(), 3);
+                        }
+                        for(int k = 1; k < radius;k++){
+                            if ((i * i + j * j + k * k) <= radius * radius && (i * i + j * j + k * k) >= (radius - 1) * (radius - 1)) {
+                                this.level.setBlock(new BlockPos(bp.getX() + i, bp.getY() + c + k, bp.getZ() + j), ModBlocks.POOL_BRICK_1.get().defaultBlockState(), 3);
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+        /*
+        for(int i = -radius;i <= radius; i++){
+            for(int j = -radius; j < radius;j++){
+
+                for(int k = 0; k < radius*2;k++){
+                    if(k <= 50)
+                    {
+                        if ((i * i + j * j) < inner_radius * inner_radius ) {
+                            world.setBlock(new BlockPos(bp.getX() + i, bp.getY() + k, bp.getZ() + j), ModBlocks.POOL_BRICK_1.get().defaultBlockState(), 3);
+                        }
+                    }else if((i * i + j * j + (k - radius)*(k - radius)) < radius * radius){
+                        world.setBlock(new BlockPos(bp.getX() + i, bp.getY() + k, bp.getZ() + j), ModBlocks.POOL_BRICK_1.get().defaultBlockState(), 3);
+                    }
+
+
+                }
+            }
+        }
+        */
+        /*
         BlockPos bp = this.getOnPos();
         int scale = 1;
         this.cool_down -= 1;
@@ -144,8 +194,10 @@ public class FogGeneratorEntity extends TheZombieEntity implements IAnimatable {
                 }
             }
         }
-
-
+        */
+        if(this.cool_down > 1000){
+            this.kill();
+        }
 
     }
 
