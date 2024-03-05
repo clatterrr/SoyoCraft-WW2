@@ -20,6 +20,7 @@ import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -142,19 +143,22 @@ public class GardenRakeEntity extends TheZombieEntity implements IAnimatable {
         return 0.2F;
     }
 
+    int cool = 0;
     public void tick() {
 
-        if (this.getTarget() != null) {
-            double dx = this.getX() - this.getTarget().getX();
-            double dz = this.getZ() - this.getTarget().getZ();
-
-            if ((dx * dx + dz * dz) < 4.0) {
-                this.setAttacking(true);
+        BlockPos bp = this.getOnPos();
+        this.cool = 0;
+        for(int i = 0; i < 4; i++){
+            BlockPos nbp = new BlockPos(bp.getX() - 1, bp.getY() + i, bp.getZ());
+            if(this.level.getBlockState(nbp).getBlock() == Blocks.OAK_WOOD){
+                //this.level.destroyBlockProgress(40, nbp, this.cool / 10);
+                if(this.cool >= 120){
+                    this.cool = 0;
+                    //this.level.destroyBlock(nbp, true);
+                    continue;
+                }
+                return;
             }
-        }
-        if(this.getHealth() < 15 && this.drop_hand == false){
-            this.drop_hand = true;
-            this.spawnAtLocation(ModItems.ZOMBIE_HAND.get());
         }
         super.tick();
     }

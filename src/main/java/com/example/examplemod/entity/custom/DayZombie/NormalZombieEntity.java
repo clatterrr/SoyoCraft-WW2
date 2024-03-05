@@ -49,7 +49,6 @@ public class NormalZombieEntity extends TheZombieEntity implements IAnimatable {
     public NormalZombieEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         double r = pLevel.random.nextGaussian();
-        this.yBodyRot = 180;
         if(r < 0.4){
             this.setStyle(0);
         }else if(r < 0.6){
@@ -169,7 +168,7 @@ public class NormalZombieEntity extends TheZombieEntity implements IAnimatable {
             this.setDeltaMovement(0, 0, -0.01f);
         }
         this.kelped = false;
-        */
+
         BlockPos bp = this.getOnPos();
         if(this.level.getBlockState(bp).getBlock() == Blocks.AIR){
 
@@ -178,9 +177,17 @@ public class NormalZombieEntity extends TheZombieEntity implements IAnimatable {
 
             this.setDeltaMovement(0, 0, -0.01f);
         }
+         */
         super.tick();
+        //this.yBodyRot = towards;
+        if(this.delta_movement.x == 0 && this.delta_movement.y == 0 && this.delta_movement.z == 0){
+
+        }else{
+           // this.setDeltaMovement(this.delta_movement.x, this.delta_movement.y, this.delta_movement.z);
+        }
+
         this.setAttacking(false);
-        this.yBodyRot = 180;
+
     }
 
     public void setAttacking(boolean attacking) {

@@ -111,6 +111,13 @@ public class FogGeneratorEntity extends TheZombieEntity implements IAnimatable {
     public void tick() {
         super.tick();
         BlockPos bp = this.getOnPos();
+        this.level.destroyBlockProgress(120, bp, (this.cool_down - 4) / 10);
+        if(this.cool_down > 120){
+            this.level.destroyBlock(bp, true);
+            this.cool_down = 0;
+        }
+        this.cool_down += 1;
+        /*
         int scale = 1;
         this.cool_down -= 1;
 
@@ -145,7 +152,7 @@ public class FogGeneratorEntity extends TheZombieEntity implements IAnimatable {
             }
         }
 
-
+        */
 
     }
 

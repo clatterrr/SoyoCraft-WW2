@@ -167,6 +167,13 @@ dependencies {
     implementation fg.deobf("curse.maven:ctm-286924:4145894")
     implementation fg.deobf("curse.maven:ctm-581495:4578731")
     implementation fg.deobf("curse.maven:ctm-574856:4763255")
+
+
+    implementation fg.deobf("curse.maven:ctm-426386:4407257")
+
+   // implementation fg.deobf("curse.maven:ctm-574856:4763255")
+    //implementation fg.deobf("curse.maven:ctm-574856:4763255")
+
 }
 
 // Example for how to get properties into the manifest for reading at runtime.

@@ -1,6 +1,8 @@
 package com.example.examplemod.event;
 
 import com.example.examplemod.ExampleMod;
+import com.example.examplemod.commands.SceneSetup;
+import com.example.examplemod.commands.SetHomeCommand;
 import com.example.examplemod.entity.ModEntityTypes;
 import com.example.examplemod.entity.ModModelLayers;
 import com.example.examplemod.entity.client.*;
@@ -28,10 +30,12 @@ import com.example.examplemod.entity.custom.Projectile.PeaProjectileEntity;
 import com.example.examplemod.entity.custom.DayPlant.SunflowerEntity;
 import com.example.examplemod.entity.custom.DayPlant.WallnutEntity;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.server.command.ConfigCommand;
 
 public class ModEvents {
 
@@ -222,10 +226,19 @@ public class ModEvents {
 
         }
 
-        @SubscribeEvent
-        public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
-            event.registerLayerDefinition(ModModelLayers.ZOMBIE_HAND_LAYER, ZombieHandModel::createBodyLayer);
-
-        }
     }
+
+    @SubscribeEvent
+    public static void onCommandsRegister(RegisterCommandsEvent event) {
+        new SceneSetup(event.getDispatcher());
+        ConfigCommand.register(event.getDispatcher());
+    }
+
+
+    @SubscribeEvent
+    public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        event.registerLayerDefinition(ModModelLayers.ZOMBIE_HAND_LAYER, ZombieHandModel::createBodyLayer);
+
+    }
+
 }

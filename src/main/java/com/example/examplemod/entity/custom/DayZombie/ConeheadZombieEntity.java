@@ -18,6 +18,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -114,6 +115,8 @@ public class ConeheadZombieEntity extends TheZombieEntity implements IAnimatable
         super.tick();
         //this.setDeltaMovement(0, 0, 0.05f);
         this.yBodyRot = 180;
+        spawnAtLocation(Items.MUSIC_DISC_CAT.getDefaultInstance(), 2.0f);
+
     }
 
     public void setAttacking(boolean attacking) {
