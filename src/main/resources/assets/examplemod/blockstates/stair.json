@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north" : {
+      "model" : "examplemod:block/stair"
+    },
+    "facing=south" : {
+      "model" : "examplemod:block/stair",
+      "y" : 180
+    },
+    "facing=south" : {
+      "model" : "examplemod:block/stair",
+      "y" : 270
+    },
+    "facing=south" : {
+      "model": "examplemod:block/stair",
+      "y": 90
+    }
+  }
+}

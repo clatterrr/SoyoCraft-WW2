@@ -1,10 +1,13 @@
 package com.example.examplemod.entity.custom;
 
-import com.example.examplemod.entity.custom.FogPlant.BloverEntity;
-import com.example.examplemod.entity.custom.FogPlant.PlanternEntity;
-import com.example.examplemod.entity.custom.PoolZombie.ZomboniEntity;
+import com.example.examplemod.block.ModBlocks;
+import com.example.examplemod.entity.ModEntityTypes;
+import com.example.examplemod.entity.custom.Garden.FenceEntity;
+import com.example.examplemod.entity.custom.NightPlant.PuffShroomEntity;
+import com.example.examplemod.entity.custom.NightPlant.PuffShroomSleepEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -20,6 +23,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -110,13 +114,23 @@ public class FogGeneratorEntity extends TheZombieEntity implements IAnimatable {
     int cool_down = 4;
     public void tick() {
         super.tick();
-        BlockPos bp = this.getOnPos();
-        this.level.destroyBlockProgress(120, bp, (this.cool_down - 4) / 10);
-        if(this.cool_down > 120){
-            this.level.destroyBlock(bp, true);
-            this.cool_down = 0;
+        if(!this.level.players().isEmpty()){
+            Player p = this.level.players().get(0);
+            BlockPos pos = p.getOnPos();
+            BlockPos np0 = new BlockPos(pos.getX(), pos.getY() + 2, pos.getZ());
+            Vec3 pp = p.position();
+            double dist = (pp.x - np0.getX()) * (pp.x - np0.getX()) + ((pp.y - np0.getY())*(pp.y - np0.getY())) + ((pp.z - np0.getZ()) * (pp.z - np0.getZ()));
+            //p.sendSystemMessage(Component.literal("mypos = " + pos + "blockpos" + np0 + "pos" + pp + "dist"  +dist));
+            if(this.level.getBlockState(np0).getBlock() == ModBlocks.QUESTION.get() ){
+                this.level.setBlock(np0, ModBlocks.QUESTION2.get().defaultBlockState(), 1);
+                PuffShroomSleepEntity f = new PuffShroomSleepEntity(ModEntityTypes.PUFF_SHROOM_SLEEP.get(), this.level);
+                f.setPos(np0.getX() + 0.5, np0.getY() + 1, np0.getZ() + 0.5);
+                this.level.addFreshEntity(f);
+            }
+            if(this.level.getBlockState(np0).getBlock() == ModBlocks.BRICK.get() ){
+                this.level.destroyBlock(np0, true);
+            }
         }
-        this.cool_down += 1;
         /*
         int scale = 1;
         this.cool_down -= 1;

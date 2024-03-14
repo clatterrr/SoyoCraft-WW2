@@ -2,7 +2,6 @@ package com.example.examplemod.entity.custom.Projectile;
 
 import com.example.examplemod.entity.ModEntityTypes;
 import com.example.examplemod.entity.custom.DayZombie.NormalZombieEntity;
-import com.example.examplemod.entity.custom.PoolPlant.TorchwoodEntity;
 import com.example.examplemod.entity.custom.TheZombieEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;

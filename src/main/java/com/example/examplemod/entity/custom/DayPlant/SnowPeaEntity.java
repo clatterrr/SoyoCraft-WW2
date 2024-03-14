@@ -1,8 +1,6 @@
 package com.example.examplemod.entity.custom.DayPlant;
 
 import com.example.examplemod.entity.ModEntityTypes;
-import com.example.examplemod.entity.custom.PoolPlant.LilyPadEntity;
-import com.example.examplemod.entity.custom.PoolZombie.SnorkelZombieEntity;
 import com.example.examplemod.entity.custom.Projectile.IcePeaProjectileEntity;
 import com.example.examplemod.entity.custom.ThePlantEntity;
 import com.example.examplemod.entity.custom.TheZombieEntity;
@@ -116,42 +114,7 @@ public class SnowPeaEntity extends ThePlantEntity implements IAnimatable {
 
     int cool_down = 0;
     public void tick(){
-        this.cool_down += 1;
-        this.yBodyRot = 0;
-        this.setDeltaMovement(0,0,0);
-        super.tick();
-        this.setDeltaMovement(0,0,0);
-        BlockPos bp = this.getOnPos();
-        List<LilyPadEntity> lily_pads = this.level.getEntitiesOfClass(LilyPadEntity.class, this.getBoundingBox().inflate(1));
-        if(!lily_pads.isEmpty()){
-            LilyPadEntity flag = lily_pads.get(0);
-            this.setDeltaMovement(flag.getDeltaMovement());
-        }
-        Boolean find_zombie = false;
-        List<TheZombieEntity> zombies = this.level.getEntitiesOfClass(TheZombieEntity.class, this.getBoundingBox().inflate(8));
-        if(!zombies.isEmpty()){
-            for(int i = 0; i < zombies.size();i++){
-                TheZombieEntity z = zombies.get(i);
-                if(z instanceof SnorkelZombieEntity s){
-                    if(s.Style() == 0){
-                        continue;
-                    }
-                }
-                if(z.getOnPos().getZ() >= this.getOnPos().getZ() && z.getOnPos().getX() == this.getOnPos().getX()){
-                    find_zombie = true;
 
-                }
-            }
-        }
-        if(find_zombie == true){
-            if(this.cool_down > 20){
-                this.cool_down = 0;
-                IcePeaProjectileEntity pea = new IcePeaProjectileEntity(ModEntityTypes.ICE_PEA_PROJECTILE.get(), this.level);
-                BlockPos bpq = this.getOnPos();
-                pea.setPos(bpq.getX() + 0.3f, bpq.getY() + 1.8f, bpq.getZ() + 1.3f);
-                this.getLevel().addFreshEntity(pea);
-            }
-        }
     }
 
 

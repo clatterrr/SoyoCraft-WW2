@@ -94,6 +94,10 @@ public class FenceEntity extends Monster implements IAnimatable {
     public void tick(){
         super.tick();
         this.yBodyRot = 0;
+        this.cool_down += 1;
+        if(this.cool_down > 20){
+            this.remove(RemovalReason.DISCARDED);
+        }
     }
 
 }

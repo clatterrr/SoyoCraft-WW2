@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north" : {
+      "model" : "examplemod:block/bluebrick"
+    },
+    "facing=south" : {
+      "model" : "examplemod:block/bluebrick",
+      "y" : 180
+    },
+    "facing=south" : {
+      "model" : "examplemod:block/bluebrick",
+      "y" : 270
+    },
+    "facing=south" : {
+      "model": "examplemod:block/bluebrick",
+      "y": 90
+    }
+  }
+}

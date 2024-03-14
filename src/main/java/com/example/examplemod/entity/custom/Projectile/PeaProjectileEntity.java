@@ -2,7 +2,7 @@ package com.example.examplemod.entity.custom.Projectile;
 
 import com.example.examplemod.entity.ModEntityTypes;
 import com.example.examplemod.entity.custom.DayZombie.NormalZombieEntity;
-import com.example.examplemod.entity.custom.PoolPlant.TorchwoodEntity;
+import com.example.examplemod.entity.custom.KoopaEntity;
 import com.example.examplemod.entity.custom.TheZombieEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -119,33 +119,31 @@ public class PeaProjectileEntity extends Monster implements IAnimatable {
         super.defineSynchedData();
         this.entityData.define(ATTACKING, false);
     }
-
+    int cool = 0;
     public void tick(){
-        this.setDeltaMovement(0,0,0.2f);
+        this.cool += 1;
+        if(this.cool < 20){
+
+            this.setDeltaMovement(0,0.1f,0.1f);
+        }else if(this.cool < 40){
+
+            this.setDeltaMovement(0,-0.1f,0.1f);
+        }else{
+            this.cool = 0;
+        }
         super.tick();
-        List<TheZombieEntity> zombies = this.level.getEntitiesOfClass(TheZombieEntity.class, this.getBoundingBox().inflate(8));
+        List<KoopaEntity> zombies = this.level.getEntitiesOfClass(KoopaEntity.class, this.getBoundingBox().inflate(8));
         if(!zombies.isEmpty()) {
             for (int i = 0; i < zombies.size(); i++) {
-                TheZombieEntity z = zombies.get(i);
+                KoopaEntity z = zombies.get(i);
                 if(z.getOnPos().getX() == this.getOnPos().getX() && z.getOnPos().getZ() == this.getOnPos().getZ()){
-                    z.hurt(DamageSource.GENERIC, 1f);
+                    z.hurt(DamageSource.GENERIC, 100f);
                     this.remove(RemovalReason.KILLED);
                 }
             }
         }
 
-        if(this.could_fire){
-            List<TorchwoodEntity> torch = this.level.getEntitiesOfClass(TorchwoodEntity.class, this.getBoundingBox().inflate(1));
-            for(int i = 0; i< torch.size();i++){
-                TorchwoodEntity z = torch.get(i);
-                if(z.getOnPos().getZ()  == this.getOnPos().getZ() && z.getOnPos().getX() == this.getOnPos().getX()){
-                    FirePeaProjectileEntity pea = new FirePeaProjectileEntity(ModEntityTypes.FIRE_PEA_PROJECTILE.get(), this.level);
-                    pea.setPos(this.position());
-                    this.level.addFreshEntity(pea);
-                    this.remove(RemovalReason.DISCARDED);
-                }
-            }
-        }
+
 
     }
 }

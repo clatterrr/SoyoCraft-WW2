@@ -18,6 +18,12 @@
   "item.examplemod.pool_cleaner_spawn_egg" : "Pool Cleaner Spawn Egg",
   "item.examplemod.garden_rake_spawn_egg" : "Garden Rake Spawn Egg",
 
+  "item.examplemod.mario_spawn_egg" : "Mario Spawn Egg",
+  "item.examplemod.mario_small_spawn_egg" : "Mario Small Spawn Egg",
+  "item.examplemod.goomba_spawn_egg" : "Goomba Spawn Egg",
+  "item.examplemod.koopa_spawn_egg" : "Koopa Spawn Egg",
+  "item.examplemod.piranha_spawn_egg" : "Piranha Spawn Egg",
+
   "item.examplemod.pea_projectile_spawn_egg" : "Pea Projectile Spawn Egg",
 
 
@@ -91,7 +97,19 @@
   "block.exmaplemod.pool_brick_3" : "Pool Brick 3 Block",
   "block.exmaplemod.pool_brick_4" : "Pool Brick 4 Block",
 
+  "block.exmaplemod.question" : "Question Block",
 
+  "block.exmaplemod.question2" : "Question2 Block",
+  "block.exmaplemod.brick" : "Brick Block",
+  "block.exmaplemod.stair" : "Stair Block",
+  "block.exmaplemod.road" : "Road Block",
+  "block.exmaplemod.p0" : "P0 Block",
+  "block.exmaplemod.p1" : "P1 Block",
+  "block.exmaplemod.blueroad" : "Blue Road Block",
+  "block.exmaplemod.bluebrick" : "Blue Brick Block",
+  "block.exmaplemod.grass" : "GRASS Block",
+  "block.exmaplemod.clouds" : "CLOUDS Block",
+  "block.exmaplemod.rod" : "ROD Block",
   "item.examplemod.sea_shroom_spawn_egg" : "SeaShroom Spawn Egg",
 
   "item.examplemod.plantern_spawn_egg" : "Plantern Spawn Egg",

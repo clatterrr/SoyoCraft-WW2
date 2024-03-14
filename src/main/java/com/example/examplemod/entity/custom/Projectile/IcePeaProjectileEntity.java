@@ -2,7 +2,6 @@ package com.example.examplemod.entity.custom.Projectile;
 
 import com.example.examplemod.entity.ModEntityTypes;
 import com.example.examplemod.entity.custom.DayZombie.NormalZombieEntity;
-import com.example.examplemod.entity.custom.PoolPlant.TorchwoodEntity;
 import com.example.examplemod.entity.custom.TheZombieEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -127,18 +126,6 @@ public class IcePeaProjectileEntity extends Monster implements IAnimatable {
             }
         }
 
-        List<TorchwoodEntity> torch = this.level.getEntitiesOfClass(TorchwoodEntity.class, this.getBoundingBox().inflate(1));
-        for(int i = 0; i< torch.size();i++){
-            TorchwoodEntity z = torch.get(i);
-            if(z.getOnPos().getZ()  == this.getOnPos().getZ() && z.getOnPos().getX() == this.getOnPos().getX()){
 
-                BlockPos bpq = z.getOnPos();
-                PeaProjectileEntity pea = new PeaProjectileEntity(ModEntityTypes.PEA_PROJECTILE.get(), this.level);
-                pea.setPos(bpq.getX() + 0.5f, bpq.getY() + 1.8f, bpq.getZ() + 1.0f);
-                pea.setCouldFire(false);
-                this.level.addFreshEntity(pea);
-                this.remove(RemovalReason.DISCARDED);
-            }
-        }
     }
 }

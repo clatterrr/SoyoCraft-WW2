@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north" : {
+      "model" : "examplemod:block/clouds"
+    },
+    "facing=south" : {
+      "model" : "examplemod:block/clouds",
+      "y" : 180
+    },
+    "facing=south" : {
+      "model" : "examplemod:block/clouds",
+      "y" : 270
+    },
+    "facing=south" : {
+      "model": "examplemod:block/clouds",
+      "y": 90
+    }
+  }
+}

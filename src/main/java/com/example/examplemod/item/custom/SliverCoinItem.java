@@ -464,7 +464,8 @@ public class SliverCoinItem extends Item {
 
     // 远景走路 https://youtu.be/Xuc5si-b-PI?t=140
     void FarViewMove(Level world, Player player, BlockPos bp){
-
+        player.setYBodyRot(90);
+        /*
         NormalZombieEntity entity = new NormalZombieEntity(ModEntityTypes.NORMAL_ZOMBIE.get(), world);
         entity.setPos(bp.getX(), bp.getY() + 1, bp.getZ());
         Vec3 target = new Vec3(bp.getX() + 40, bp.getY(), bp.getZ());
@@ -494,6 +495,7 @@ public class SliverCoinItem extends Item {
         } catch (RegistryException e) {
             throw new RuntimeException(e);
         }
+        */
         // explore
     }
 

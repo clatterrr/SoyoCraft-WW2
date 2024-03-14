@@ -65,7 +65,7 @@ public class PuffShroomSleepEntity extends ThePlantEntity implements IAnimatable
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.puff_shroom_sleep.sleep", true));
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.puff_shroom_sleep.sleepx", true));
         return PlayState.CONTINUE;
     }
 

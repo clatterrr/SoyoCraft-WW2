@@ -1,37 +1,35 @@
 package com.example.examplemod.event;
 
 import com.example.examplemod.ExampleMod;
-import com.example.examplemod.commands.SceneSetup;
-import com.example.examplemod.commands.SetHomeCommand;
 import com.example.examplemod.entity.ModEntityTypes;
 import com.example.examplemod.entity.ModModelLayers;
 import com.example.examplemod.entity.client.*;
 import com.example.examplemod.entity.custom.*;
+import net.minecraft.client.player.LocalPlayer;
 import com.example.examplemod.entity.custom.DayPlant.JalapenoEntity;
 import com.example.examplemod.entity.custom.DayPlant.PeaShooterEntity;
 import com.example.examplemod.entity.custom.DayPlant.RepeaterEntity;
 import com.example.examplemod.entity.custom.DayPlant.SnowPeaEntity;
 import com.example.examplemod.entity.custom.DayZombie.*;
 import com.example.examplemod.entity.custom.Garden.*;
-import com.example.examplemod.entity.custom.FogPlant.*;
-import com.example.examplemod.entity.custom.FogZombie.*;
 import com.example.examplemod.entity.custom.Projectile.SporeEntity;
-import com.example.examplemod.entity.custom.RoofPlant.*;
-import com.example.examplemod.entity.custom.RoofZombie.*;
 import com.example.examplemod.entity.custom.UpgradePlant.*;
 import com.example.examplemod.entity.custom.NightPlant.PuffShroomEntity;
 import com.example.examplemod.entity.custom.NightPlant.PuffShroomSleepEntity;
 import com.example.examplemod.entity.custom.NightZombie.NewspaperZombieEntity;
-import com.example.examplemod.entity.custom.PoolPlant.*;
-import com.example.examplemod.entity.custom.PoolZombie.*;
 import com.example.examplemod.entity.custom.Projectile.FirePeaProjectileEntity;
 import com.example.examplemod.entity.custom.Projectile.IcePeaProjectileEntity;
 import com.example.examplemod.entity.custom.Projectile.PeaProjectileEntity;
 import com.example.examplemod.entity.custom.DayPlant.SunflowerEntity;
 import com.example.examplemod.entity.custom.DayPlant.WallnutEntity;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -41,9 +39,19 @@ public class ModEvents {
 
     @Mod.EventBusSubscriber(modid = ExampleMod.MODID)
     public static class ForgeEvents {
+        @SubscribeEvent
+        public static void onPlayerJump(LivingEvent.LivingJumpEvent event) {
+            if (event.getEntity() instanceof LocalPlayer ) {
+                LocalPlayer player = (LocalPlayer)event.getEntity();
+                if (player.input.jumping ) {
+                    player.setDeltaMovement(player.getDeltaMovement().add(0.0D, 0.5D, 0.0D));
+                }
+            }
 
+        }
 
     }
+
 
     @Mod.EventBusSubscriber(modid = ExampleMod.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class ModEventBusEvents {
@@ -70,23 +78,11 @@ public class ModEvents {
             event.put(ModEntityTypes.DAVE_CAR.get(), DaveCarEntity.setAttributes());
 
 
-            event.put(ModEntityTypes.LITTLE_ZOMBIE.get(), LittleZombieEntity.setAttributes());
-            event.put(ModEntityTypes.LITTLE_DUCK_TUBE_ZOMBIE.get(), LittleDuckyTubeZombieEntity.setAttributes());
             event.put(ModEntityTypes.NORMAL_ZOMBIE.get(), NormalZombieEntity.setAttributes());
             event.put(ModEntityTypes.CONEHEAD_ZOMBIE.get(), ConeheadZombieEntity.setAttributes());
             event.put(ModEntityTypes.BUCKETHEAD_ZOMBIE.get(), BucketheadZombieEntity.setAttributes());
-            event.put(ModEntityTypes.POLE_VAULTING_ZOMBIE.get(), PoleVaultingZombieEntity.setAttributes());
             event.put(ModEntityTypes.NEWSPAPER_ZOMBIE.get(), NewspaperZombieEntity.setAttributes());
             event.put(ModEntityTypes.FOOTBALL_ZOMBIE.get(), FootballZombieEntity.setAttributes());
-
-            event.put(ModEntityTypes.DUCK_TUBE_ZOMBIE.get(), DuckTubeZombieEntity.setAttributes());
-            event.put(ModEntityTypes.DUCK_TUBE_CONE_HEAD_ZOMBIE.get(), DuckTubeConeHeadZombieEntity.setAttributes());
-            event.put(ModEntityTypes.DUCK_TUBE_BUCKET_HEAD_ZOMBIE.get(), DuckTubeBucketHeadZombieEntity.setAttributes());
-            event.put(ModEntityTypes.SNORKEL_ZOMBIE.get(), SnorkelZombieEntity.setAttributes());
-            event.put(ModEntityTypes.ZOMBONI.get(), ZomboniEntity.setAttributes());
-            event.put(ModEntityTypes.SLED.get(), SledEntity.setAttributes());
-            event.put(ModEntityTypes.ZOMBIE_BOBSLED_TEAM.get(), ZombieBobsledTeamEntity.setAttributes());
-            event.put(ModEntityTypes.DOLPHIN_RIDER_ZOMBIE.get(), DolphinRiderZombieEntity.setAttributes());
 
             event.put(ModEntityTypes.PEA_SHOOTER.get(), PeaShooterEntity.setAttributes());
             event.put(ModEntityTypes.SUNFLOWER.get(), SunflowerEntity.setAttributes());
@@ -102,14 +98,6 @@ public class ModEvents {
             event.put(ModEntityTypes.SNOW_PEA.get(), SnowPeaEntity.setAttributes());
             event.put(ModEntityTypes.REPEATER.get(), RepeaterEntity.setAttributes());
 
-            event.put(ModEntityTypes.LILY_PAD.get(), LilyPadEntity.setAttributes());
-            event.put(ModEntityTypes.SQUASH.get(), SquashEntity.setAttributes());
-            event.put(ModEntityTypes.THREEPEATER.get(), ThreepeaterEntity.setAttributes());
-            event.put(ModEntityTypes.TANGLE_KELP.get(), TangleKelpEntity.setAttributes());
-            event.put(ModEntityTypes.JALAPENO.get(), JalapenoEntity.setAttributes());
-            event.put(ModEntityTypes.SPIKEWEED.get(), SpikeweedEntity.setAttributes());
-            event.put(ModEntityTypes.TORCHWOOD.get(), TorchwoodEntity.setAttributes());
-            event.put(ModEntityTypes.TALLNUT.get(), TallnutEntity.setAttributes());
 
             event.put(ModEntityTypes.FREEZE_ZOMBIE.get(), FreezeZombieEntity.setAttributes());
             event.put(ModEntityTypes.ASH_ZOMBIE.get(), AshZombieEntity.setAttributes());
@@ -117,87 +105,13 @@ public class ModEvents {
             event.put(ModEntityTypes.GRAVE2.get(), Grave2Entity.setAttributes());
             event.put(ModEntityTypes.GRAVE3.get(), Grave3Entity.setAttributes());
 
+            event.put(ModEntityTypes.GOOMBA.get(), GoombaEntity.setAttributes());
+            event.put(ModEntityTypes.KOOPA.get(), KoopaEntity.setAttributes());
+            event.put(ModEntityTypes.PIRANHA.get(), PiranhaEntity.setAttributes());
+            event.put(ModEntityTypes.MARIO.get(), MarioEntity.setAttributes());
+            event.put(ModEntityTypes.MARIO_SMALL.get(), MarioSmallEntity.setAttributes());
 
 
-            event.put(ModEntityTypes.SEA_SHROOM.get(), SeaShroomEntity.setAttributes());
-
-
-            event.put(ModEntityTypes.PLANTERN.get(), PlanternEntity.setAttributes());
-
-
-            event.put(ModEntityTypes.CACTUS.get(), CactusEntity.setAttributes());
-
-
-            event.put(ModEntityTypes.BLOVER.get(), BloverEntity.setAttributes());
-
-
-            event.put(ModEntityTypes.SPLIT_PEA.get(), SplitPeaEntity.setAttributes());
-
-
-            event.put(ModEntityTypes.STAR_FRUIT.get(), StarFruitEntity.setAttributes());
-
-
-            event.put(ModEntityTypes.PUMPKIN.get(), PumpkinEntity.setAttributes());
-
-
-            event.put(ModEntityTypes.MAGNET_SHROOM.get(), MagnetShroomEntity.setAttributes());
-
-
-            event.put(ModEntityTypes.CABBAGE_PULT.get(), CabbagePultEntity.setAttributes());
-
-
-            event.put(ModEntityTypes.FLOWR_POT.get(), FlowerPotEntity.setAttributes());
-
-
-            event.put(ModEntityTypes.KERNEL_PULT.get(), KernelPultEntity.setAttributes());
-
-
-            event.put(ModEntityTypes.GARLIC.get(), GarlicEntity.setAttributes());
-
-
-            event.put(ModEntityTypes.COFFEE_BEAN.get(), CoffeeBeanEntity.setAttributes());
-
-
-            event.put(ModEntityTypes.MELON_PULT.get(), MelonPultEntity.setAttributes());
-
-
-            event.put(ModEntityTypes.UMBRELLA_LEAF.get(), UmbrellaLeafEntity.setAttributes());
-
-
-            event.put(ModEntityTypes.MARIGOLD.get(), MariGoldEntity.setAttributes());
-
-
-            event.put(ModEntityTypes.JACK_ZOMBIE.get(), JackZombieEntity.setAttributes());
-
-
-            event.put(ModEntityTypes.BALLOON_ZOMBIE.get(), BalloonZombieEntity.setAttributes());
-
-
-            event.put(ModEntityTypes.DIGGER_ZOMBIE.get(), DiggerZombieEntity.setAttributes());
-
-
-            event.put(ModEntityTypes.POGO_ZOMBIE.get(), PogoZombieEntity.setAttributes());
-
-
-            event.put(ModEntityTypes.ZOMBIE_YETI.get(), ZombieYetiEntity.setAttributes());
-
-
-            event.put(ModEntityTypes.GUNGEE_ZOMBIE.get(), BungeeZombieEntity.setAttributes());
-
-
-            event.put(ModEntityTypes.LADDER_ZOMBIE.get(), LadderZombieEntity.setAttributes());
-
-
-            event.put(ModEntityTypes.CATAPULT_ZOMBIE.get(), CatapultZombieEntity.setAttributes());
-
-
-            event.put(ModEntityTypes.GARGANTUAR.get(), GargantuarEntity.setAttributes());
-
-
-            event.put(ModEntityTypes.IMP.get(), ImpEntity.setAttributes());
-
-
-            event.put(ModEntityTypes.ZOMBOSS.get(), ZomBossEntity.setAttributes());
 
 
             event.put(ModEntityTypes.GATLING_PEA.get(), GatlingPeaEntity.setAttributes());
@@ -228,17 +142,22 @@ public class ModEvents {
 
     }
 
-    @SubscribeEvent
-    public static void onCommandsRegister(RegisterCommandsEvent event) {
-        new SceneSetup(event.getDispatcher());
-        ConfigCommand.register(event.getDispatcher());
-    }
-
 
     @SubscribeEvent
     public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(ModModelLayers.ZOMBIE_HAND_LAYER, ZombieHandModel::createBodyLayer);
 
+    }
+
+    @SubscribeEvent
+    public void onLivingJumpEvent(LivingEvent.LivingJumpEvent event)
+    {
+        float jumpMultiplier = 1.0F;
+
+        if (event.getEntity() instanceof Player player){
+            player.sendSystemMessage(Component.literal("jump"));
+            player.push(0,jumpMultiplier,0);
+        }
     }
 
 }

@@ -46,7 +46,6 @@ public class PuffShroomEntity extends ThePlantEntity implements IAnimatable {
     public PuffShroomEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
 
         super(pEntityType, pLevel);
-        this.setNoGravity(true);
     }
 
     public static AttributeSupplier setAttributes() {
@@ -70,9 +69,9 @@ public class PuffShroomEntity extends ThePlantEntity implements IAnimatable {
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         if(this.isAttacking()){
 
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.puff_shroom.attack", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.puff_shroom.attackx", true));
         }else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.puff_shroom.idle", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.puff_shroom.idlex", true));
         }
         return PlayState.CONTINUE;
     }
@@ -125,8 +124,7 @@ public class PuffShroomEntity extends ThePlantEntity implements IAnimatable {
 
     public void tick(){
         this.yBodyRot = 90;
-        this.setPos(this.position().x, -60, this.position().z);
-
+        //this.setDeltaMovement(0f,0f, 0.1f);
         super.tick();
 
     }

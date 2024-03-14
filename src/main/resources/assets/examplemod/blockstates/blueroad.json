@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north" : {
+      "model" : "examplemod:block/blueroad"
+    },
+    "facing=south" : {
+      "model" : "examplemod:block/blueroad",
+      "y" : 180
+    },
+    "facing=south" : {
+      "model" : "examplemod:block/blueroad",
+      "y" : 270
+    },
+    "facing=south" : {
+      "model": "examplemod:block/blueroad",
+      "y": 90
+    }
+  }
+}
