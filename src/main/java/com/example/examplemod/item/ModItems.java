@@ -14,6 +14,42 @@ import net.minecraftforge.registries.RegistryObject;
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ExampleMod.MODID);
 
+    public static final RegistryObject<Item> INSLIKES_SPAWN_EGG = ITEMS.register("inslikes_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.INSLIKES, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+    public static final RegistryObject<Item> TIKTOKLIKES_SPAWN_EGG = ITEMS.register("tiktoklikes_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.TIKTOKLIKES, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+    public static final RegistryObject<Item> SUBS_SPAWN_EGG = ITEMS.register("subs_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.SUBS, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+    public static final RegistryObject<Item> YOUTUBE_SPAWN_EGG = ITEMS.register("youtube_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.YOUTUBE, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+    public static final RegistryObject<Item> TIKTOK_SPAWN_EGG = ITEMS.register("tiktok_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.TIKTOK, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+    public static final RegistryObject<Item> INSTAGRAM_SPAWN_EGG = ITEMS.register("instagram_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.INSTAGRAM, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+    public static final RegistryObject<Item> CAR3_SPAWN_EGG = ITEMS.register("car3_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.CAR3, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+    public static final RegistryObject<Item> CAR2_SPAWN_EGG = ITEMS.register("car2_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.CAR2, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+    public static final RegistryObject<Item> CAR1_SPAWN_EGG = ITEMS.register("car1_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.CAR1, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
     public static final RegistryObject<Item> CRAZY_DAVE_SPAWN_EGG = ITEMS.register("crazy_dave_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntityTypes.CRAZY_DAVE, 0x22b341, 0x19732e,
                     new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));

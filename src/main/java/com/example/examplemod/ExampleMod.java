@@ -96,12 +96,25 @@ public class ExampleMod
     public static class ClientModEvents
     {
         @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event)
-        {
+        public static void onClientSetup(FMLClientSetupEvent event) {
+
+   EntityRenderers.register(ModEntityTypes.INSLIKES.get(), InsLikesRenderer::new);
+
+   EntityRenderers.register(ModEntityTypes.TIKTOKLIKES.get(), TiktokLikesRenderer::new);
+
+   EntityRenderers.register(ModEntityTypes.SUBS.get(), SubsRenderer::new);
+
+   EntityRenderers.register(ModEntityTypes.YOUTUBE.get(), YoutubeRenderer::new);
+
+   EntityRenderers.register(ModEntityTypes.TIKTOK.get(), TiktokRenderer::new);
+
+   EntityRenderers.register(ModEntityTypes.INSTAGRAM.get(), InstagramRenderer::new);
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
-
+            EntityRenderers.register(ModEntityTypes.CAR1.get(), Car1Renderer::new);
+            EntityRenderers.register(ModEntityTypes.CAR2.get(), Car2Renderer::new);
+            EntityRenderers.register(ModEntityTypes.CAR3.get(), Car3Renderer::new);
             EntityRenderers.register(ModEntityTypes.HOUSE_DOOR_1.get(), HouseDoor1Renderer::new);
             EntityRenderers.register(ModEntityTypes.HOUSE_DOOR_2.get(), HouseDoor2Renderer::new);
             EntityRenderers.register(ModEntityTypes.LIFE_GUARD_TOWER.get(), LifeGuardTowerRenderer::new);

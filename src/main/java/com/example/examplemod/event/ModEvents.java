@@ -60,6 +60,24 @@ public class ModEvents {
         @SubscribeEvent
         public static void entityAttributeEvent(EntityAttributeCreationEvent event) {
 
+event.put(ModEntityTypes.INSLIKES.get(), InsLikesEntity.setAttributes());
+
+event.put(ModEntityTypes.TIKTOKLIKES.get(), TiktokLikesEntity.setAttributes());
+
+event.put(ModEntityTypes.SUBS.get(), SubsEntity.setAttributes());
+
+event.put(ModEntityTypes.YOUTUBE.get(), YoutubeEntity.setAttributes());
+
+event.put(ModEntityTypes.TIKTOK.get(), TiktokEntity.setAttributes());
+
+event.put(ModEntityTypes.INSTAGRAM.get(), InstagramEntity.setAttributes());
+
+event.put(ModEntityTypes.CAR3.get(), Car3Entity.setAttributes());
+
+event.put(ModEntityTypes.CAR2.get(), Car2Entity.setAttributes());
+
+event.put(ModEntityTypes.CAR1.get(), Car1Entity.setAttributes());
+
 
             event.put(ModEntityTypes.HOUSE_DOOR_1.get(), HouseDoor1Entity.setAttributes());
             event.put(ModEntityTypes.HOUSE_DOOR_2.get(), HouseDoor2Entity.setAttributes());

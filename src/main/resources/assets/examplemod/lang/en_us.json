@@ -1,5 +1,23 @@
 {
 
+   "item.examplemod.inslikes_spawn_egg" : "INSLIKES",
+
+   "item.examplemod.tiktoklikes_spawn_egg" : "TIKTOKLIKES",
+
+   "item.examplemod.subs_spawn_egg" : "SUBS",
+
+   "item.examplemod.youtube_spawn_egg" : "YOUTUBE",
+
+   "item.examplemod.tiktok_spawn_egg" : "TIKTOK",
+
+   "item.examplemod.instagram_spawn_egg" : "INSTAGRAM",
+
+   "item.examplemod.car3_spawn_egg" : "CAR3",
+
+   "item.examplemod.car2_spawn_egg" : "CAR2",
+
+   "item.examplemod.car1_spawn_egg" : "CAR1",
+
   "item.examplemod.lily_pad_spawn_egg" : "Lily Pad",
   "item.examplemod.lily_pad" : "Lily Pad Item",
   "item.examplemod.lily_pad_pea_shooter" : "Lily Pad Pea Shooter Item",

@@ -30,6 +30,60 @@ public class ModEntityTypes {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
             DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, ExampleMod.MODID);
 
+public static final RegistryObject<EntityType<InsLikesEntity>> INSLIKES =
+    ENTITY_TYPES.register("inslikes",
+            () -> EntityType.Builder.of(InsLikesEntity::new, MobCategory.MONSTER)
+                    .sized(0.4f, 1.5f)
+                    .build(new ResourceLocation(ExampleMod.MODID, "inslikes").toString()));
+
+public static final RegistryObject<EntityType<TiktokLikesEntity>> TIKTOKLIKES =
+    ENTITY_TYPES.register("tiktoklikes",
+            () -> EntityType.Builder.of(TiktokLikesEntity::new, MobCategory.MONSTER)
+                    .sized(0.4f, 1.5f)
+                    .build(new ResourceLocation(ExampleMod.MODID, "tiktoklikes").toString()));
+
+public static final RegistryObject<EntityType<SubsEntity>> SUBS =
+    ENTITY_TYPES.register("subs",
+            () -> EntityType.Builder.of(SubsEntity::new, MobCategory.MONSTER)
+                    .sized(0.4f, 1.5f)
+                    .build(new ResourceLocation(ExampleMod.MODID, "subs").toString()));
+
+public static final RegistryObject<EntityType<YoutubeEntity>> YOUTUBE =
+    ENTITY_TYPES.register("youtube",
+            () -> EntityType.Builder.of(YoutubeEntity::new, MobCategory.MONSTER)
+                    .sized(0.4f, 1.5f)
+                    .build(new ResourceLocation(ExampleMod.MODID, "youtube").toString()));
+
+public static final RegistryObject<EntityType<TiktokEntity>> TIKTOK =
+    ENTITY_TYPES.register("tiktok",
+            () -> EntityType.Builder.of(TiktokEntity::new, MobCategory.MONSTER)
+                    .sized(0.4f, 1.5f)
+                    .build(new ResourceLocation(ExampleMod.MODID, "tiktok").toString()));
+
+public static final RegistryObject<EntityType<InstagramEntity>> INSTAGRAM =
+    ENTITY_TYPES.register("instagram",
+            () -> EntityType.Builder.of(InstagramEntity::new, MobCategory.MONSTER)
+                    .sized(0.4f, 1.5f)
+                    .build(new ResourceLocation(ExampleMod.MODID, "instagram").toString()));
+
+public static final RegistryObject<EntityType<Car3Entity>> CAR3 =
+    ENTITY_TYPES.register("car3",
+            () -> EntityType.Builder.of(Car3Entity::new, MobCategory.MONSTER)
+                    .sized(0.4f, 1.5f)
+                    .build(new ResourceLocation(ExampleMod.MODID, "car3").toString()));
+
+public static final RegistryObject<EntityType<Car2Entity>> CAR2 =
+    ENTITY_TYPES.register("car2",
+            () -> EntityType.Builder.of(Car2Entity::new, MobCategory.MONSTER)
+                    .sized(0.4f, 1.5f)
+                    .build(new ResourceLocation(ExampleMod.MODID, "car2").toString()));
+
+public static final RegistryObject<EntityType<Car1Entity>> CAR1 =
+    ENTITY_TYPES.register("car1",
+            () -> EntityType.Builder.of(Car1Entity::new, MobCategory.MONSTER)
+                    .sized(0.4f, 1.5f)
+                    .build(new ResourceLocation(ExampleMod.MODID, "car1").toString()));
+
     // DayPlant
     public static final RegistryObject<EntityType<SunflowerEntity>> SUNFLOWER =
             ENTITY_TYPES.register("sunflower",
