@@ -110,6 +110,7 @@ public class Grave2Entity extends Monster implements IAnimatable {
         this.cool_down += 1;
         if(this.cool_down > 200){
 
+            /*
             double r = this.random.nextGaussian();
             if(r < 0.4){
                 NormalZombieEntity zombie = new NormalZombieEntity(ModEntityTypes.NORMAL_ZOMBIE.get(), this.getLevel());
@@ -127,6 +128,7 @@ public class Grave2Entity extends Monster implements IAnimatable {
                 zombie.setPos(bp.getX(), bp.getY() + 1, bp.getZ());
                 this.level.addFreshEntity(zombie);
             }
+            */
 
 
             this.cool_down = 0;

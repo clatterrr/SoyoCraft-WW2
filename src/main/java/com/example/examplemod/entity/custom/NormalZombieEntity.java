@@ -1,6 +1,7 @@
 package com.example.examplemod.entity.custom;
 
 import com.example.examplemod.item.ModItems;
+import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -10,6 +11,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -25,6 +27,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -44,17 +47,10 @@ public class NormalZombieEntity extends TheZombieEntity implements IAnimatable {
             SynchedEntityData.defineId(NormalZombieEntity.class, EntityDataSerializers.INT);
     private AnimationFactory factory = new AnimationFactory(this);
 
-    public NormalZombieEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
-        double r = pLevel.random.nextGaussian();
-        this.yBodyRot = 180;
-        if(r < 0.4){
-            this.setStyle(0);
-        }else if(r < 0.6){
-            this.setStyle(1);
-        }else {
-            this.setStyle(2);
-        }
+
+
+    public NormalZombieEntity(EntityType<? extends Monster> pEntityType, Level level) {
+        super(pEntityType, level);
     }
 
     public static AttributeSupplier setAttributes() {
@@ -149,33 +145,29 @@ public class NormalZombieEntity extends TheZombieEntity implements IAnimatable {
         return 0.2F;
     }
 
+    private Vec3 theDeltaMove = Vec3.ZERO;
+    private Vec3 theRelLook = Vec3.ZERO;
+
+    public void SetDeltaMove(Vec3 m){
+        this.theDeltaMove = m;
+    }
+
+    public void SetTheYRot(Vec3 m){
+
+        this.theRelLook = m;
+    }
     public void tick() {
-        this.setAttacking(false);
-        List<ThePlantEntity> plants = this.level.getEntitiesOfClass(ThePlantEntity.class, this.getBoundingBox().inflate(2));
-        if(!plants.isEmpty()) {
-            for (int i = 0; i < plants.size(); i++) {
-                ThePlantEntity z = plants.get(i);
-                if(z.getOnPos().getX() == this.getOnPos().getX() &&  z.position().z + 0.8f > this.position().z){
-                    this.kelped = true;
-                    this.setAttacking(true);
-                    z.hurt(DamageSource.CACTUS, 1.0f);
-                }
-            }
-        }
-        if(this.getHealth() <= 5 && this.drop_hand == false){
-            this.drop_hand = true;
-            this.spawnAtLocation(ModItems.ZOMBIE_HAND.get());
-        }
-        if(this.kelped) {
-            this.setDeltaMovement(0,0,0);
-        }else{
-
-            this.setDeltaMovement(0, 0, -0.01f);
-        }
-        this.kelped = false;
         super.tick();
-
-        this.yBodyRot = 180;
+        this.setDeltaMovement(this.theDeltaMove);
+        if(this.theDeltaMove.x > 0){
+            this.lookAt(EntityAnchorArgument.Anchor.EYES, new Vec3(this.getX()  + 1,this.getY(),this.getZ()));
+        }else if(this.theDeltaMove.x < 0){
+            this.lookAt(EntityAnchorArgument.Anchor.EYES, new Vec3(this.getX() - 1,this.getY(),this.getZ()));
+        }else if(this.theDeltaMove.z > 0){
+            this.lookAt(EntityAnchorArgument.Anchor.EYES, new Vec3(this.getX(),this.getY(),this.getZ() + 1));
+        }else if(this.theDeltaMove.z < 0){
+            this.lookAt(EntityAnchorArgument.Anchor.EYES, new Vec3(this.getX(),this.getY(),this.getZ() - 1));
+        }
     }
 
     public void setAttacking(boolean attacking) {

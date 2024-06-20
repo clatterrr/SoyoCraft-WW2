@@ -108,6 +108,7 @@ public class Grave3Entity extends Monster implements IAnimatable {
 
         this.cool_down += 1;
         if(this.cool_down > 200){
+            /*
             double r = this.random.nextGaussian();
             if(r < 0.4){
                 NormalZombieEntity zombie = new NormalZombieEntity(ModEntityTypes.NORMAL_ZOMBIE.get(), this.getLevel());
@@ -121,6 +122,7 @@ public class Grave3Entity extends Monster implements IAnimatable {
                 this.level.addFreshEntity(zombie);
             }
             this.cool_down = 0;
+            */
         }
 
     }
