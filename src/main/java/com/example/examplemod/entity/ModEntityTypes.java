@@ -14,6 +14,12 @@ public class ModEntityTypes {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
             DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, ExampleMod.MODID);
 
+public static final RegistryObject<EntityType<PlayerEntity>> PLAYER =
+    ENTITY_TYPES.register("player",
+            () -> EntityType.Builder.of(PlayerEntity::new, MobCategory.MONSTER)
+                    .sized(0.4f, 1.5f)
+                    .build(new ResourceLocation(ExampleMod.MODID, "player").toString()));
+
     public static final RegistryObject<EntityType<SledEntity>> SLED =
             ENTITY_TYPES.register("sled",
                     () -> EntityType.Builder.of(SledEntity::new, MobCategory.MONSTER)

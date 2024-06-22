@@ -159,6 +159,7 @@ public class NormalZombieEntity extends TheZombieEntity implements IAnimatable {
     public void tick() {
         super.tick();
         this.setDeltaMovement(this.theDeltaMove);
+        // System.out.println(this.theDeltaMove);
         if(this.theDeltaMove.x > 0){
             this.lookAt(EntityAnchorArgument.Anchor.EYES, new Vec3(this.getX()  + 1,this.getY(),this.getZ()));
         }else if(this.theDeltaMove.x < 0){
@@ -166,6 +167,7 @@ public class NormalZombieEntity extends TheZombieEntity implements IAnimatable {
         }else if(this.theDeltaMove.z > 0){
             this.lookAt(EntityAnchorArgument.Anchor.EYES, new Vec3(this.getX(),this.getY(),this.getZ() + 1));
         }else if(this.theDeltaMove.z < 0){
+
             this.lookAt(EntityAnchorArgument.Anchor.EYES, new Vec3(this.getX(),this.getY(),this.getZ() - 1));
         }
     }

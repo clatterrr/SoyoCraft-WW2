@@ -26,6 +26,8 @@ public class ModEvents {
         @SubscribeEvent
         public static void entityAttributeEvent(EntityAttributeCreationEvent event) {
 
+event.put(ModEntityTypes.PLAYER.get(), PlayerEntity.setAttributes());
+
 
             event.put(ModEntityTypes.HOUSE_DOOR_1.get(), HouseDoor1Entity.setAttributes());
             event.put(ModEntityTypes.HOUSE_DOOR_2.get(), HouseDoor2Entity.setAttributes());

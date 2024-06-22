@@ -1,5 +1,7 @@
 {
 
+   "item.examplemod.player_spawn_egg" : "PLAYER",
+
   "item.examplemod.lily_pad_spawn_egg" : "Lily Pad",
   "item.examplemod.lily_pad" : "Lily Pad Item",
   "item.examplemod.lily_pad_pea_shooter" : "Lily Pad Pea Shooter Item",

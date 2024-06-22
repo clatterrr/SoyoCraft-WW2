@@ -20,7 +20,9 @@ public class GoldenCoinItem extends Item {
     public InteractionResult useOn(UseOnContext context) {
 
         Level world = context.getLevel();
-
+        CamPoint point = CamPoint.createLocal();
+        System.out.println(point.x + "," + point.y + "," + point.z);
+        System.out.println(point.rotationYaw + "," + point.rotationPitch + "," + point.roll);
         return InteractionResult.sidedSuccess(world.isClientSide);
 
     }

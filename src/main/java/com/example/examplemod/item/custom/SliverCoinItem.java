@@ -108,7 +108,8 @@ public class SliverCoinItem extends Item {
         super(p_41383_);
     }
 
-    public Vector<String> globalActors = new Vector<String>();
+    public Vector<Entity> globalActors = new Vector<Entity>();
+    public Vector<String> globalActorsName = new Vector<String>();
     public Vector<Vec3> globalPos = new Vector<Vec3>();
     private Vector<SceneInfo> sceneInfos = new Vector<SceneInfo>();
     CamPoint moveForward(CamPoint p, double distance) {
@@ -227,6 +228,9 @@ public class SliverCoinItem extends Item {
         String filePath = "D:/walk2.txt";
         SceneInfo sceneInfo = new SceneInfo(0, 100);
         this.sceneInfos.clear();
+        this.globalActors.clear();
+        this.globalActorsName.clear();
+        this.globalPos.clear();
         ArrayList<String> strings = new ArrayList<>();
         ArrayList<Vec3> vectors = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -255,7 +259,7 @@ public class SliverCoinItem extends Item {
                             if(vectors.size() == 4){
 
                                 sceneInfo.actorInfos.add(new ActorInfo(strings.get(0), vectors.get(0), vectors.get(1), vectors.get(2), vectors.get(3)));
-                                System.out.println("parts " + strings.get(0) + " " + vectors.get(0) + " " + vectors.get(1) + " " + vectors.get(2) + " " + vectors.get(3));
+                                 // System.out.println("parts " + strings.get(0) + " " + vectors.get(0) + " " + vectors.get(1) + " " + vectors.get(2) + " " + vectors.get(3));
                                 if(strings.get(0).equals("camera")){
                                     int start = 0;
                                     int end = 100;
@@ -284,7 +288,7 @@ public class SliverCoinItem extends Item {
 
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         Runnable[] tasks = new Runnable[this.sceneInfos.size()];
-        for(int info_index = 0; info_index < 2; info_index++){
+        for(int info_index = 0; info_index < this.sceneInfos.size(); info_index++){
             SceneInfo info = this.sceneInfos.get(info_index);
             tasks[info_index] = new Runnable() {
                 @Override
@@ -295,10 +299,10 @@ public class SliverCoinItem extends Item {
             };
         }
 
-        scheduler.schedule(tasks[0], 0, TimeUnit.SECONDS);
         // 遍历任务数组并调度它们
         for (int i = 0; i < tasks.length; i++) {
-            int delay = (i + 1) * 7;  // 计算延迟时间
+            int delay = i * 5;  // 计算延迟时间
+            scheduler.schedule(tasks[i], delay, TimeUnit.SECONDS);
         }
 
         // 关闭调度器，防止新的任务提交。当前任务会继续执行
@@ -314,21 +318,32 @@ public class SliverCoinItem extends Item {
 
         System.out.println(" entities " + entities.size());
         // expect cameras
+        ActorInfo c = entities.get(entities.size() - 1);
+
+        for(int i = 0; i < this.globalActors.size(); i++){
+            this.globalActors.get(i).remove(Entity.RemovalReason.DISCARDED);
+        }
+        this.globalActors.clear();
 
         for(int i = 0; i < entities.size() - 1; i++){
-            NormalZombieEntity entity;
-            entity = new NormalZombieEntity(ModEntityTypes.NORMAL_ZOMBIE.get(), level);
+            Vec3 endPos = entities.get(i).endPos;
 
+            Entity entity;
+            entity = new NormalZombieEntity(ModEntityTypes.NORMAL_ZOMBIE.get(), level);
             BlockPos bp = player.getOnPos();
             Vec3 startPos = entities.get(i).startPos;
             entity.setPos(new Vec3(bp.getX() + startPos.x, bp.getY() + startPos.y, bp.getZ() + startPos.z));
-            entity.SetDeltaMove(new Vec3(0, 0, -0.0001));
-            entity.SetTheYRot(new Vec3(-1,0,1));
-            level.addFreshEntity(entity);
+            float dt = duration / 10;
+            Vec3 speed = new Vec3((endPos.x - startPos.x) / dt, (endPos.y - startPos.y) / dt, (endPos.z - startPos.z) / dt);
+            if(entity instanceof NormalZombieEntity zombie){
+                zombie.SetDeltaMove(speed);
+            }
+            this.globalActors.add(entity);
+            level.addFreshEntity(this.globalActors.lastElement());
+
         }
 
 
-        ActorInfo c = entities.get(entities.size() - 1);
         CompoundTag nbt = CMDCamClient.getScene().save(new CompoundTag());
         nbt.putLong("duration", duration);
         try {
@@ -343,7 +358,6 @@ public class SliverCoinItem extends Item {
         } catch (RegistryException e) {
             throw new RuntimeException(e);
         }
-
 
     }
 
