@@ -1,5 +1,7 @@
 {
 
+   "item.examplemod.theplayer_spawn_egg" : "THEPLAYER",
+
    "item.examplemod.player_spawn_egg" : "PLAYER",
 
   "item.examplemod.lily_pad_spawn_egg" : "Lily Pad",

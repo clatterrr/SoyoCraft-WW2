@@ -26,6 +26,8 @@ public class ModEvents {
         @SubscribeEvent
         public static void entityAttributeEvent(EntityAttributeCreationEvent event) {
 
+event.put(ModEntityTypes.THEPLAYER.get(), TheplayerEntity.setAttributes());
+
 event.put(ModEntityTypes.PLAYER.get(), PlayerEntity.setAttributes());
 
 

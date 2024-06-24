@@ -146,16 +146,12 @@ public class NormalZombieEntity extends TheZombieEntity implements IAnimatable {
     }
 
     private Vec3 theDeltaMove = Vec3.ZERO;
-    private Vec3 theRelLook = Vec3.ZERO;
+
 
     public void SetDeltaMove(Vec3 m){
         this.theDeltaMove = m;
     }
 
-    public void SetTheYRot(Vec3 m){
-
-        this.theRelLook = m;
-    }
     public void tick() {
         super.tick();
         this.setDeltaMovement(this.theDeltaMove);

@@ -1,10 +1,7 @@
 package com.example.examplemod.item.custom;
 
 import com.example.examplemod.entity.ModEntityTypes;
-import com.example.examplemod.entity.custom.NormalZombieEntity;
-import com.example.examplemod.entity.custom.GardenRakeEntity;
-import com.example.examplemod.entity.custom.ThePlantEntity;
-import com.example.examplemod.entity.custom.TheZombieEntity;
+import com.example.examplemod.entity.custom.*;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -286,6 +283,7 @@ public class SliverCoinItem extends Item {
             e.printStackTrace();
         }
 
+        BlockPos bp = context.getPlayer().getOnPos();
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         Runnable[] tasks = new Runnable[this.sceneInfos.size()];
         for(int info_index = 0; info_index < this.sceneInfos.size(); info_index++){
@@ -293,7 +291,7 @@ public class SliverCoinItem extends Item {
             tasks[info_index] = new Runnable() {
                 @Override
                 public void run() {
-                    TrackMoveSpeedGroup(context.getPlayer(), context.getLevel(), info.actorInfos, 5000);
+                    TrackMoveSpeedGroup(bp, context.getLevel(), info.actorInfos, 5000);
 
                 }
             };
@@ -314,7 +312,7 @@ public class SliverCoinItem extends Item {
         return new Vec3(0,0,0);
     }
 
-    void TrackMoveSpeedGroup(Player player, Level level, Vector<ActorInfo> entities, long duration){
+    void TrackMoveSpeedGroup(BlockPos bp, Level level, Vector<ActorInfo> entities, long duration){
 
         System.out.println(" entities " + entities.size());
         // expect cameras
@@ -329,14 +327,21 @@ public class SliverCoinItem extends Item {
             Vec3 endPos = entities.get(i).endPos;
 
             Entity entity;
-            entity = new NormalZombieEntity(ModEntityTypes.NORMAL_ZOMBIE.get(), level);
-            BlockPos bp = player.getOnPos();
+            if(entities.get(i).name.equals("tiger"))
+            {
+                entity = new NormalZombieEntity(ModEntityTypes.NORMAL_ZOMBIE.get(), level);
+            }else{
+                entity = new TheplayerEntity(ModEntityTypes.THEPLAYER.get(), level);
+            }
             Vec3 startPos = entities.get(i).startPos;
             entity.setPos(new Vec3(bp.getX() + startPos.x, bp.getY() + startPos.y, bp.getZ() + startPos.z));
             float dt = duration / 10;
             Vec3 speed = new Vec3((endPos.x - startPos.x) / dt, (endPos.y - startPos.y) / dt, (endPos.z - startPos.z) / dt);
             if(entity instanceof NormalZombieEntity zombie){
                 zombie.SetDeltaMove(speed);
+            }
+            if(entity instanceof TheplayerEntity player1){
+                player1.SetDeltaMove(speed);
             }
             this.globalActors.add(entity);
             level.addFreshEntity(this.globalActors.lastElement());
@@ -349,8 +354,8 @@ public class SliverCoinItem extends Item {
         try {
             //player.sendSystemMessage(Component.literal("hey"));
             CamScene path = new CamScene(nbt);
-            CamPoint p1 = new CamPoint(player.getX() + c.startPos.x, player.getY() + c.startPos.y, player.getZ() + c.startPos.z, c.startLook.x, c.startLook.y, c.startLook.z, 70);
-            CamPoint p2 = new CamPoint(player.getX() + c.endPos.x, player.getY() + c.endPos.y, player.getZ() + c.endPos.z, c.endLook.x, c.endLook.y, c.endLook.z, 70);
+            CamPoint p1 = new CamPoint(bp.getX() + c.startPos.x, bp.getY() + c.startPos.y + 1, bp.getZ() + c.startPos.z, c.startLook.x, c.startLook.y, c.startLook.z, 70);
+            CamPoint p2 = new CamPoint(bp.getX() + c.endPos.x, bp.getY() + c.endPos.y + 1, bp.getZ() + c.endPos.z, c.endLook.x, c.endLook.y, c.endLook.z, 70);
             path.points.clear();
             path.points.add(p1);
             path.points.add(p2);

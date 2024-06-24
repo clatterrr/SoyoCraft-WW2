@@ -14,7 +14,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -28,16 +27,16 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class PlayerEntity extends Monster implements IAnimatable {
+public class TheplayerEntity extends Monster implements IAnimatable {
 
     private static final EntityDataAccessor<Boolean> ATTACKING =
-            SynchedEntityData.defineId(PlayerEntity.class, EntityDataSerializers.BOOLEAN);
+            SynchedEntityData.defineId(TheplayerEntity.class, EntityDataSerializers.BOOLEAN);
 
     private static final EntityDataAccessor<Integer> STYLE =
-            SynchedEntityData.defineId(PlayerEntity.class, EntityDataSerializers.INT);
+            SynchedEntityData.defineId(TheplayerEntity.class, EntityDataSerializers.INT);
     private AnimationFactory factory = new AnimationFactory(this);
 
-    public PlayerEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
+    public TheplayerEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         double r = pLevel.random.nextGaussian();
         if(r < 0.4){
@@ -61,16 +60,15 @@ public class PlayerEntity extends Monster implements IAnimatable {
 
     @Override
     protected void registerGoals() {
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Villager.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         if(event.isMoving()){
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.player.walk", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.theplayer.walk", true));
         }else{
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.player.idle", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.theplayer.idle", true));
         }
         return PlayState.CONTINUE;
     }
@@ -87,7 +85,6 @@ public class PlayerEntity extends Monster implements IAnimatable {
     public AnimationFactory getFactory() {
         return factory;
     }
-
 
 
     private Vec3 theDeltaMove = Vec3.ZERO;
