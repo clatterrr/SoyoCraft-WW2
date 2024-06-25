@@ -96,6 +96,7 @@ public class ExampleMod
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+            EntityRenderers.register(ModEntityTypes.ENEMYZOMBIE.get(), EnemyzombieRenderer::new);
             EntityRenderers.register(ModEntityTypes.THEPLAYER.get(), TheplayerRenderer::new);
             EntityRenderers.register(ModEntityTypes.PLAYER.get(), PlayerRenderer::new);
             EntityRenderers.register(ModEntityTypes.HOUSE_DOOR_2.get(), HouseDoor2Renderer::new);

@@ -53,13 +53,17 @@ enum CameraMovementEnum{
 }
 class ActorInfo {
     public String name;
+
+
+    public String anim;
     public Vec3 startPos;
     public Vec3 endPos;
     public Vec3 startLook;
     public Vec3 endLook;
 
-    public ActorInfo(String name, Vec3 startPos, Vec3 endPos, Vec3 startLook, Vec3 endLook) {
+    public ActorInfo(String name, String anim, Vec3 startPos, Vec3 endPos, Vec3 startLook, Vec3 endLook) {
         this.name = name;
+        this.anim = anim;
         this.startPos = startPos;
         this.endPos = endPos;
         this.startLook = startLook;
@@ -255,9 +259,9 @@ public class SliverCoinItem extends Item {
                             vectors.add(vector);
                             if(vectors.size() == 4){
 
-                                sceneInfo.actorInfos.add(new ActorInfo(strings.get(0), vectors.get(0), vectors.get(1), vectors.get(2), vectors.get(3)));
+                                sceneInfo.actorInfos.add(new ActorInfo(strings.get(0), strings.get(1), vectors.get(0), vectors.get(1), vectors.get(2), vectors.get(3)));
                                  // System.out.println("parts " + strings.get(0) + " " + vectors.get(0) + " " + vectors.get(1) + " " + vectors.get(2) + " " + vectors.get(3));
-                                if(strings.get(0).equals("camera")){
+                                if(strings.get(0).equals("cameraf")){
                                     int start = 0;
                                     int end = 100;
                                     sceneInfo.frameStart = start;
@@ -315,33 +319,42 @@ public class SliverCoinItem extends Item {
     void TrackMoveSpeedGroup(BlockPos bp, Level level, Vector<ActorInfo> entities, long duration){
 
         System.out.println(" entities " + entities.size());
-        // expect cameras
-        ActorInfo c = entities.get(entities.size() - 1);
 
         for(int i = 0; i < this.globalActors.size(); i++){
             this.globalActors.get(i).remove(Entity.RemovalReason.DISCARDED);
         }
         this.globalActors.clear();
 
-        for(int i = 0; i < entities.size() - 1; i++){
+        for(int i = 0; i < entities.size(); i++){
+            if(entities.get(i).name.equals("camera")){
+                break;
+            }
             Vec3 endPos = entities.get(i).endPos;
 
             Entity entity;
             if(entities.get(i).name.equals("tiger"))
             {
-                entity = new NormalZombieEntity(ModEntityTypes.NORMAL_ZOMBIE.get(), level);
+                entity = new EnemyzombieEntity(ModEntityTypes.ENEMYZOMBIE.get(), level);
             }else{
                 entity = new TheplayerEntity(ModEntityTypes.THEPLAYER.get(), level);
+
             }
             Vec3 startPos = entities.get(i).startPos;
             entity.setPos(new Vec3(bp.getX() + startPos.x, bp.getY() + startPos.y, bp.getZ() + startPos.z));
             float dt = duration / 10;
             Vec3 speed = new Vec3((endPos.x - startPos.x) / dt, (endPos.y - startPos.y) / dt, (endPos.z - startPos.z) / dt);
-            if(entity instanceof NormalZombieEntity zombie){
+            Vec3 look = entities.get(i).startLook;
+            Vec3 lookat = new Vec3(bp.getX() + look.x, bp.getY() + look.y, bp.getZ() + look.z);
+            if(entity instanceof EnemyzombieEntity zombie){
                 zombie.SetDeltaMove(speed);
+                zombie.SetLookAt(lookat);
+                zombie.SetAnimation(entities.get(i).anim);
             }
             if(entity instanceof TheplayerEntity player1){
                 player1.SetDeltaMove(speed);
+                player1.SetLookAt(lookat);
+                player1.SetAnimation(entities.get(i).anim);
+
             }
             this.globalActors.add(entity);
             level.addFreshEntity(this.globalActors.lastElement());
@@ -354,11 +367,15 @@ public class SliverCoinItem extends Item {
         try {
             //player.sendSystemMessage(Component.literal("hey"));
             CamScene path = new CamScene(nbt);
-            CamPoint p1 = new CamPoint(bp.getX() + c.startPos.x, bp.getY() + c.startPos.y + 1, bp.getZ() + c.startPos.z, c.startLook.x, c.startLook.y, c.startLook.z, 70);
-            CamPoint p2 = new CamPoint(bp.getX() + c.endPos.x, bp.getY() + c.endPos.y + 1, bp.getZ() + c.endPos.z, c.endLook.x, c.endLook.y, c.endLook.z, 70);
             path.points.clear();
-            path.points.add(p1);
-            path.points.add(p2);
+            for(int i = 0; i < entities.size();i++){
+                System.out.println(" camera = " + entities.get(i).name);
+                if(entities.get(i).name.equals("camera") || entities.get(i).name.equals("cameraf")){
+                    ActorInfo c = entities.get(i);
+                    CamPoint p1 = new CamPoint(bp.getX() + c.startPos.x, bp.getY() + c.startPos.y + 1, bp.getZ() + c.startPos.z, c.startLook.x, c.startLook.y, c.startLook.z, 70);
+                    path.points.add(p1);
+                }
+            }
             CMDCamClient.start(path);
         } catch (RegistryException e) {
             throw new RuntimeException(e);

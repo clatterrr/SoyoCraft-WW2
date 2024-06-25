@@ -1,5 +1,7 @@
 {
 
+   "item.examplemod.enemyzombie_spawn_egg" : "ENEMYZOMBIE",
+
    "item.examplemod.theplayer_spawn_egg" : "THEPLAYER",
 
    "item.examplemod.player_spawn_egg" : "PLAYER",

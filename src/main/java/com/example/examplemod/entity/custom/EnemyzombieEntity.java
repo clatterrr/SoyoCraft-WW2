@@ -27,17 +27,25 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class TheplayerEntity extends Monster implements IAnimatable {
+public class EnemyzombieEntity extends Monster implements IAnimatable {
 
     private static final EntityDataAccessor<Boolean> ATTACKING =
-            SynchedEntityData.defineId(TheplayerEntity.class, EntityDataSerializers.BOOLEAN);
+            SynchedEntityData.defineId(EnemyzombieEntity.class, EntityDataSerializers.BOOLEAN);
 
     private static final EntityDataAccessor<Integer> STYLE =
-            SynchedEntityData.defineId(TheplayerEntity.class, EntityDataSerializers.INT);
+            SynchedEntityData.defineId(EnemyzombieEntity.class, EntityDataSerializers.INT);
     private AnimationFactory factory = new AnimationFactory(this);
 
-    public TheplayerEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
+    public EnemyzombieEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+        double r = pLevel.random.nextGaussian();
+        if(r < 0.4){
+            this.setStyle(0);
+        }else if(r < 0.6){
+            this.setStyle(1);
+        }else {
+            this.setStyle(2);
+        }
     }
 
     public static AttributeSupplier setAttributes() {
@@ -84,6 +92,14 @@ public class TheplayerEntity extends Monster implements IAnimatable {
     private Vec3 theDeltaMove = Vec3.ZERO;
     private Vec3 lookat = Vec3.ZERO;
 
+
+    public void SetDeltaMove(Vec3 m){
+        this.theDeltaMove = m;
+    }
+    public void SetLookAt(Vec3 m){
+        this.lookat = m;
+    }
+
     public void SetAnimation(String anim){
         if(anim.equals("charge_in") || anim.equals("walk") || anim.equals("run")){
             this.setStyle(1);
@@ -92,12 +108,6 @@ public class TheplayerEntity extends Monster implements IAnimatable {
         }else{
             this.setStyle(0);
         }
-    }
-    public void SetDeltaMove(Vec3 m){
-        this.theDeltaMove = m;
-    }
-    public void SetLookAt(Vec3 m){
-        this.lookat = m;
     }
 
     public void tick() {
@@ -108,6 +118,7 @@ public class TheplayerEntity extends Monster implements IAnimatable {
             this.lookAt(EntityAnchorArgument.Anchor.EYES, this.lookat);
         }
     }
+
 
     public void setAttacking(boolean attacking) {
         this.entityData.set(ATTACKING, attacking);
