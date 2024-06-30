@@ -69,8 +69,12 @@ public class EnemyzombieEntity extends Monster implements IAnimatable {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.idle", true));
         }else if(this.Style() == 1){
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.walk", true));
-        }else{
+        }else if(this.Style() == 2){
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.attack", true));
+        }else if(this.Style() == 3){
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.look", true));
+        }else {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.dead", true));
         }
         return PlayState.CONTINUE;
     }
@@ -96,28 +100,39 @@ public class EnemyzombieEntity extends Monster implements IAnimatable {
     public void SetDeltaMove(Vec3 m){
         this.theDeltaMove = m;
     }
+    private boolean alreadyLook = false;
     public void SetLookAt(Vec3 m){
+        this.alreadyLook = true;
         this.lookat = m;
     }
-
     public void SetAnimation(String anim){
+        System.out.println("anim = " + anim);
         if(anim.equals("charge_in") || anim.equals("walk") || anim.equals("run")){
             this.setStyle(1);
         }else if(anim.equals("attack")){
             this.setStyle(2);
+        }else if(anim.equals("spawn") || anim.equals("look")){
+
+            this.setStyle(3);
+        }else if(anim.equals("dead")){
+            this.setStyle(4);
         }else{
             this.setStyle(0);
         }
     }
-
     public void tick() {
         super.tick();
         this.setDeltaMovement(this.theDeltaMove);
-        if(this.lookat.y < 0){
+        if(this.alreadyLook == true){
 
-            this.lookAt(EntityAnchorArgument.Anchor.EYES, this.lookat);
+            BlockPos bp = this.blockPosition();
+            double dx = bp.getX() + this.lookat.x;
+            double dy = bp.getY() + this.lookat.y + 1;
+            double dz = bp.getZ() + this.lookat.z;
+            this.lookAt(EntityAnchorArgument.Anchor.FEET, new Vec3(dx, dy, dz));
         }
     }
+
 
 
     public void setAttacking(boolean attacking) {

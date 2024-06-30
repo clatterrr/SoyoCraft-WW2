@@ -4,7 +4,8 @@ origin_pos = [0,1,0]
 player = "lava shark"
 spawned_location = "the underwater coral reefs"
 
-
+# 第一摄影
+# 第二特效
 
 class Sentence:
     def __init__(self, content_str, actor_str, anim_str, subject_str = []):
@@ -13,6 +14,16 @@ class Sentence:
         self.subject_str = subject_str
         self.anim_str = anim_str
         self.next_sentence = []
+        self.auto_pos = True
+        self.auto_camera = True
+        
+    def SetPos(self, start_pos, end_pos, start_look, end_look):
+        self.auto_pos = False
+        self.start_pos = start_pos
+        self.end_pos = end_pos
+        self.start_look = start_look
+        self.end_look = end_look
+        
         
 def Vec3Add(a,b):
     return [a[0] + b[0], a[1] + b[1], a[2] + b[2]]
@@ -39,9 +50,19 @@ class Camera:
         return the_str
             
         
-spawn_camera = [Camera([[0,6,0],[0,1,0]], [[0,0,0],[0,0,0]], 100)]
+spawn_camera = [Camera([[0,4,0],[0,1.1,0],[0,1,0]], [[0,0,0],[0,0,0], [0,0,0]], 100), Camera([[2,2,-10],[0,2,-9],[0,1,0]], [[0,0,0],[0,0,10],[0,0,-10]], 100)]
+spawn_family_camera = [Camera([[-1,2,5],[-1,2,5]], [[224, 30, 0], [222, 35, 0]], 100)]
 
+# talk 都是相对的
+talk_camera = [Camera([[-1.5,1.5,-1.5],[-1,1.5,-1]], [[-40,0,0],[-50,0,0]], 100),Camera([[-1,1.5,-1],[-1,1.5,-1]], [[-40,0,0],[-50,0,0]], 100),
+               Camera([[-4,1,1],[-4,1,1]], [[-70,0,0],[-80,0,0]], 100), Camera([[1,1,-4],[1,1,-1]], [[0,0,-10],[0,0,10]], 100)]
+runaway_camera = [Camera([[-2,6,3],[-2,6,-7]], [[-160,40,0],[-160,40,0]], 100), Camera([[1,3,-7],[3,6,-16],[5,10,-26]], [[5,43,0],[10,46,0],[20,50,0]], 100),
+                  Camera([[-2,1,3],[-2,1,-7]], [[-160,0,0],[-160,0,0]], 100)
+                  ]
 
+lookaround_camera = [Camera([[0,1,0],[0,1,0],[0,1,0],[0,1,0],[0,1,0]], [[3,-2,0],[-81,-1,0],[-91,-1,0],[-165,1,0],[-172,1,0]], 100)]
+
+charge_in_camera = [Camera([[2,4,6],[0,1.5,12]], [[2, 27, 0], [3, 20, 0]], 100)]
 
 def RandomElement(str_list):
     if len(str_list) > 0:
@@ -52,12 +73,28 @@ def RandomElement(str_list):
 def GetCamera(anim):
     if anim == "spawn":
         return RandomElement(spawn_camera)
-    return RandomElement(spawn_camera)
+    elif anim == "talk":
+        return RandomElement(talk_camera)
+    elif anim == "run_away" or anim == "run":
+        return RandomElement(runaway_camera)
+    elif anim == "spawn_family":
+        return RandomElement(spawn_family_camera)
+    elif anim == "charge_in":
+        return RandomElement(charge_in_camera)
+    return RandomElement(talk_camera)
+
+
         
 global_actor_list = []
 global_actor_pos = []
 global_actor_status = []
 global_actor_lookat = []
+
+def GetGlobalPos(actor_name):
+    for k in range(len(global_actor_list)):
+        if global_actor_list[k] == actor_name:
+            return global_actor_pos[k]
+    return [0,0,0]
         
 # 随机数生成，生成数组
 class SentencePlus:
@@ -69,15 +106,23 @@ class SentencePlus:
         self.end_pos = [""] * len(self.actor_str)
         self.camera = GetCamera(sentence.anim_str[0])
         
+
+        for i in range(len(global_actor_list)):
+            if global_actor_status[i] == "dead":
+                global_actor_status[i] = "after_dead"
+                global_actor_pos[i] = [100,0,0]
+        
         for i in range(len(self.actor_str)):
             actor = self.actor_str[i]
             find = False
             for j in range(len(global_actor_list)):
                 if actor == global_actor_list[j]:
                     self.start_pos[i] = global_actor_pos[j]
+                    
                     global_actor_status[j] = self.anim_str[i]
                     find = True
             if find == False:
+                self.anim_str[i] == "first"
                 if(len(global_actor_list) > 0):
                     self.start_pos[i] = Vec3Add(global_actor_pos[0],[2,0,0])
                     global_actor_list.append(actor)
@@ -90,54 +135,68 @@ class SentencePlus:
                     global_actor_pos.append(origin_pos)
                     global_actor_status.append(self.anim_str[i])
                     global_actor_lookat.append([0,0,0])
-        
 
-        
-        for i in range(len(self.actor_str)):
-            actor = self.actor_str[i]
-            if self.anim_str[i] == "run" or self.anim_str[i] == "run_away":
-                self.end_pos[i] = Vec3Add(self.start_pos[i],[0,0,-10])
+        if sentence.auto_pos == True:
             
-            elif self.anim_str[i] == "attack":
-                self.end_pos[i] = Vec3Add(self.start_pos[i],[0,0,0])
+            for i in range(len(self.actor_str)):
+                actor = self.actor_str[i]
+                if self.anim_str[i] == "run" or self.anim_str[i] == "run_away":
+                    self.end_pos[i] = Vec3Add(self.start_pos[i],[0,0,-10])
+                elif self.anim_str[i] == "first":
+                     self.start_pos[i] = [6,0,0]
+                     self.end_pos[i] = Vec3Add(self.start_pos[i],[-4,0,0])
+                elif self.anim_str[i] == "after_dead":
+                    self.start_pos[i] = [100,1,3]
+                    self.end_pos[i] = Vec3Add(self.start_pos[i],[0,0,0])
+                elif self.anim_str[i] == "attack":
+                    self.end_pos[i] = Vec3Add(self.start_pos[i],[0,0,0])
+                    for j in range(len(global_actor_list)):
+                        if actor != global_actor_list[j]:
+                            global_actor_lookat[j] = self.end_pos[i]
+                elif self.anim_str[i] == "charge_in":
+                    self.start_pos[i] = [0,1,20]
+                    self.end_pos[i] = Vec3Add(self.start_pos[i],[0,0,-5])
+                elif self.anim_str[i] == "was" or self.anim_str[i] == "spawn_family" :
+                    self.end_pos[i] = Vec3Add(self.start_pos[i],[0,0,0])
+                elif self.anim_str[i] == "talk":
+                    self.end_pos[i] = Vec3Add(self.start_pos[i],[0,0,0])
+                
+                elif self.anim_str[i] == "spawn" or self.anim_str[i] == "dead":
+                    self.start_pos[i] = [0,1,3]
+                    self.end_pos[i] = Vec3Add(self.start_pos[i],[0,0,0])
+                else:
+                    self.end_pos[i] = self.start_pos[i]
                 for j in range(len(global_actor_list)):
-                    if actor != global_actor_list[j]:
-                        global_actor_lookat[j] = self.end_pos[i]
-            elif self.anim_str[i] == "charge_in":
-                self.start_pos[i] = [0,1,10]
-                self.end_pos[i] = Vec3Add(self.start_pos[i],[0,0,-5])
-            elif self.anim_str[i] == "was":
-                self.end_pos[i] = Vec3Add(self.start_pos[i],[0,0,0])
-            elif self.anim_str[i] == "talk":
-                self.end_pos[i] = Vec3Add(self.start_pos[i],[0,0,0])
-            
-            elif self.anim_str[i] == "spawn":
-                self.start_pos[i] = [0,1,3]
-                self.end_pos[i] = Vec3Add(self.start_pos[i],[0,0,0])
-            else:
-                self.end_pos[i] = self.start_pos[i]
-            for j in range(len(global_actor_list)):
-                if actor == global_actor_list[j]:
-                    global_actor_pos[j] = self.end_pos[i]
+                    if actor == global_actor_list[j]:
+                        global_actor_pos[j] = self.end_pos[i]
                     
-        self.lookat = []
-        for i in range(len(sentence.subject_str)):
-            subject = sentence.subject_str[i]
-            lookat = [0,0,0]
-            if self.anim_str[i] == "run" or self.anim_str[i] == "run_away":
-                lookat = Vec3Add(Vec3Add(self.end_pos[i], self.end_pos[i]), -self.start_pos[i])
+            self.lookat = []
+            for i in range(len(sentence.subject_str)):
+                subject = sentence.subject_str[i]
+                lookat = [0,0,0]
+                if self.anim_str[i] == "run" or self.anim_str[i] == "run_away":
+                    lookat = Vec3Add(Vec3Add(self.end_pos[i], self.end_pos[i]), [-self.start_pos[i][0],-self.start_pos[i][1],-self.start_pos[i][2]])
+                    self.lookat.append(lookat)
+                    continue
+                for j in range(len(global_actor_list)):
+                    if global_actor_list[j] == subject:
+                        lookat = global_actor_pos[j]
+                        break
                 self.lookat.append(lookat)
-                continue
-            for j in range(len(global_actor_list)):
-                if global_actor_list[j] == subject:
-                    lookat = global_actor_pos[j]
-                    break
-            self.lookat.append(lookat)
+        else:
+            self.start_pos = sentence.start_pos
+            self.end_pos = sentence.end_pos
+            self.lookat = sentence.start_look
+            
         for i in range(len(self.actor_str)):
             actor = self.actor_str[i]
             for j in range(len(global_actor_list)):
                 if global_actor_list[j] == actor:
                     global_actor_lookat[j] = self.lookat[i]
+                    
+        if sentence.anim_str[0] == "talk":
+            for i in range(len(self.camera.pos_list)):
+                self.camera.pos_list[i] = Vec3Add(self.camera.pos_list[i], [self.start_pos[0][0], 0, self.start_pos[0][2]])
                     
     def get_str(self, camera):
         the_str = ""
@@ -171,29 +230,21 @@ location = RandomElement(location_list)
 enviroment_list = ["desert", "rural" ]
 enviroment = RandomElement(enviroment_list)
 
-spawn_i = [Sentence("on day one I spawned in as a baby " + player + " inside of the underwater coral reefs", [player], ["spawn"], ["none"]), 
-      Sentence("on day one I spawned as a baby " + player, [player], ["spawn"])]
 
 
 
-spawn_family = [Sentence(location + " was " + family, [family, player], ["was", "was"], [player, family]), 
-      Sentence(family + " was " + location, [family, player], ["was", "was"]),
+
+spawn_family = [Sentence(location + " was " + family, [family, player], ["spawn_family", "was"], [player, family]), 
+      Sentence(family + " was " + location, [family, player], ["spawn_family", "was"]),
       # Sentence("and my " + enviroment + " home was heavily under attack", ["my " + enviroment + " home"], ["under_attack"]),
       # Sentence("I quickly noticed that I was inside my " + location + " with all of my people slithering around",  [player], ["was"])
       ]
 
-spawn_talk = [Sentence("my little boy look at you welcome to your new home", [family], ["talk"], [player])]
+
 
 player = player
 
-i_was_hurt = [
-      Sentence("I wanted to fight back but the poison was extremely lethal towards me" , [player], ["desc"], ["none"]),
-            Sentence("I had half a heart and was dodging each of its things left and right", [player], ["desc"]),
-            Sentence("I was getting extremely low", [player], ["desc"]),
-            Sentence("I was knocked down to only one heart", [player], ["desc"]),
-            Sentence("as soon as they hit I was blinded ah", [player], ["desc"]),
-            Sentence("I thought I was surely done for", [player], ["desc"])
-      ]
+
 
 
 
@@ -216,107 +267,47 @@ defend_d = ["i", "me", "my", player]
 attack_d = ["he", "him", "his", "a tiny little elephant"]
 target_item = "first diamond"
 
-talk_friend_sad = [Sentence("without the Elder there is surely no hope in winning this War" , [friend], ["talk"], [player])]
-talk_friend_thank = [Sentence("Thanks for saving me, my name is " + friend, [friend], ["talk"], [player]),
-                     Sentence("you did it", [friend], ["talk"])]
-talk_friend_mission = [Sentence("my family and I were separated from the war and I don't have a home" , [friend], ["talk"], [player]),
-                       Sentence("correct. each time it holds a different trial to overcome. find the rest of the Four Diamonds, the sun Diamond, the tiger's eye diamond, the sky diamond, and the Heart of the Jungle Diamond. as a spirit, I reside here. and will help you through your journey. well done Soyo", [friend], ["talk"]),
-                       Sentence("this will take you to the first of five special Diamonds, the saber diamond. for each one you collect, the closer you will come to stopping the wolf Nation, do it for me, and end this war" , [family], ["talk"]),
-                       Sentence("there is said to be five Warden scales in total each dropped down from past Ward and snake Warriors", [friend], ["talk"])
-                       ]# 其实没法判断是谁talk的
-talk_treasure = [Sentence("not just any scale a warden scale", ["scale"], ["talk"])] # 这句有问题
-fight_noeffect = [Sentence(attack_d[0] + " tried to fight back but " + attack_d[2] + " hits weren't doing anything", [player], ["attack"])]
-walk_search = [Sentence("I left the cave knowing I had to find the " + target_item, [player], ["walk"])]
-walk_wired = [Sentence("I heard loud howling going off in the distance", [player], ["heard"])] # 这个话的主语不是 i
-walk_takecover = [Sentence("as we were running we came across a waterfall an idea then sparked Within Me causing both peanut and I to go through it as a form of cover", [player], ["run"])]
-walk_confused = [Sentence("the Wolves showed up confused I could have sworn I heard footsteps", [player], ["talk"])]
-walk_runaway = [Sentence("I was running through the forest fast with "  + attack_d[3] + " getting closer", [player], ["run_away"], ["none"])]
-walk_new_thing = [Sentence("what is that I ran over only to see" + defend_d[3] + " being attacked by " + attack_d[3], [attack_d[3], defend_d[3]], ["attack", "be_attacked"])]
-walk_friend_start = [Sentence(friend + "started to Slither away through " + location, [friend], ["walk"])]
-walk_i_followed = [Sentence("hey uh come back", [player], ["talk"])]
-walk_reached = [Sentence("we reached the clearing", ["we"], ["walk"])]
-walk_treasure = [Sentence("and far off on the other side of it was a scale ", ["scale"], ["object"])]
-walk_treasure_pick = [Sentence("I did as ordered and went forward to pick it up", [player], ["pick"])]
-misc_growth = [Sentence("because of my victory I grew into an adult-sized tiger I even gained five more Hearts", [player], ["grow"]),
-               Sentence("because of this my body began to change I gained five more hearts and turned into a larger Warden snake I even have little Warden antlers ", [player], ["grow"])]
-attack_friend_fight = [Sentence("but " + friend + " stepped in the way and started to fight it off", [friend], ["attack"], [attacker])]
-attack_friend_talk = [Sentence("leave, now! i love you", [friend], ["talk"], [player])]
-attack_friend_dead = [Sentence("I watched as " + attacker + " killed " + friend, [attacker, friend], ["attack", "dead"], ["was", "none"])]
-attack_falldown = [Sentence("because of this I accidentally fell down a deep pit", [player], ["fall down"])]
+
+
+def GetFollow():
+    walk_i_followed = [ Sentence("I followed the lab cat ", ["lab cat", "i"], ["run", "follow"], ["none", "lab cat"]),]
+    walk_i_followed[0].SetPos([[0,0,0],[2,0,-2]], [[0,0,-8],[2,0,-10]], [[0,0,-1],[0,0,-1]], [[1,0,0],[-1,0,0]])
+
+
+    walk_reached = [Sentence("we reached the clearing", ["we"], ["walk"]), 
+                    Sentence("the mushroom led me over to a Strang looking Jungle Room", ["mushroom",[player]], ["run","follow"]),
+                    Sentence("we entered themushroom's main home", ["i", friend],  ["run","follow"]),
+                    
+                    # 这三句话是一个意思群
+                    Sentence("I found myself in a large Village", [player], ["was"],["village"]),
+                    Sentence("I looked around the village and things seemed to be different about this world", [player], ["look"]),
+                    Sentence("everything around the village seemed Barren and partially flooded", [player],["look"])]
+
+def GetChased():
+    return [Sentence("the Wolves showed up confused I could have sworn I heard footsteps", [player], ["talk"]), 
+                              Sentence("when i made it to other side, it was nowhere to be found", [player], ["talk"])]
+
+def GetAttack():
+    return 
 
 defend_d = ["he", "him", "his", "tiger"]
 attack_d = ["i", "me", "my", player]
 attacker = player
-attack_i = [Sentence(attack_d[0] + " begin to shoot out very powerful fire blasts" , [attacker], ["attack"], [defend_d[3]]),
-      Sentence(attack_d[0] + " had control over the plant life around " + attack_d[2] + " and would trap " + defend_d[1] + " in place", [attacker], ["attack"]),
-      Sentence(attack_d[0] + " would use " + attack_d[2] + " lava to cut " + defend_d[1] + " off from reaching " + attack_d[1], [attacker], ["attack"]),
-      Sentence(attack_d[0] + " came in again and slashed " + defend_d[1] + " so hard", [attacker], ["attack"]),
-      Sentence(attack_d[0] + " angrily began to attack " + defend_d[1], [attacker], ["attack"]),
-      Sentence(attack_d[0] + " they kept trying to fight " + defend_d[3], [attacker], ["attack"]),
-      Sentence(attack_d[0] + "  ran in and started to fend " + defend_d[1] + " off", [attacker], ["attack"]),
-      Sentence("that's when " + attack_d[0] + " noticed a new ability in " + attack_d[2] + " inventory a diamond slash " + attack_d[0] + " use it on " + defend_d[3], [attacker], ["attack"]),
-      Sentence(attack_d[3] + " then used a special ability on " + attack_d[1] + " which summoned void spikes from above", [attacker], ["attack"])
-      ]
+attack_i = GetAttack()
 
 attack_d = ["he", "him", "his", "tiger"]
 defend_d = ["i", "me", "my", player]
 attacker = "tiger"
-attack_enemy = [Sentence(attack_d[0] + " begin to shoot out very powerful fire blasts" , [attacker], ["attack"], [player]),
-      Sentence(attack_d[0] + " had control over the plant life around " + attack_d[2] + " and would trap " + defend_d[1] + " in place", [attacker], ["attack"]),
-      Sentence(attack_d[0] + " would use " + attack_d[2] + " lava to cut " + defend_d[1] + " off from reaching " + attack_d[1], [attacker], ["attack"]),
-      Sentence(attack_d[0] + " came in again and slashed " + defend_d[1] + " so hard", [attacker], ["attack"]),
-      Sentence(attack_d[0] + " angrily began to attack " + defend_d[1], [attacker], ["attack"]),
-      Sentence(attack_d[0] + " they kept trying to fight " + defend_d[3], [attacker], ["attack"]),
-      Sentence(attack_d[0] + "  ran in and started to fend " + defend_d[1] + " off", [attacker], ["attack"]),
-      Sentence("that's when " + attack_d[0] + " noticed a new ability in " + attack_d[2] + " inventory a diamond slash " + attack_d[0] + " use it on " + defend_d[3], [attacker], ["attack"]),
-      Sentence(attack_d[3] + " then used a special ability on " + attack_d[1] + " which summoned void spikes from above", [attacker], ["attack"])
-      ]
+attack_enemy = GetAttack()
+
+map_enemy_chase_i = ()
+map_i_chase_friend = ()
+map_not_found = GetChased()
+map_confused = ()
 
 defend_d = ["he", "him", "his", "tiger"]
 attack_d = ["i", "me", "my", player]
-attack_final = [Sentence("before " + defend_d[0] + " could slash at " + attack_d[1] + " again " + attack_d[0] + " blasted " + attack_d[1] + " One Last Time finally taking " + attack_d[1] + " down for good" , [player], ["attack"], [defend_d[3]]),
-      # Sentence("I let out a powerful Roar which sent " + bad_guy_desc + " " + bad_guy_name + " running away", [player, bad_guy_name], ["send", "run_away"]),
-      Sentence("with one more attack " + attack_d[0] + " successfully took " + defend_d[2] +  " down", [attack_d[0]], ["attack"])
-      ]
-            
-attack_enemy_charge = [Sentence("charging in entered a " + attacker, [attacker], ["charge_in"], [player]),
-      Sentence("I was facing of against the " + attacker, [attacker], ["charge_in"]),
-      Sentence("just then the " + attacker + " dropped down in front of me", [attacker], ["charge_in"]),
-      Sentence(attacker + "rushed in and we began to fight ", [attacker], ["charge_in"]),
-      Sentence("I looked up and saw that " + attacker + " was charging towards me ", [attacker], ["charge_in"]),
-      Sentence("shortly followed by a bunch of " + attacker + " they immediately started to run through our kingdom and kill my people", [attacker], ["charge_in"])
-      ]
 
-desc_enemy = [Sentence(attacker + " were way stronger than my people and could took them out with ease" , [attacker], ["was"], ["none"]),
-      Sentence("even though " + attacker + " was a old man, he was tough", [attacker], ["was"]),
-      Sentence(attacker + "`s massive size and speed were far greater than me", [attacker], ["was"]),
-      Sentence(attacker + " had deadly poisonous gas in his aresnel ", [attacker], ["was"]),
-      Sentence( attacker + " have the brute strength of nothing everyone had ever faced before ", [attacker], ["was"]),
-      Sentence("he had Incredible strength and abilities", [attacker], ["was"])
-      ]
-
-talk_enemy = [Sentence("time to die" , [attacker], ["talk"], [player]),
-      Sentence("don`t let him go away" , [attacker], ["talk"]),
-      Sentence("you just don't know when to quit. do you? ", [attacker], ["talk"]),
-      Sentence("I'll squash you like a bug", [attacker], ["talk"]),
-      Sentence("you are not going anywhere", [attacker], ["talk"]),
-      Sentence("you are not going anywhere", [attacker], ["talk"]),
-      Sentence("the boss going to love this new prize we found", [attacker], ["talk"]),
-      Sentence("our conquest for overworld has offically began", [attacker], ["talk"])
-      ]
-
-talk_i = [
-      Sentence("Stay Away" , [player], ["talk"], [attacker]),
-      Sentence("You stay away from me", [player], ["talk"]),
-            Sentence(" Stop it ", [player], ["talk"]),
-            Sentence("No", [player], ["talk"]),
-            Sentence("I'm sorry but I have to do this I cannot die here", [player], ["talk"]),
-            Sentence("take this", [player], ["talk"]),
-            Sentence("I knew I had to do something", [player], ["notalk"]),
-            Sentence("I was still small but since I was a " + player + " I can tell they were scared", [player], ["notalk"]),
-            Sentence("the wolves have found us we have to go", [player], ["retreat"]),
-            Sentence("if they found us, we are done for", [player], ["retreat"]),
-      ]
 
 # 保证每个Sentence 角色一致，动作大致相同
         
@@ -329,6 +320,8 @@ def storyg(if_story, then_story_list):
     for branch in then_story_list:
         for sentence in branch:
             sentence.subject_str = branch[0].subject_str
+            
+# 添加评论
 
 storyg(spawn_i, [spawn_family])
 storyg(spawn_family, [spawn_talk])
@@ -347,7 +340,7 @@ storyg(attack_i, [attack_final])
 splus = []
 all_str = ""
 all_str_camera = ""
-current_sentences = [spawn_i]
+current_sentences = [walk_i_followed]
 finalBreak = False
 for _ in range(10):
     for i in range(10):
@@ -395,10 +388,15 @@ with open("D:/output.txt", "w", encoding="utf-8") as file:
     file.write(all_str_camera)
 
 
-    
+for s in all_sentence:
+    if comfit case in s:
+        
      
 
 '''
+
+# 还是需要为每一句话配备特别的位置
+# 除了Talk 都不需要特别的位置
 
 场景就这么多吧
 
@@ -429,6 +427,22 @@ melee attack
 - 2
 - 3
 - 多
+
+发生了什么事情
+我是如何应对的
+结果是什么
+i found
+
+有的地点还是需要在游戏中标注
+
+Senten 两套Actor
+一套是主谓宾，用来组成句子
+另一套是actor list，用于生成动作吧  
+
+
+要先弄清楚现在发生了什么事情，再
+
+其实就不用StoryG这个方法了，直接遍历所有的句子，寻找条件
 
 '''
 

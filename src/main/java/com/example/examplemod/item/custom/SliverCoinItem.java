@@ -16,12 +16,15 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.animal.Pig;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.checkerframework.checker.units.qual.A;
@@ -112,6 +115,10 @@ public class SliverCoinItem extends Item {
     public Vector<Entity> globalActors = new Vector<Entity>();
     public Vector<String> globalActorsName = new Vector<String>();
     public Vector<Vec3> globalPos = new Vector<Vec3>();
+
+
+    public Vector<String> SpotName = new Vector<String>();
+    public Vector<Vec3> SpotPos = new Vector<Vec3>();
     private Vector<SceneInfo> sceneInfos = new Vector<SceneInfo>();
     CamPoint moveForward(CamPoint p, double distance) {
         double yaw = p.rotationYaw * Math.PI / 180.0;
@@ -223,6 +230,10 @@ public class SliverCoinItem extends Item {
 
     public InteractionResult useOn(UseOnContext context) {
 
+        SpotName.add("river");
+        SpotPos.add(new Vec3(0,0,0));
+        // 还是以main character 为中心，不过这里 main character 就是地点
+
         Level world = context.getLevel();
 
         this.sceneInfos = new Vector<SceneInfo>();
@@ -232,6 +243,8 @@ public class SliverCoinItem extends Item {
         this.globalActors.clear();
         this.globalActorsName.clear();
         this.globalPos.clear();
+        float start_time = 0;
+        float end_time = 0;
         ArrayList<String> strings = new ArrayList<>();
         ArrayList<Vec3> vectors = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -251,6 +264,10 @@ public class SliverCoinItem extends Item {
                     if (match.matches(".*\\d+.*")) { // Check if the match contains numbers
                         // Process as a vector
                         String[] parts = match.split(",");
+                        if(parts.length == 2){
+                            start_time = Float.parseFloat(parts[0].trim());
+                            end_time = Float.parseFloat(parts[1].trim());
+                        }
                         if(parts.length == 3){
                             float vx = Float.parseFloat(parts[0].trim());
                             float vy = Float.parseFloat(parts[1].trim());
@@ -262,15 +279,11 @@ public class SliverCoinItem extends Item {
                                 sceneInfo.actorInfos.add(new ActorInfo(strings.get(0), strings.get(1), vectors.get(0), vectors.get(1), vectors.get(2), vectors.get(3)));
                                  // System.out.println("parts " + strings.get(0) + " " + vectors.get(0) + " " + vectors.get(1) + " " + vectors.get(2) + " " + vectors.get(3));
                                 if(strings.get(0).equals("cameraf")){
-                                    int start = 0;
-                                    int end = 100;
-                                    sceneInfo.frameStart = start;
-                                    sceneInfo.frameEnd = end;
+                                    sceneInfo.frameStart = (int) start_time;
+                                    sceneInfo.frameEnd = (int) end_time;
                                     this.sceneInfos.add(sceneInfo);
                                     sceneInfo = new SceneInfo(0, 100);
                                 }
-
-
                                 strings.clear();
                                 vectors.clear();
                             }
@@ -295,16 +308,17 @@ public class SliverCoinItem extends Item {
             tasks[info_index] = new Runnable() {
                 @Override
                 public void run() {
-                    TrackMoveSpeedGroup(bp, context.getLevel(), info.actorInfos, 5000);
+                    TrackMoveSpeedGroup(bp, context.getLevel(), info.actorInfos, info.frameEnd - info.frameStart);
 
                 }
             };
         }
-
+        int all_delay = 0;
         // 遍历任务数组并调度它们
         for (int i = 0; i < tasks.length; i++) {
-            int delay = i * 5;  // 计算延迟时间
-            scheduler.schedule(tasks[i], delay, TimeUnit.SECONDS);
+            SceneInfo info = this.sceneInfos.get(i);
+            scheduler.schedule(tasks[i], all_delay, TimeUnit.MILLISECONDS);
+            all_delay += info.frameEnd - info.frameStart;
         }
 
         // 关闭调度器，防止新的任务提交。当前任务会继续执行
@@ -318,7 +332,7 @@ public class SliverCoinItem extends Item {
 
     void TrackMoveSpeedGroup(BlockPos bp, Level level, Vector<ActorInfo> entities, long duration){
 
-        System.out.println(" entities " + entities.size());
+
 
         for(int i = 0; i < this.globalActors.size(); i++){
             this.globalActors.get(i).remove(Entity.RemovalReason.DISCARDED);
@@ -326,54 +340,90 @@ public class SliverCoinItem extends Item {
         this.globalActors.clear();
 
         for(int i = 0; i < entities.size(); i++){
-            if(entities.get(i).name.equals("camera")){
+            String the_name = entities.get(i).name;
+            if(the_name.equals("camera")){
                 break;
             }
+            Vec3 startPos = entities.get(i).startPos;
             Vec3 endPos = entities.get(i).endPos;
+            int height = 0;
+            for(int j = -10; j < 10;j++)
+            {
+                BlockState bs1 = level.getBlockState(new BlockPos(bp.getX() + startPos.x, bp.getY() + startPos.y + j, bp.getZ() + startPos.z));
+                BlockState bs = level.getBlockState(new BlockPos(bp.getX() + startPos.x, bp.getY() + startPos.y + j - 1, bp.getZ() + startPos.z));
 
-            Entity entity;
-            if(entities.get(i).name.equals("tiger"))
+                if(bs1.getBlock() == Blocks.AIR && bs.getBlock() != Blocks.AIR){
+                    height = j;
+                    break;
+                }
+                if(bs1.getBlock() == Blocks.GRASS && bs.getBlock() != Blocks.GRASS){
+                    height = j;
+                    break;
+                }
+            }
+
+            Entity entity = null;
+            if(the_name.equals("tiger"))
             {
                 entity = new EnemyzombieEntity(ModEntityTypes.ENEMYZOMBIE.get(), level);
+            }else if(the_name.equals("_map")){
+                ItemEntity itementity = new ItemEntity(level, bp.getX() + startPos.x, bp.getY() + startPos.y, bp.getZ() + startPos.z, Items.MAP.getDefaultInstance());
+                itementity.setDefaultPickUpDelay();
+                level.addFreshEntity(itementity);
+
             }else{
                 entity = new TheplayerEntity(ModEntityTypes.THEPLAYER.get(), level);
+            }
 
-            }
-            Vec3 startPos = entities.get(i).startPos;
-            entity.setPos(new Vec3(bp.getX() + startPos.x, bp.getY() + startPos.y, bp.getZ() + startPos.z));
-            float dt = duration / 10;
-            Vec3 speed = new Vec3((endPos.x - startPos.x) / dt, (endPos.y - startPos.y) / dt, (endPos.z - startPos.z) / dt);
-            Vec3 look = entities.get(i).startLook;
-            Vec3 lookat = new Vec3(bp.getX() + look.x, bp.getY() + look.y, bp.getZ() + look.z);
-            if(entity instanceof EnemyzombieEntity zombie){
-                zombie.SetDeltaMove(speed);
-                zombie.SetLookAt(lookat);
-                zombie.SetAnimation(entities.get(i).anim);
-            }
-            if(entity instanceof TheplayerEntity player1){
-                player1.SetDeltaMove(speed);
-                player1.SetLookAt(lookat);
-                player1.SetAnimation(entities.get(i).anim);
 
+
+            if(entity != null){
+                entity.setPos(new Vec3(bp.getX() + startPos.x, bp.getY() + startPos.y + height, bp.getZ() + startPos.z));
+                System.out.println("pos = " + entity.position());
+                float dt = duration / 100;
+                Vec3 speed = new Vec3((endPos.x - startPos.x) / dt, (endPos.y - startPos.y) / dt, (endPos.z - startPos.z) / dt);
+                Vec3 sl = entities.get(i).startLook;
+                Vec3 el = entities.get(i).endLook;
+                Vec3 ld = new Vec3((el.x - sl.x) / dt,(el.y - sl.y) / dt,(el.z - sl.z) / dt);
+                if(entity instanceof EnemyzombieEntity zombie){
+                    zombie.SetDeltaMove(speed);
+                    zombie.SetLookAt( entities.get(i).startLook);
+
+                    zombie.SetAnimation(entities.get(i).anim);
+                }
+                if(entity instanceof TheplayerEntity player1){
+                    player1.SetDeltaMove(speed);
+                    player1.SetLookAt(sl);
+                    player1.SetEffect();
+                    player1.SetAnimation(entities.get(i).anim);
+
+                }
+                this.globalActors.add(entity);
+                level.addFreshEntity(this.globalActors.lastElement());
             }
-            this.globalActors.add(entity);
-            level.addFreshEntity(this.globalActors.lastElement());
+
 
         }
 
 
         CompoundTag nbt = CMDCamClient.getScene().save(new CompoundTag());
         nbt.putLong("duration", duration);
+        nbt.putBoolean("smooth_start", false);
         try {
             //player.sendSystemMessage(Component.literal("hey"));
             CamScene path = new CamScene(nbt);
             path.points.clear();
+            CamPoint p = CamPoint.createLocal();
             for(int i = 0; i < entities.size();i++){
-                System.out.println(" camera = " + entities.get(i).name);
                 if(entities.get(i).name.equals("camera") || entities.get(i).name.equals("cameraf")){
                     ActorInfo c = entities.get(i);
                     CamPoint p1 = new CamPoint(bp.getX() + c.startPos.x, bp.getY() + c.startPos.y + 1, bp.getZ() + c.startPos.z, c.startLook.x, c.startLook.y, c.startLook.z, 70);
                     path.points.add(p1);
+                    if(i == 0){
+                        if(!level.players().isEmpty()){
+                            level.players().get(0).setPos(p1.x, p1.y, p1.z);
+                        }
+                    }
                 }
             }
             CMDCamClient.start(path);

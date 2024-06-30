@@ -1,9 +1,9 @@
 
 
 # 替换 "xxx Entity" 为实际的实体名称
-entity_name_huge = "PLAYER"
-entity_name_big = "Player"  # 这里替换成你实际的实体名称
-entity_name_ = "player"  # 这里替换成你实际的实体名称
+entity_name_huge = "ENEMYZOMBIE"
+entity_name_big = "Enemyzombie"  # 这里替换成你实际的实体名称
+entity_name_ = "enemyzombie"  # 这里替换成你实际的实体名称
 
 model_file_cotent = '''package com.example.examplemod.entity.client;
 
@@ -64,7 +64,7 @@ public class XxxRenderer extends GeoEntityRenderer<XxxEntity> {
 
     @Override
     public ResourceLocation getTextureLocation(XxxEntity instance) {
-        return new ResourceLocation(ExampleMod.MODID, "textures/entity/Xxx.png");
+        return new ResourceLocation(ExampleMod.MODID, "textures/entity/xxx.png");
     }
 
     @Override
@@ -150,18 +150,17 @@ public class XxxEntity extends Monster implements IAnimatable {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.2D, false));
-        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Villager.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        if(event.isMoving()){
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.xxx.walk", true));
+        if(this.Style() == 0){
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.idle", true));
+        }else if(this.Style() == 1){
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.walk", true));
         }else{
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.xxx.idle", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.attack", true));
         }
         return PlayState.CONTINUE;
     }
@@ -182,8 +181,24 @@ public class XxxEntity extends Monster implements IAnimatable {
 
 
     int cool = 0;
+    private Vec3 theDeltaMove = Vec3.ZERO;
+    private Vec3 lookat = Vec3.ZERO;
+
+
+    public void SetDeltaMove(Vec3 m){
+        this.theDeltaMove = m;
+    }
+    public void SetLookAt(Vec3 m){
+        this.lookat = m;
+    }
+
     public void tick() {
         super.tick();
+        this.setDeltaMovement(this.theDeltaMove);
+        if(this.lookat.y < 0){
+
+            this.lookAt(EntityAnchorArgument.Anchor.EYES, this.lookat);
+        }
     }
 
     public void setAttacking(boolean attacking) {
@@ -346,7 +361,7 @@ with open(example_file_path, 'r') as file:
     lines = file.readlines()
 
 # 查找特定的代码行
-target_line = "public static void onClientSetup(FMLClientSetupEvent event) {"
+target_line = " LOGGER.info(\"MINECRAFT NAME >> {}\", Minecraft.getInstance().getUser().getName());"
 insert_index = None
 
 for i, line in enumerate(lines):
@@ -408,4 +423,6 @@ with open(egg_name, 'w') as file:
     file.write(egg_content)
 
 print(f"File '{egg_name}' has been created with the specified content.")
+
+
     

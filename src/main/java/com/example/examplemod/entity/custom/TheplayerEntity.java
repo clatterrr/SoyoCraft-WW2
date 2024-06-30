@@ -2,6 +2,7 @@ package com.example.examplemod.entity.custom;
 
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -61,8 +62,12 @@ public class TheplayerEntity extends Monster implements IAnimatable {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.idle", true));
         }else if(this.Style() == 1){
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.walk", true));
-        }else{
+        }else if(this.Style() == 2){
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.attack", true));
+        }else if(this.Style() == 3){
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.look", true));
+        }else {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.dead", true));
         }
         return PlayState.CONTINUE;
     }
@@ -81,32 +86,61 @@ public class TheplayerEntity extends Monster implements IAnimatable {
     }
 
 
-    private Vec3 theDeltaMove = Vec3.ZERO;
-    private Vec3 lookat = Vec3.ZERO;
+
 
     public void SetAnimation(String anim){
+        System.out.println("anim = " + anim);
         if(anim.equals("charge_in") || anim.equals("walk") || anim.equals("run")){
             this.setStyle(1);
         }else if(anim.equals("attack")){
             this.setStyle(2);
+        }else if(anim.equals("spawn") || anim.equals("look")){
+            this.setStyle(3);
+        }else if(anim.equals("dead")){
+            this.setStyle(4);
         }else{
             this.setStyle(0);
         }
     }
+
+    private Vec3 theDeltaMove = Vec3.ZERO;
+    private Vec3 lookat = Vec3.ZERO;
+    private Vec3 lookatDelta = Vec3.ZERO;
     public void SetDeltaMove(Vec3 m){
         this.theDeltaMove = m;
     }
+
+    private boolean alreadyLook = false;
+
+    public void SetEffect(){
+
+        this.frame = 1;
+    }
     public void SetLookAt(Vec3 m){
+        this.frame = 0;
+        this.alreadyLook = true;
         this.lookat = m;
     }
-
+    private int frame = 0;
     public void tick() {
         super.tick();
         this.setDeltaMovement(this.theDeltaMove);
-        if(this.lookat.y < 0){
-
-            this.lookAt(EntityAnchorArgument.Anchor.EYES, this.lookat);
+        if(this.alreadyLook == true){
+            BlockPos bp = this.blockPosition();
+            double dx = bp.getX() + this.lookat.x ;
+            double dy = bp.getY() + this.lookat.y + 1 ;
+            double dz = bp.getZ() + this.lookat.z;
+            this.lookAt(EntityAnchorArgument.Anchor.FEET, new Vec3(dx, dy, dz));
         }
+        if(this.frame < 100 && this.frame > 0){
+            Vec3 p = this.position();
+            final double d0 = this.random.nextGaussian() * 1.2D;
+            final double d1 = this.random.nextGaussian() * 1.2D;
+            final double d2 = this.random.nextGaussian() * 1.2D;
+            this.getLevel().addParticle(ParticleTypes.LAVA, p.x, p.y + 0.5f, p.z, d0, d1, d2);
+            this.frame += 1;
+        }
+
     }
 
     public void setAttacking(boolean attacking) {
