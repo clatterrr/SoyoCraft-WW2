@@ -1,9 +1,9 @@
 
 
 # 替换 "xxx Entity" 为实际的实体名称
-entity_name_huge = "ENEMYZOMBIE"
-entity_name_big = "Enemyzombie"  # 这里替换成你实际的实体名称
-entity_name_ = "enemyzombie"  # 这里替换成你实际的实体名称
+entity_name_huge = "THEVILLAGER"
+entity_name_big = "Thevillager"  # 这里替换成你实际的实体名称
+entity_name_ = "thevillager"  # 这里替换成你实际的实体名称
 
 model_file_cotent = '''package com.example.examplemod.entity.client;
 

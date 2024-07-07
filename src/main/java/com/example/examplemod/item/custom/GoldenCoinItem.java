@@ -17,6 +17,7 @@ import net.minecraft.world.item.alchemy.PotionBrewing;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 import team.creative.cmdcam.common.math.point.CamPoint;
 
@@ -40,6 +41,16 @@ public class GoldenCoinItem extends Item {
         List<TheplayerEntity> lily_pads = world.getEntitiesOfClass(TheplayerEntity.class, context.getPlayer().getBoundingBox().inflate(12));
         for(int i = 0; i < lily_pads.size(); i++){
             lily_pads.get(i).discard();
+        }
+
+        for(int i = 0; i < 4; i ++){
+            for(int j = 0; j < 2; j++){
+                for(int z = 0; z < 4 ;z++){
+                    BlockPos bp = context.getPlayer().getOnPos();
+                    BlockPos bp2 = new BlockPos(bp.getX() + i + 1, bp.getY() + 1+  j, bp.getZ() + z + 1);
+                   // world.setBlockAndUpdate(bp2, Blocks.GRASS_BLOCK.defaultBlockState());
+                }
+            }
         }
 
   /*

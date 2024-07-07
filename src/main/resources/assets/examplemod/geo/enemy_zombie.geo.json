@@ -11,7 +11,21 @@
 				"visible_bounds_offset": [0, 1.25, 0]
 			},
 			"bones": [
-				{
+
+                        {
+        					"name": "tie",
+        					"pivot": [0, 28, -2],
+        					"cubes": [
+{"origin": [-1.0, 24, -3], "size": [2, 1, 1], "pivot": [0, 0, 0], "rotation": [0, 0, 0], "uv": [0, 0]}        					]
+        				},
+                                {
+        					"name": "hat",
+        					"pivot": [0, 28, -2],
+        					"cubes": [
+{"origin": [-1.0, 31, -3.0], "size": [2, 4, 2], "pivot": [0, 0, 0], "rotation": [0, 0, 0], "uv": [0, 0]}        					]
+        				},
+        
+        				{
 					"name": "head",
 					"pivot": [0, 28, -2],
 					"cubes": [
@@ -20,7 +34,6 @@
 				},
 				{
 					"name": "head3",
-					"parent": "head",
 					"pivot": [0, 23, -2],
 					"cubes": [
 						{"origin": [-4, 23, -6], "size": [8, 2, 8], "uv": [0, 6]}

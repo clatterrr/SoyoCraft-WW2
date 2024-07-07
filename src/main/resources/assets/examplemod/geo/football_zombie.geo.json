@@ -29,14 +29,14 @@
 					]
 				},
 				{
-					"name": "bone",
+					"name": "head",
 					"pivot": [0, 28, -2],
 					"cubes": [
 						{"origin": [-4, 25, -6], "size": [8, 6, 8], "uv": [0, 12]}
 					]
 				},
 				{
-					"name": "head",
+					"name": "head3",
 					"pivot": [0, 23, -2],
 					"cubes": [
 						{"origin": [-4, 23, -6], "size": [8, 2, 8], "uv": [0, 26]}
