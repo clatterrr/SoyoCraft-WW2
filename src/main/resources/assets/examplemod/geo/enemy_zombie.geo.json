@@ -7,25 +7,11 @@
 				"texture_width": 64,
 				"texture_height": 64,
 				"visible_bounds_width": 2,
-				"visible_bounds_height": 3.5,
-				"visible_bounds_offset": [0, 1.25, 0]
+				"visible_bounds_height": 4.5,
+				"visible_bounds_offset": [0, 1.75, 0]
 			},
 			"bones": [
-
-                        {
-        					"name": "tie",
-        					"pivot": [0, 28, -2],
-        					"cubes": [
-{"origin": [-1.0, 24, -3], "size": [2, 1, 1], "pivot": [0, 0, 0], "rotation": [0, 0, 0], "uv": [0, 0]}        					]
-        				},
-                                {
-        					"name": "hat",
-        					"pivot": [0, 28, -2],
-        					"cubes": [
-{"origin": [-1.0, 31, -3.0], "size": [2, 4, 2], "pivot": [0, 0, 0], "rotation": [0, 0, 0], "uv": [0, 0]}        					]
-        				},
-        
-        				{
+				{
 					"name": "head",
 					"pivot": [0, 28, -2],
 					"cubes": [
@@ -100,6 +86,23 @@
 					"pivot": [0, 0, 0],
 					"cubes": [
 						{"origin": [-4, 0, -2], "size": [4, 6, 4], "pivot": [0, 0, 0], "rotation": [-5, 0, 0], "uv": [0, 22]}
+					]
+				},
+				{
+					"name": "bone",
+					"pivot": [0, 28, -2],
+					"cubes": [
+						{"origin": [-1, 28, -3], "size": [2, 2, 2], "uv": [0, 0]},
+						{"origin": [-1, 0, -1], "size": [2, 2, 2], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "nose",
+					"pivot": [0, 0, 0],
+					"cubes": [
+						{"origin": [-2, 26, -7], "size": [1, 1, 1], "uv": [11, 7]},
+						{"origin": [1, 26, -7], "size": [1, 1, 1], "uv": [11, 7]},
+						{"origin": [-1, 26, -7], "size": [2, 2, 1], "uv": [10, 7]}
 					]
 				}
 			]
