@@ -58,7 +58,7 @@ class TextToSpeech(object):
         voice.set('{http://www.w3.org/XML/1998/namespace}lang', 'en-US')
         # zh-CN-YunyeNeural、zh-CN-YunxiNeural 是使用什么声音输出，可以看代码最后一行app.get_voices_list()获取节点支持的语音输出类型，填ShortName
         # voice.set('name', 'zh-CN-YunyeNeural') # Short name for 'Microsoft Server Speech Text to Speech Voice (en-US, Guy24KRUS)'
-        voice.set('name', 'en-US-RogerNeural') # Short name for 'Microsoft Server Speech Text to Speech Voice (en-US, Guy24KRUS)'
+        voice.set('name', 'en-US-BrianNeural') # Short name for 'Microsoft Server Speech Text to Speech Voice (en-US, Guy24KRUS)'
         voice.text = tts
         body = ElementTree.tostring(xml_body)
 
@@ -106,7 +106,7 @@ class TextToSpeech(object):
 
 if __name__ == "__main__":
     app = TextToSpeech()
-    app.save_audio("my son, you are very speical")
+    app.get_voices_list()
     # Get a list of voices https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/rest-text-to-speech#get-a-list-of-voices
     # 查看节点支持的语言类型
     # app.get_voices_list()
