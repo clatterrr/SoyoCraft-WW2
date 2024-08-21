@@ -13,6 +13,14 @@ import net.minecraftforge.registries.RegistryObject;
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ExampleMod.MODID);
 
+    public static final RegistryObject<Item> BIGZOMBIE_SPAWN_EGG = ITEMS.register("bigzombie_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.BIGZOMBIE, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
+    public static final RegistryObject<Item> GHOST_SPAWN_EGG = ITEMS.register("ghost_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityTypes.GHOST, 0x22b341, 0x19732e,
+                    new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
+
     public static final RegistryObject<Item> THEVILLAGER_SPAWN_EGG = ITEMS.register("thevillager_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntityTypes.THEVILLAGER, 0x22b341, 0x19732e,
                     new Item.Properties().tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));

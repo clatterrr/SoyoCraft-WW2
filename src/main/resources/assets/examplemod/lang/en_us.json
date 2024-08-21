@@ -1,5 +1,9 @@
 {
 
+   "item.examplemod.bigzombie_spawn_egg" : "BIGZOMBIE",
+
+   "item.examplemod.ghost_spawn_egg" : "GHOST",
+
    "item.examplemod.thevillager_spawn_egg" : "THEVILLAGER",
 
    "item.examplemod.enemyzombie_spawn_egg" : "ENEMYZOMBIE",
